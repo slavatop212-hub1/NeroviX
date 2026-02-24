@@ -17,7 +17,6 @@
       --shadow: 0 18px 55px rgba(0,0,0,.45);
       --radius: 18px;
     }
-
     *{ box-sizing:border-box; }
     html{ scroll-behavior:smooth; }
     body{
@@ -28,7 +27,28 @@
       overflow-x:hidden;
     }
 
-    /* ===================== BACKGROUND (stronger sci-fi, no math) ===================== */
+    /* ===================== FAIL-SAFE ERROR BAR ===================== */
+    .errbar{
+      position:fixed; left:12px; right:12px; top:12px;
+      z-index:3000;
+      display:none;
+      border:1px solid rgba(255,77,109,.45);
+      background: rgba(10,10,16,.75);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 10px 12px;
+      box-shadow: 0 18px 50px rgba(0,0,0,.45);
+    }
+    .errbar b{ color:#ffd3dc; display:block; margin-bottom:6px; }
+    .errbar code{
+      display:block;
+      color:#ffd3dc;
+      white-space:pre-wrap;
+      font-size:12px;
+      opacity:.95;
+    }
+
+    /* ===================== BACKGROUND ===================== */
     .bg{
       position:fixed; inset:0; z-index:-10;
       background:
@@ -39,11 +59,8 @@
         linear-gradient(180deg, #040614 0%, #070A12 45%, #040614 100%);
       pointer-events:none;
     }
-
-    /* aurora ribbons */
     .aurora{
-      position:fixed; inset:-120px; z-index:-9;
-      pointer-events:none;
+      position:fixed; inset:-120px; z-index:-9; pointer-events:none;
       background:
         radial-gradient(900px 520px at 22% 32%, rgba(106,240,255,.18), transparent 70%),
         radial-gradient(980px 560px at 76% 24%, rgba(0,170,255,.16), transparent 72%),
@@ -59,11 +76,8 @@
       0%,100%{ transform: translate3d(-2%, -1%, 0) scale(1.06); opacity:.80; }
       50%{ transform: translate3d(2%, 1%, 0) scale(1.12); opacity:1; }
     }
-
-    /* volumetric fog blobs */
     .fog{
-      position:fixed; inset:-160px; z-index:-8;
-      pointer-events:none;
+      position:fixed; inset:-160px; z-index:-8; pointer-events:none;
       background:
         radial-gradient(700px 520px at 12% 52%, rgba(0,170,255,.12), transparent 70%),
         radial-gradient(820px 600px at 88% 54%, rgba(106,240,255,.10), transparent 72%),
@@ -78,8 +92,6 @@
       0%,100%{ transform: translate3d(0%, 0%, 0) scale(1.02); opacity:.72; }
       50%{ transform: translate3d(1.5%, -1.2%, 0) scale(1.06); opacity:.95; }
     }
-
-    /* subtle moving light streams */
     .streams{
       position:fixed; inset:0; z-index:-7; pointer-events:none;
       background:
@@ -95,22 +107,16 @@
       0%{ background-position: -30% -20%, -20% 10%, -10% -10%; }
       100%{ background-position: 130% 120%, 140% 110%, 120% 130%; }
     }
-
-    /* particles canvas */
     #fx{
       position:fixed; inset:0; z-index:-6;
       width:100%; height:100%;
       pointer-events:none;
       opacity:.98;
     }
-
     .noise{
       position:fixed; inset:0; z-index:-5; opacity:.07; pointer-events:none;
       background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E");
     }
-
-    header.nav, main.wrap{ position:relative; z-index:5; }
-
     @media (prefers-reduced-motion: reduce){
       .aurora, .fog, .streams{ animation:none !important; }
     }
@@ -118,40 +124,31 @@
     a{ color:inherit; text-decoration:none; }
     .wrap{ max-width:1100px; margin:0 auto; padding:0 18px; }
 
-    /* ===================== ICON RING GLOW (clockwise moving light) ===================== */
-    .glow-border{
-      position:relative;
-      isolation:isolate;
-    }
-
-    /* Base subtle ring */
+    /* ===================== ICON RING GLOW (clockwise) ===================== */
+    .glow-border{ position:relative; isolation:isolate; }
     .glow-border::before{
       content:"";
-      position:absolute;
-      inset:-2px;
+      position:absolute; inset:-2px;
       border-radius: inherit;
       padding:2px;
       background: conic-gradient(
         from 0deg,
-        transparent 0 55%,
-        rgba(106,240,255,.00) 55%,
-        rgba(106,240,255,.00) 100%
+        rgba(106,240,255,.12),
+        rgba(0,170,255,.10),
+        rgba(106,240,255,.08),
+        rgba(0,170,255,.10),
+        rgba(106,240,255,.12)
       );
-      -webkit-mask:
-        linear-gradient(#000 0 0) content-box,
-        linear-gradient(#000 0 0);
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
       -webkit-mask-composite: xor;
       mask-composite: exclude;
       opacity:0;
       z-index:-1;
       transition: opacity .18s ease, filter .18s ease;
     }
-
-    /* Bright moving "comet" on hover */
     .glow-border::after{
       content:"";
-      position:absolute;
-      inset:-2px;
+      position:absolute; inset:-2px;
       border-radius: inherit;
       padding:2px;
       background: conic-gradient(
@@ -164,9 +161,7 @@
         rgba(106,240,255,0) 92%,
         transparent 92% 100%
       );
-      -webkit-mask:
-        linear-gradient(#000 0 0) content-box,
-        linear-gradient(#000 0 0);
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
       -webkit-mask-composite: xor;
       mask-composite: exclude;
       opacity:0;
@@ -174,43 +169,18 @@
       transform: rotate(0deg);
       z-index:-1;
     }
-
     .glow-border:hover::before,
     .glow-border:focus-visible::before{
       opacity:1;
       filter: drop-shadow(0 0 10px rgba(0,170,255,.12));
-      background: conic-gradient(
-        from 0deg,
-        rgba(106,240,255,.12),
-        rgba(0,170,255,.10),
-        rgba(106,240,255,.08),
-        rgba(0,170,255,.10),
-        rgba(106,240,255,.12)
-      );
     }
-
     .glow-border:hover::after,
     .glow-border:focus-visible::after{
       opacity:1;
-      animation: ringSpin .95s linear infinite; /* clockwise */
+      animation: ringSpin .95s linear infinite;
       filter: drop-shadow(0 0 14px rgba(106,240,255,.28)) drop-shadow(0 0 28px rgba(0,170,255,.14));
     }
-
-    @keyframes ringSpin{
-      to { transform: rotate(360deg); }
-    }
-
-    /* Extra "inside glow" only for icon chips */
-    .mini-ico.glow-border:hover,
-    .mini-ico.glow-border:focus-visible,
-    .icon-btn.glow-border:hover,
-    .icon-btn.glow-border:focus-visible{
-      box-shadow: 0 0 0 3px rgba(0,170,255,.10), 0 18px 40px rgba(0,170,255,.10);
-    }
-    .dot.glow-border:hover,
-    .dot.glow-border:focus-visible{
-      box-shadow: 0 0 22px rgba(0,170,255,.65);
-    }
+    @keyframes ringSpin{ to { transform: rotate(360deg); } }
 
     /* ===================== NAV ===================== */
     .nav{
@@ -224,20 +194,13 @@
       padding:14px 0;
       gap:14px;
     }
-    .brand{
-      display:flex; align-items:center; gap:10px;
-      font-weight:900; letter-spacing:.4px;
-      white-space:nowrap;
-    }
+    .brand{ display:flex; align-items:center; gap:10px; font-weight:900; letter-spacing:.4px; white-space:nowrap; }
     .dot{
       width:10px; height:10px; border-radius:99px;
       background: linear-gradient(180deg, var(--acc2), var(--acc));
       box-shadow: 0 0 18px rgba(0,170,255,.6);
     }
-    .menu{
-      display:flex; gap:10px; align-items:center; flex-wrap:wrap;
-      justify-content:flex-end;
-    }
+    .menu{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; justify-content:flex-end; }
     .menu a{
       color:var(--muted);
       font-size:14px;
@@ -327,18 +290,13 @@
       border-radius:999px;
     }
 
-    /* PANEL */
     .panel{
       background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.02));
       border:1px solid var(--border);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
     }
-    .hero-right{
-      padding:18px;
-      position:relative;
-      overflow:hidden;
-    }
+    .hero-right{ padding:18px; position:relative; overflow:hidden; }
     .glow{
       position:absolute; inset:-70px -90px auto auto;
       width:260px; height:260px; border-radius:50%;
@@ -347,12 +305,7 @@
       pointer-events:none;
     }
     .card-title{ font-weight:900; margin:4px 0 6px; font-size:14px; letter-spacing:.2px; }
-    .card-sub{
-      margin:0 0 12px;
-      color:var(--muted);
-      font-size:13px;
-      line-height:1.55;
-    }
+    .card-sub{ margin:0 0 12px; color:var(--muted); font-size:13px; line-height:1.55; }
     .mini-list{ display:grid; gap:10px; margin-top:12px; }
     .mini-item{
       display:flex; gap:10px; align-items:flex-start;
@@ -370,21 +323,14 @@
       transition: filter .18s ease, transform .18s ease;
     }
     .mini-ico span{ font-size:14px; }
-    .mini-ico.glow-border:hover{
-      filter: saturate(1.25) brightness(1.08);
-      transform: translateY(-1px);
-    }
+    .mini-ico.glow-border:hover{ filter: saturate(1.25) brightness(1.08); transform: translateY(-1px); }
     .mini-text b{ display:block; font-size:13px; margin-bottom:2px; }
     .mini-text p{ margin:0; color:var(--muted); font-size:12px; line-height:1.45; }
 
-    /* SECTIONS */
+    /* sections */
     .section{ padding:38px 0; }
     .section h2{ margin:0 0 14px; font-size:22px; letter-spacing:.2px; }
-    .grid{
-      display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap:14px;
-    }
+    .grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap:14px; }
     .card{
       padding:16px;
       border-radius: var(--radius);
@@ -404,22 +350,11 @@
       background: rgba(255,255,255,.03);
     }
 
-    /* JOIN */
-    .join{
-      display:grid; gap:14px;
-      grid-template-columns: 1fr 1fr;
-      align-items:stretch;
-    }
+    .join{ display:grid; gap:14px; grid-template-columns: 1fr 1fr; align-items:stretch; }
     .join-left{ padding:18px; }
     .join-left p{ color:var(--muted); margin:0 0 10px; line-height:1.65; }
     .join-right{ padding:18px; }
-    .btn-row{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:center;
-      justify-content:flex-start;
-    }
+    .btn-row{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:flex-start; }
 
     /* ===================== INTRO ===================== */
     .intro{
@@ -436,13 +371,6 @@
         radial-gradient(1100px 900px at 50% 50%, rgba(0,0,0,.45), rgba(0,0,0,.74));
       backdrop-filter: blur(18px) saturate(1.2);
     }
-    .intro-vignette{
-      position:absolute; inset:-2px;
-      pointer-events:none;
-      background: radial-gradient(circle at 50% 45%, transparent 0 52%, rgba(0,0,0,.55) 78%, rgba(0,0,0,.78) 100%);
-      opacity:.9;
-    }
-
     .intro-card{
       position:relative;
       width:min(1080px, 100%);
@@ -459,19 +387,8 @@
       min-height: 580px;
       z-index:2;
     }
-    .intro-left{
-      padding:22px;
-      position:relative;
-      overflow:hidden;
-      border-right: 1px solid rgba(255,255,255,.10);
-    }
-    .intro-right{
-      padding:22px;
-      display:flex;
-      flex-direction:column;
-      justify-content:space-between;
-      gap:14px;
-    }
+    .intro-left{ padding:22px; position:relative; overflow:hidden; border-right: 1px solid rgba(255,255,255,.10); }
+    .intro-right{ padding:22px; display:flex; flex-direction:column; justify-content:space-between; gap:14px; }
     .intro-title{ font-size:30px; margin:0 0 6px; font-weight:900; }
     .intro-sub{ margin:0; color:var(--muted); line-height:1.7; font-size:15px; }
 
@@ -504,99 +421,10 @@
       white-space: pre-wrap;
       min-height: 18px;
     }
-    .typing-caret{
-      display:inline-block;
-      width:10px;
-      margin-left:2px;
-      opacity:.9;
-      animation: caret 1s steps(2) infinite;
-    }
-    @keyframes caret{
-      0%,49%{ opacity:1; }
-      50%,100%{ opacity:0; }
-    }
-    .intro-actions{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      justify-content:flex-end;
-    }
 
-    /* checkbox */
-    .chk{
-      display:flex; align-items:center; gap:12px;
-      padding:12px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.03);
-      cursor:pointer;
-      user-select:none;
-      color:var(--text);
-      position:relative;
-      overflow:hidden;
-    }
-    .chk input{ position:absolute; opacity:0; pointer-events:none; }
-    .chk .box{
-      width:22px; height:22px;
-      border-radius:7px;
-      border:1px solid rgba(255,255,255,.16);
-      background: rgba(0,0,0,.20);
-      position:relative;
-      flex:0 0 auto;
-      transition: .18s ease;
-    }
-    .chk .box::before{
-      content:"";
-      position:absolute; inset:-18px;
-      border-radius:999px;
-      background: radial-gradient(circle, rgba(106,240,255,.18), transparent 60%);
-      opacity:0;
-      transform: scale(.7);
-      transition: .22s ease;
-      pointer-events:none;
-    }
-    .chk .box::after{
-      content:"";
-      position:absolute;
-      left:6px; top:4px;
-      width:7px; height:12px;
-      border-right:3px solid rgba(234,240,255,.95);
-      border-bottom:3px solid rgba(234,240,255,.95);
-      transform: rotate(45deg) scale(0.2);
-      opacity:0;
-      transition: .18s ease;
-    }
-    .chk .lbl{ font-size:14px; color:var(--text); line-height:1.4; }
+    .intro-actions{ display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end; }
 
-    .chk input:checked + .box{
-      border-color: rgba(106,240,255,.45);
-      background: linear-gradient(180deg, rgba(0,170,255,.28), rgba(0,170,255,.10));
-      box-shadow: 0 0 0 3px rgba(0,170,255,.12), 0 14px 35px rgba(0,170,255,.10);
-      transform: translateY(-1px);
-    }
-    .chk input:checked + .box::before{
-      opacity:1;
-      transform: scale(1);
-      animation: ripple .42s ease-out;
-    }
-    @keyframes ripple{
-      0%{ transform: scale(.6); opacity:.0; }
-      30%{ transform: scale(1); opacity:1; }
-      100%{ transform: scale(1.2); opacity:0; }
-    }
-    .chk input:checked + .box::after{
-      opacity:1;
-      transform: rotate(45deg) scale(1);
-      transition-delay: .02s;
-    }
-    .chk.pop{ animation: pop .28s ease; }
-    @keyframes pop{
-      0%{ transform: scale(1); }
-      50%{ transform: scale(1.01); }
-      100%{ transform: scale(1); }
-    }
-
-    /* ===================== ROBOT (humanoid) ===================== */
+    /* ===================== ROBOT ===================== */
     .stage{
       height:100%;
       display:flex;
@@ -694,25 +522,6 @@
         inset 0 0 0 1px rgba(255,255,255,.05);
       overflow:hidden;
     }
-    .bot .visor::after{
-      content:"";
-      position:absolute;
-      inset: -2px;
-      border-radius: 120px;
-      border: 1px solid rgba(106,240,255,.14);
-      box-shadow: 0 0 22px rgba(0,170,255,.08);
-      opacity:.55;
-      pointer-events:none;
-    }
-    /* AI pulse + breathe outline */
-    .bot.pulse .visor::after{
-      animation: visorPulse 1.35s ease-in-out infinite;
-    }
-    @keyframes visorPulse{
-      0%,100%{ opacity:.35; box-shadow: 0 0 18px rgba(0,170,255,.10); border-color: rgba(106,240,255,.10); }
-      50%{ opacity:.95; box-shadow: 0 0 38px rgba(0,170,255,.22); border-color: rgba(106,240,255,.26); }
-    }
-
     .bot .eyes{
       position:absolute; left:0; right:0;
       top: 84px;
@@ -729,13 +538,6 @@
       box-shadow: 0 0 24px rgba(0,170,255,.10);
       display:flex; align-items:center; justify-content:center;
       overflow:hidden;
-      transform-origin:center;
-      animation: blink 3.6s infinite;
-    }
-    @keyframes blink{
-      0%,92%,100%{ transform: scaleY(1); }
-      94%{ transform: scaleY(.12); }
-      96%{ transform: scaleY(1); }
     }
     .bot .eye .px{
       width: 6px; height: 6px;
@@ -752,288 +554,35 @@
         20px 20px 0 rgba(106,240,255,.95);
       filter: drop-shadow(0 0 14px rgba(106,240,255,.35));
     }
-    .bot .beam{
-      position:absolute;
-      left:-60px; right:-60px;
-      top:-140px;
-      height: 70px;
-      background: linear-gradient(90deg, transparent, rgba(106,240,255,.24), transparent);
-      transform: rotate(10deg);
-      opacity:0;
-      pointer-events:none;
-    }
-    .bot.talking .beam{
-      opacity:1;
-      animation: beamScan 1.7s ease-in-out infinite;
-    }
-    @keyframes beamScan{
-      0%{ top:-160px; opacity:0; }
-      20%{ opacity:1; }
-      55%{ top:170px; opacity:1; }
-      80%{ top:260px; opacity:.35; }
-      100%{ top:330px; opacity:0; }
-    }
 
-    /* ===================== APPLY MODAL ===================== */
-    .apply-modal{
-      position:fixed; inset:0; z-index:1200;
-      display:none;
-      align-items:center;
-      justify-content:center;
-      padding:18px;
-    }
-    .apply-modal.show{ display:flex; }
-    .apply-backdrop{
-      position:absolute; inset:0;
-      background:
-        radial-gradient(900px 520px at 50% 40%, rgba(0,170,255,.10), transparent 60%),
-        rgba(0,0,0,.72);
-      backdrop-filter: blur(14px) saturate(1.1);
-    }
-    .apply-card{
-      position:relative;
-      width: min(900px, 100%);
-      max-height: min(86vh, 860px);
-      overflow:auto;
-      border-radius: 22px;
-      border: 1px solid rgba(255,255,255,.14);
-      background:
-        radial-gradient(700px 400px at 12% 20%, rgba(0,170,255,.12), transparent 60%),
-        radial-gradient(600px 420px at 88% 10%, rgba(106,240,255,.08), transparent 55%),
-        linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.03));
-      box-shadow: 0 30px 90px rgba(0,0,0,.62);
-      padding: 16px 16px 18px;
-    }
-    .apply-top{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:10px;
-      padding: 8px 8px 10px;
-      border-bottom: 1px solid rgba(255,255,255,.10);
-      margin-bottom: 12px;
-      position:sticky;
-      top:0;
-      background: linear-gradient(180deg, rgba(0,0,0,.22), rgba(0,0,0,.05));
-      backdrop-filter: blur(10px);
-      z-index:2;
-      border-radius: 18px;
-    }
-    .apply-top h3{ margin:0; font-size:16px; font-weight:900; }
-    .apply-actions{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
-
-    .icon-btn{
-      width:38px; height:38px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.03);
-      color: var(--text);
-      cursor:pointer;
-      display:flex; align-items:center; justify-content:center;
-      transition:.15s;
-      user-select:none;
-    }
-
-    /* form */
-    form{ display:grid; gap:12px; }
-    .row{ display:grid; grid-template-columns: 1fr 1fr; gap:12px; }
-    label{
-      display:flex; flex-direction:column; gap:7px;
-      font-size:13px; color:var(--muted); text-align:left;
-    }
-    .label-text{ color:var(--muted); font-size:13px; }
-    input, select, textarea{
-      padding:12px 12px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(0,0,0,.18);
-      color: var(--text);
-      outline:none;
-      font-size:14px;
-    }
-    input:focus, select:focus, textarea:focus{
-      border-color: rgba(0,170,255,.65);
-      box-shadow: 0 0 0 3px rgba(0,170,255,.10);
-    }
-    textarea{ resize: vertical; min-height: 92px; }
-
-    .tg-good{
-      border-color: rgba(45,212,191,.55) !important;
-      box-shadow: 0 0 0 3px rgba(45,212,191,.10) !important;
-    }
-    .tg-bad{
-      border-color: rgba(255,77,109,.55) !important;
-      box-shadow: 0 0 0 3px rgba(255,77,109,.10) !important;
-    }
-
-    .sound-toggle{
-      display:flex; align-items:center; gap:10px;
-      padding:8px 10px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.03);
-      color: var(--muted);
-      font-size:13px;
-      user-select:none;
-      cursor:pointer;
-    }
-    .sound-toggle b{ color: var(--text); font-size:13px; }
-    .sound-dot{
-      width:10px; height:10px; border-radius:999px;
-      background: rgba(255,77,109,.9);
-      box-shadow: 0 0 12px rgba(255,77,109,.35);
-      transition:.15s;
-    }
-    .sound-toggle.on .sound-dot{
-      background: rgba(45,212,191,.95);
-      box-shadow: 0 0 12px rgba(45,212,191,.35);
-    }
-
-    /* ===================== TOASTS ===================== */
-    .toasts{
-      position:fixed;
-      right: 14px;
-      top: 14px;
-      z-index: 2000;
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-      pointer-events:none;
-    }
-    .toast{
-      pointer-events:none;
-      min-width: 220px;
-      max-width: 340px;
-      padding: 12px 12px;
-      border-radius: 16px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(0,0,0,.58);
-      backdrop-filter: blur(12px);
-      box-shadow: 0 18px 50px rgba(0,0,0,.35);
-      transform: translateY(-8px);
-      opacity:0;
-      animation: toastIn .22s ease forwards;
-    }
-    @keyframes toastIn{ to { transform: translateY(0); opacity:1; } }
-    .toast .t{ display:flex; align-items:center; gap:10px; font-weight:900; font-size:14px; }
-    .toast .d{ margin-top:6px; color: var(--muted); font-size:13px; line-height:1.45; }
-    .pill{
-      width:10px; height:10px; border-radius:999px;
-      background: rgba(0,170,255,.9);
-      box-shadow: 0 0 14px rgba(0,170,255,.35);
-      flex: 0 0 auto;
-    }
-    .toast.ok .pill{ background: rgba(45,212,191,.95); box-shadow: 0 0 14px rgba(45,212,191,.35); }
-    .toast.bad .pill{ background: rgba(255,77,109,.95); box-shadow: 0 0 14px rgba(255,77,109,.35); }
-    .toast.hide{ animation: toastOut .18s ease forwards; }
-    @keyframes toastOut{ to { transform: translateY(-6px); opacity:0; } }
-
-    /* AI floating button */
-    .ai-fab{
-      position:fixed;
-      right: 14px;
-      bottom: 14px;
-      z-index: 1800;
-      display:none;
-    }
-
-    /* ===================== FAQ (accordion) ===================== */
-    .faq{
-      display:grid;
-      gap:12px;
-    }
-    .faq-item{
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.03);
-      border-radius: 18px;
-      overflow:hidden;
-    }
-    .faq-q{
-      width:100%;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:14px;
-      padding:14px 14px;
-      cursor:pointer;
-      user-select:none;
-      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(0,0,0,.06));
-    }
-    .faq-q b{
-      font-weight:900;
-      color: var(--text);
-      font-size:14px;
-    }
-    .faq-ico{
-      width:34px; height:34px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(0,0,0,.18);
-      display:flex; align-items:center; justify-content:center;
-      flex:0 0 auto;
-      position:relative;
-    }
-    .faq-ico::before, .faq-ico::after{
-      content:"";
-      position:absolute;
-      background: rgba(106,240,255,.9);
-      box-shadow: 0 0 16px rgba(0,170,255,.28);
-      border-radius: 2px;
-      transition: .18s ease;
-    }
-    .faq-ico::before{ width:14px; height:2px; }
-    .faq-ico::after{ width:2px; height:14px; }
-    .faq-item.open .faq-ico::after{ transform: scaleY(0); opacity:.2; }
-
-    .faq-a{
-      height:0;
-      overflow:hidden;
-      transition: height .22s ease;
-      border-top:1px solid rgba(255,255,255,.08);
-      background: rgba(0,0,0,.10);
-    }
-    .faq-a p{
-      margin:0;
-      padding: 12px 14px 14px;
-      color: var(--muted);
-      line-height: 1.65;
-      font-size:14px;
-    }
-
-    /* FOOTER */
+    /* ===================== FOOTER ===================== */
     .footer{
       padding:26px 0 36px;
       border-top:1px solid var(--border);
       color:var(--muted);
       font-size:13px;
     }
-    .footer-inner{
-      display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;
-    }
+    .footer-inner{ display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; }
 
-    /* Responsive */
     @media (max-width: 900px){
       .hero-grid{ grid-template-columns:1fr; }
       .grid{ grid-template-columns:1fr; }
       .join{ grid-template-columns:1fr; }
-      .row{ grid-template-columns:1fr; }
       h1{ font-size:38px; }
       .intro-card{ grid-template-columns:1fr; min-height:auto; }
       .intro-left{ border-right:none; border-bottom:1px solid rgba(255,255,255,.10); }
       .intro-actions{ justify-content:flex-start; }
-      .bot{ width:300px; height:340px; }
-      .ring{ width:360px; height:360px; }
-      .halo{ width:380px; height:380px; }
-      .bot .head{ width: 210px; height: 265px; top: 22px; }
-      .bot .visor{ width: 168px; height: 188px; top: 40px; }
-      .bot .eyes{ top: 74px; padding: 0 40px; }
-      .bot .eye{ width: 42px; height: 42px; }
-      .bot .neck{ width: 190px; height: 120px; }
     }
   </style>
 </head>
 
 <body>
+  <!-- If something breaks: you'll see it -->
+  <div class="errbar" id="errbar">
+    <b>JS ERROR (скопируй этот текст и пришли мне):</b>
+    <code id="errtxt"></code>
+  </div>
+
   <div class="bg"></div>
   <div class="aurora"></div>
   <div class="fog"></div>
@@ -1041,17 +590,9 @@
   <canvas id="fx"></canvas>
   <div class="noise"></div>
 
-  <div class="toasts" id="toasts"></div>
-
-  <div class="ai-fab" id="aiFab">
-    <button class="btn primary glow-border" type="button" id="aiFabBtn">AI</button>
-  </div>
-
   <!-- INTRO -->
   <div class="intro" id="intro">
     <div class="intro-backdrop"></div>
-    <div class="intro-vignette"></div>
-
     <div class="intro-card" role="dialog" aria-modal="true">
       <div class="intro-left">
         <div class="brand">
@@ -1066,7 +607,6 @@
           <div class="bot" id="bot" aria-hidden="true">
             <div class="head">
               <div class="visor">
-                <div class="beam"></div>
                 <div class="eyes">
                   <div class="eye"><div class="px"></div></div>
                   <div class="eye"><div class="px"></div></div>
@@ -1093,103 +633,30 @@
         <div>
           <h2 class="intro-title" id="introTitle">Привет. Я NeroviX AI Assistant</h2>
           <p class="intro-sub" id="introSub">Коротко покажу, что это за сайт и кто мы.</p>
-          <div class="chat" id="chat"></div>
 
-          <label class="chk" id="dontShowWrap">
-            <input type="checkbox" id="dontShow" />
-            <span class="box"></span>
-            <span class="lbl" id="dontShowText">Больше не показывать это интро</span>
-          </label>
+          <div class="chat" id="chat">
+            <div class="bubble ai">
+              <strong id="b1t">Сообщение</strong>
+              <div class="text" id="b1">Добро пожаловать на сайт NeroviX.</div>
+            </div>
+            <div class="bubble ai">
+              <strong id="b2t">Кто мы</strong>
+              <div class="text" id="b2">Мы строим цифровые проекты и доводим их до результата.</div>
+            </div>
+            <div class="bubble ai">
+              <strong id="b3t">Что делаем</strong>
+              <div class="text" id="b3">• автоматизация и боты
+• контент-системы и воронки
+• сайты и интеграции</div>
+            </div>
+          </div>
         </div>
 
         <div class="intro-actions">
           <button class="btn ghost glow-border" id="skipBtn" type="button">Пропустить</button>
-          <button class="btn primary glow-border" id="goJoinBtn" type="button">Вступить</button>
-          <button class="btn glow-border" id="closeBtn" type="button">Понятно</button>
+          <button class="btn primary glow-border" id="closeBtn" type="button">Понятно</button>
         </div>
       </div>
-    </div>
-  </div>
-
-  <!-- APPLY MODAL -->
-  <div class="apply-modal" id="applyModal" aria-hidden="true">
-    <div class="apply-backdrop" id="applyBackdrop"></div>
-
-    <div class="apply-card" role="dialog" aria-modal="true">
-      <div class="apply-top">
-        <h3 id="applyTitle">Заявка в NeroviX</h3>
-        <div class="apply-actions">
-          <label class="sound-toggle glow-border" id="soundToggle" title="Sound">
-            <span class="sound-dot"></span>
-            <b id="soundText">Звук</b>
-          </label>
-          <button class="icon-btn glow-border" id="applyClose" type="button" aria-label="Close">✕</button>
-        </div>
-      </div>
-
-      <form id="formModal">
-        <div class="row">
-          <label>
-            <span class="label-text" data-i18n="f_name_label">Имя / Ник</span>
-            <input type="text" id="m_name" placeholder="Например: Ваня" autocomplete="name" />
-          </label>
-
-          <label>
-            <span class="label-text" data-i18n="f_tg_label">Telegram</span>
-            <input type="text" id="m_tg" placeholder="@username" autocomplete="off" inputmode="text" />
-          </label>
-        </div>
-
-        <div class="row">
-          <label>
-            <span class="label-text" data-i18n="f_role_label">Роль</span>
-            <select id="m_role">
-              <option value="" disabled selected data-i18n="f_role_choose">Выбери роль</option>
-              <option value="editor" data-i18n="role_editor">Монтажёр</option>
-              <option value="designer" data-i18n="role_designer">Дизайнер</option>
-              <option value="dev" data-i18n="role_dev">Разработчик</option>
-              <option value="content" data-i18n="role_content">Контент-менеджер</option>
-              <option value="other" data-i18n="role_other">Другое</option>
-            </select>
-          </label>
-
-          <label>
-            <span class="label-text" data-i18n="f_exp_label">Опыт</span>
-            <select id="m_exp">
-              <option value="" selected data-i18n="exp_na">Не указано</option>
-              <option value="junior" data-i18n="exp_junior">Новичок</option>
-              <option value="mid" data-i18n="exp_mid">Средний</option>
-              <option value="senior" data-i18n="exp_senior">Опытный</option>
-            </select>
-          </label>
-        </div>
-
-        <label>
-          <span class="label-text" data-i18n="f_port_label">Портфолио / примеры (ссылка)</span>
-          <input type="text" id="m_portfolio" placeholder="YouTube / TikTok / Drive / Behance" />
-        </label>
-
-        <label>
-          <span class="label-text" data-i18n="f_time_label">Сколько времени готов уделять?</span>
-          <input type="text" id="m_time" placeholder="Например: 1-2 часа в день" />
-        </label>
-
-        <label>
-          <span class="label-text" data-i18n="f_about_label">О себе (коротко)</span>
-          <textarea id="m_about" placeholder="2-5 предложений"></textarea>
-        </label>
-
-        <label class="chk" id="m_testWrap">
-          <input type="checkbox" id="m_test" />
-          <span class="box"></span>
-          <span class="lbl" data-i18n="f_test_label">Готов(а) сделать тестовое задание</span>
-        </label>
-
-        <div class="btn-row">
-          <button class="btn primary big glow-border" type="button" id="m_sendBtn" data-i18n="f_send">Отправить заявку</button>
-          <button class="btn big glow-border" type="button" id="m_clearBtn">Очистить</button>
-        </div>
-      </form>
     </div>
   </div>
 
@@ -1201,12 +668,12 @@
       </div>
 
       <nav class="menu">
-        <a href="#projects" data-i18n="nav_projects">Проекты</a>
-        <a href="#roles" data-i18n="nav_roles">Роли</a>
-        <a href="#faq" data-i18n="nav_faq">FAQ</a>
+        <a href="#projects" id="navProjects">Проекты</a>
+        <a href="#roles" id="navRoles">Роли</a>
+        <a href="#faq" id="navFaq">FAQ</a>
 
         <div class="lang" title="Language">
-          <span data-i18n="nav_lang">Язык</span>
+          <span id="navLang">Язык</span>
           <select id="langSelect">
             <option value="ru">RU</option>
             <option value="uk">UA</option>
@@ -1214,7 +681,7 @@
           </select>
         </div>
 
-        <a class="btn primary glow-border" href="#join" data-i18n="nav_join_btn" id="navJoinBtn">Вступить</a>
+        <a class="btn primary glow-border" href="#join" id="navJoinBtn">Вступить</a>
       </nav>
     </div>
   </header>
@@ -1224,14 +691,14 @@
       <div class="hero-grid">
         <div class="hero-left">
           <h1>NeroviX</h1>
-          <p class="subtitle" data-i18n="hero_sub">
+          <p class="subtitle" id="heroSub">
             Команда цифровых проектов. Создаём ботов, системы, сайты и контент-механики.
             Набираем людей под задачи и рост — без воды, по результату.
           </p>
 
           <div class="hero-actions">
-            <button class="btn primary big glow-border" type="button" id="openApplyHero" data-i18n="hero_join">Вступить в команду</button>
-            <a class="btn big glow-border" href="#projects" data-i18n="hero_projects">Посмотреть проекты</a>
+            <a class="btn primary big glow-border" href="#join" id="heroJoin">Вступить в команду</a>
+            <a class="btn big glow-border" href="#projects" id="heroProjects">Посмотреть проекты</a>
           </div>
 
           <div class="badge-row">
@@ -1244,32 +711,29 @@
 
         <div class="hero-right panel">
           <div class="glow"></div>
-
-          <div class="card-title" data-i18n="work_title">Как мы работаем</div>
-          <div class="card-sub" data-i18n="work_sub">
-            Быстро тестируем гипотезы, фиксируем правила, повторяем то, что даёт рост.
-          </div>
+          <div class="card-title">Как мы работаем</div>
+          <div class="card-sub">Быстро тестируем гипотезы, фиксируем правила, повторяем то, что даёт рост.</div>
 
           <div class="mini-list">
             <div class="mini-item">
               <div class="mini-ico glow-border"><span>⚡</span></div>
               <div class="mini-text">
-                <b data-i18n="work_speed_t">Скорость</b>
-                <p data-i18n="work_speed_d">Меньше созвонов — больше результата.</p>
+                <b>Скорость</b>
+                <p>Меньше созвонов — больше результата.</p>
               </div>
             </div>
             <div class="mini-item">
               <div class="mini-ico glow-border"><span>🎯</span></div>
               <div class="mini-text">
-                <b data-i18n="work_tasks_t">Чёткие задачи</b>
-                <p data-i18n="work_tasks_d">Понятно кто что делает и зачем.</p>
+                <b>Чёткие задачи</b>
+                <p>Понятно кто что делает и зачем.</p>
               </div>
             </div>
             <div class="mini-item">
               <div class="mini-ico glow-border"><span>📈</span></div>
               <div class="mini-text">
-                <b data-i18n="work_growth_t">Рост</b>
-                <p data-i18n="work_growth_d">Сначала тесты — потом масштаб.</p>
+                <b>Рост</b>
+                <p>Сначала тесты — потом масштаб.</p>
               </div>
             </div>
           </div>
@@ -1279,851 +743,213 @@
     </section>
 
     <section class="section" id="projects">
-      <h2 data-i18n="projects_title">Проекты</h2>
+      <h2>Проекты</h2>
       <div class="grid">
         <div class="card">
-          <h3 data-i18n="p1_title">Проект #1</h3>
-          <p data-i18n="p1_desc">Технологический продукт с упором на автоматизацию и рост.</p>
+          <h3>Проект #1</h3>
+          <p>Технологический продукт с упором на автоматизацию и рост.</p>
           <div class="tags">
-            <span class="tag">Telegram</span>
-            <span class="tag">Growth</span>
-            <span class="tag">Automation</span>
+            <span class="tag">Telegram</span><span class="tag">Growth</span><span class="tag">Automation</span>
           </div>
         </div>
         <div class="card">
-          <h3 data-i18n="p2_title">Проект #2</h3>
-          <p data-i18n="p2_desc">Система контента и воронок: быстрое производство и тест гипотез.</p>
+          <h3>Проект #2</h3>
+          <p>Система контента и воронок: быстрое производство и тест гипотез.</p>
           <div class="tags">
-            <span class="tag">Web</span>
-            <span class="tag">AI</span>
-            <span class="tag">Content</span>
+            <span class="tag">Web</span><span class="tag">AI</span><span class="tag">Content</span>
           </div>
         </div>
         <div class="card">
-          <h3 data-i18n="p3_title">Проект #3</h3>
-          <p data-i18n="p3_desc">Будущие направления: продукты, сервисы, эксперименты.</p>
+          <h3>Проект #3</h3>
+          <p>Будущие направления: продукты, сервисы, эксперименты.</p>
           <div class="tags">
-            <span class="tag">Systems</span>
-            <span class="tag">Ops</span>
-            <span class="tag">Experiments</span>
+            <span class="tag">Systems</span><span class="tag">Ops</span><span class="tag">Experiments</span>
           </div>
         </div>
       </div>
     </section>
 
     <section class="section" id="roles">
-      <h2 data-i18n="roles_title">Кого набираем</h2>
+      <h2>Кого набираем</h2>
       <div class="grid">
         <div class="card">
-          <h3 data-i18n="r_editor_t">Монтажёр</h3>
-          <p data-i18n="r_editor_d">Короткие ролики: динамика, удержание, титры, темп.</p>
+          <h3>Монтажёр</h3>
+          <p>Короткие ролики: динамика, удержание, титры, темп.</p>
           <div class="tags"><span class="tag">CapCut / AE</span><span class="tag">Shorts</span></div>
         </div>
         <div class="card">
-          <h3 data-i18n="r_designer_t">Дизайнер</h3>
-          <p data-i18n="r_designer_d">Оформление, обложки, графика, элементы бренда.</p>
+          <h3>Дизайнер</h3>
+          <p>Оформление, обложки, графика, элементы бренда.</p>
           <div class="tags"><span class="tag">Figma</span><span class="tag">Brand</span></div>
         </div>
         <div class="card">
-          <h3 data-i18n="r_dev_t">Разработчик</h3>
-          <p data-i18n="r_dev_d">Боты, интеграции, автоворонки, мини-сайты.</p>
+          <h3>Разработчик</h3>
+          <p>Боты, интеграции, автоворонки, мини-сайты.</p>
           <div class="tags"><span class="tag">Telegram</span><span class="tag">JS/Python</span></div>
         </div>
       </div>
     </section>
 
     <section class="section" id="join">
-      <h2 data-i18n="join_title">Вступить в команду</h2>
+      <h2>Вступить в команду</h2>
 
       <div class="join">
         <div class="join-left panel">
-          <div class="card-title" data-i18n="join_rules_t">Условия</div>
-          <p data-i18n="join_rules_1">Нам важны: ответственность, регулярность, умение доводить до результата.</p>
-          <p data-i18n="join_rules_2">Формат: тест → первые задачи → рост и распределение по результату.</p>
+          <div class="card-title">Условия</div>
+          <p>Нам важны: ответственность, регулярность, умение доводить до результата.</p>
+          <p>Формат: тест → первые задачи → рост и распределение по результату.</p>
           <div class="badge-row">
-            <span class="badge" data-i18n="join_badge_1">Регулярность</span>
-            <span class="badge" data-i18n="join_badge_2">Чёткие правила</span>
-            <span class="badge" data-i18n="join_badge_3">Рост</span>
+            <span class="badge">Регулярность</span>
+            <span class="badge">Чёткие правила</span>
+            <span class="badge">Рост</span>
           </div>
         </div>
 
         <div class="join-right panel">
           <div class="card-title">Заявка</div>
-          <div class="card-sub">Откроется в отдельном окне — можно нормально заполнить.</div>
-
+          <div class="card-sub">Сейчас это заглушка. Дальше мы вернём красивую форму, когда убедимся что всё стабильно.</div>
           <div class="btn-row">
-            <button class="btn primary big glow-border" type="button" id="openApplyHere">Открыть заявку</button>
-            <a class="btn big glow-border" href="#top" data-i18n="to_top">Наверх</a>
-          </div>
-
-          <div class="badge-row" style="margin-top:12px;">
-            <span class="badge">Aurora</span>
-            <span class="badge">Volumetric</span>
-            <span class="badge">Particles</span>
-            <span class="badge">Ring glow</span>
+            <button class="btn primary big glow-border" type="button" id="dummyApply">Открыть заявку</button>
+            <a class="btn big glow-border" href="#top">Наверх</a>
           </div>
         </div>
       </div>
     </section>
 
     <section class="section" id="faq">
-      <h2 data-i18n="faq_title">FAQ</h2>
-
-      <div class="faq" id="faqList">
-        <div class="faq-item">
-          <div class="faq-q">
-            <b data-i18n="faq_q1">Это оплачивается?</b>
-            <div class="faq-ico glow-border"></div>
-          </div>
-          <div class="faq-a">
-            <p data-i18n="faq_a1">На старте — тест и первые задачи. Дальше — по результату: фикс/процент/доля.</p>
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <div class="faq-q">
-            <b data-i18n="faq_q2">Сколько времени нужно?</b>
-            <div class="faq-ico glow-border"></div>
-          </div>
-          <div class="faq-a">
-            <p data-i18n="faq_a2">Даже 1–2 часа в день, но регулярно.</p>
-          </div>
-        </div>
-
-        <div class="faq-item">
-          <div class="faq-q">
-            <b data-i18n="faq_q3">Какой формат работы?</b>
-            <div class="faq-ico glow-border"></div>
-          </div>
-          <div class="faq-a">
-            <p data-i18n="faq_a3">Задачи, дедлайны, быстрые правки. Управление по темам в Telegram.</p>
-          </div>
-        </div>
+      <h2>FAQ</h2>
+      <div class="card">
+        <p style="margin:0; color:var(--muted); line-height:1.6;">
+          FAQ вернём следующим шагом. Сейчас ключевое — чтобы сайт **никогда не падал**.
+        </p>
       </div>
     </section>
 
     <footer class="footer">
       <div class="footer-inner">
         <div>© NeroviX</div>
-        <div data-i18n="footer_note">Заявки приходят прямо в Telegram</div>
+        <div>Заявки приходят прямо в Telegram</div>
       </div>
     </footer>
   </main>
 
   <script>
-    // ======== Config ========
-    const ENDPOINT_URL = "https://super-voice-25ca.slavatop212.workers.dev/";
-    const INTRO_KEY = "nerovix_intro_hidden_v3";
-    const LANG_KEY  = "nerovix_lang_v1";
-    const SOUND_KEY = "nerovix_sound_v1";
-
-    // ======== i18n ========
-    const i18n = {
-      ru: {
-        nav_projects:"Проекты", nav_roles:"Роли", nav_faq:"FAQ", nav_lang:"Язык", nav_join_btn:"Вступить",
-        hero_sub:"Команда цифровых проектов. Создаём ботов, системы, сайты и контент-механики. Набираем людей под задачи и рост — без воды, по результату.",
-        hero_join:"Вступить в команду", hero_projects:"Посмотреть проекты",
-        work_title:"Как мы работаем", work_sub:"Быстро тестируем гипотезы, фиксируем правила, повторяем то, что даёт рост.",
-        work_speed_t:"Скорость", work_speed_d:"Меньше созвонов — больше результата.",
-        work_tasks_t:"Чёткие задачи", work_tasks_d:"Понятно кто что делает и зачем.",
-        work_growth_t:"Рост", work_growth_d:"Сначала тесты — потом масштаб.",
-        projects_title:"Проекты", p1_title:"Проект #1", p1_desc:"Технологический продукт с упором на автоматизацию и рост.",
-        p2_title:"Проект #2", p2_desc:"Система контента и воронок: быстрое производство и тест гипотез.",
-        p3_title:"Проект #3", p3_desc:"Будущие направления: продукты, сервисы, эксперименты.",
-        roles_title:"Кого набираем",
-        r_editor_t:"Монтажёр", r_editor_d:"Короткие ролики: динамика, удержание, титры, темп.",
-        r_designer_t:"Дизайнер", r_designer_d:"Оформление, обложки, графика, элементы бренда.",
-        r_dev_t:"Разработчик", r_dev_d:"Боты, интеграции, автоворонки, мини-сайты.",
-        join_title:"Вступить в команду", join_rules_t:"Условия",
-        join_rules_1:"Нам важны: ответственность, регулярность, умение доводить до результата.",
-        join_rules_2:"Формат: тест → первые задачи → рост и распределение по результату.",
-        join_badge_1:"Регулярность", join_badge_2:"Чёткие правила", join_badge_3:"Рост",
-        f_name_label:"Имя / Ник", f_tg_label:"Telegram", f_role_label:"Роль", f_role_choose:"Выбери роль",
-        role_editor:"Монтажёр", role_designer:"Дизайнер", role_dev:"Разработчик", role_content:"Контент-менеджер", role_other:"Другое",
-        f_exp_label:"Опыт", exp_na:"Не указано", exp_junior:"Новичок", exp_mid:"Средний", exp_senior:"Опытный",
-        f_port_label:"Портфолио / примеры (ссылка)", f_time_label:"Сколько времени готов уделять?", f_about_label:"О себе (коротко)",
-        f_test_label:"Готов(а) сделать тестовое задание", f_send:"Отправить заявку", to_top:"Наверх",
-        faq_title:"FAQ", faq_q1:"Это оплачивается?", faq_a1:"На старте — тест и первые задачи. Дальше — по результату: фикс/процент/доля.",
-        faq_q2:"Сколько времени нужно?", faq_a2:"Даже 1–2 часа в день, но регулярно.",
-        faq_q3:"Какой формат работы?", faq_a3:"Задачи, дедлайны, быстрые правки. Управление по темам в Telegram.",
-        footer_note:"Заявки приходят прямо в Telegram",
-        introTitle:"Привет. Я NeroviX AI Assistant", introSub:"Коротко покажу, что это за сайт и кто мы.",
-        dontShowText:"Больше не показывать это интро", skipBtn:"Пропустить", joinBtn:"Вступить", okBtn:"Понятно", langLabel:"Язык",
-        applyTitle:"Заявка в NeroviX", sound:"Звук",
-        chat:[
-          { title:"Сообщение", text:"Добро пожаловать на сайт NeroviX." },
-          { title:"Кто мы", text:"Мы строим цифровые проекты и доводим их до результата." },
-          { title:"Что делаем", text:"• автоматизация и боты\n• контент-системы и воронки\n• сайты и интеграции" },
-          { title:"Дальше", text:"Если хочешь попасть в команду — нажми «Вступить». Откроется заявка в удобном окне." }
-        ],
-        msg_fill:"Заполни: имя, Telegram и роль.",
-        msg_tg:"Telegram должен быть вида @username (без пробелов).",
-        msg_sending:"Отправляю…", msg_ok:"Заявка отправлена ✅", msg_bad:"Ошибка отправки ❌ Попробуй ещё раз."
-      },
-
-      uk: {
-        nav_projects:"Проєкти", nav_roles:"Ролі", nav_faq:"FAQ", nav_lang:"Мова", nav_join_btn:"Вступити",
-        hero_sub:"Команда цифрових проєктів. Створюємо ботів, системи, сайти та контент-механіки. Набираємо людей під задачі й ріст — без води, по результату.",
-        hero_join:"Вступити в команду", hero_projects:"Переглянути проєкти",
-        work_title:"Як ми працюємо", work_sub:"Швидко тестуємо гіпотези, фіксуємо правила, повторюємо те, що дає ріст.",
-        work_speed_t:"Швидкість", work_speed_d:"Менше дзвінків — більше результату.",
-        work_tasks_t:"Чіткі задачі", work_tasks_d:"Зрозуміло хто що робить і навіщо.",
-        work_growth_t:"Ріст", work_growth_d:"Спочатку тести — потім масштаб.",
-        projects_title:"Проєкти", p1_title:"Проєкт #1", p1_desc:"Технологічний продукт з фокусом на автоматизацію та ріст.",
-        p2_title:"Проєкт #2", p2_desc:"Система контенту та воронок: швидке виробництво й тест гіпотез.",
-        p3_title:"Проєкт #3", p3_desc:"Майбутні напрями: продукти, сервіси, експерименти.",
-        roles_title:"Кого набираємо",
-        r_editor_t:"Монтажер", r_editor_d:"Короткі ролики: динаміка, утримання, титри, темп.",
-        r_designer_t:"Дизайнер", r_designer_d:"Оформлення, обкладинки, графіка, елементи бренду.",
-        r_dev_t:"Розробник", r_dev_d:"Боти, інтеграції, автовирви, міні-сайти.",
-        join_title:"Вступити в команду", join_rules_t:"Умови",
-        join_rules_1:"Нам важливі: відповідальність, регулярність, вміння доводити до результату.",
-        join_rules_2:"Формат: тест → перші задачі → ріст і розподіл за результатом.",
-        join_badge_1:"Регулярність", join_badge_2:"Чіткі правила", join_badge_3:"Ріст",
-        f_name_label:"Ім’я / Нік", f_tg_label:"Telegram", f_role_label:"Роль", f_role_choose:"Обери роль",
-        role_editor:"Монтажер", role_designer:"Дизайнер", role_dev:"Розробник", role_content:"Контент-менеджер", role_other:"Інше",
-        f_exp_label:"Досвід", exp_na:"Не вказано", exp_junior:"Новачок", exp_mid:"Середній", exp_senior:"Досвідчений",
-        f_port_label:"Портфоліо / приклади (посилання)", f_time_label:"Скільки часу готовий(а) приділяти?", f_about_label:"Про себе (коротко)",
-        f_test_label:"Готовий(а) виконати тестове завдання", f_send:"Надіслати заявку", to_top:"Вгору",
-        faq_title:"FAQ", faq_q1:"Це оплачується?", faq_a1:"На старті — тест і перші задачі. Далі — за результатом: фікс/відсоток/частка.",
-        faq_q2:"Скільки часу потрібно?", faq_a2:"Навіть 1–2 години на день, але регулярно.",
-        faq_q3:"Який формат роботи?", faq_a3:"Задачі, дедлайни, швидкі правки. Управління по темах у Telegram.",
-        footer_note:"Заявки приходять прямо в Telegram",
-        introTitle:"Привіт. Я NeroviX AI Assistant", introSub:"Коротко покажу, що це за сайт і хто ми.",
-        dontShowText:"Більше не показувати це інтро", skipBtn:"Пропустити", joinBtn:"Вступити", okBtn:"Зрозуміло", langLabel:"Мова",
-        applyTitle:"Заявка в NeroviX", sound:"Звук",
-        chat:[
-          { title:"Повідомлення", text:"Ласкаво просимо на сайт NeroviX." },
-          { title:"Хто ми", text:"Ми створюємо цифрові проєкти й доводимо їх до результату." },
-          { title:"Що робимо", text:"• автоматизація та боти\n• контент-системи і воронки\n• сайти та інтеграції" },
-          { title:"Далі", text:"Якщо хочеш у команду — натисни «Вступити». Відкриється заявка в зручному вікні." }
-        ],
-        msg_fill:"Заповни: ім’я, Telegram і роль.",
-        msg_tg:"Telegram має бути у форматі @username (без пробілів).",
-        msg_sending:"Надсилаю…", msg_ok:"Заявку надіслано ✅", msg_bad:"Помилка надсилання ❌ Спробуй ще раз."
-      },
-
-      en: {
-        nav_projects:"Projects", nav_roles:"Roles", nav_faq:"FAQ", nav_lang:"Language", nav_join_btn:"Join",
-        hero_sub:"A digital projects team. We build bots, systems, sites and content mechanics. We recruit people for tasks and growth — no fluff, results-driven.",
-        hero_join:"Join the team", hero_projects:"View projects",
-        work_title:"How we work", work_sub:"We test hypotheses fast, set rules, and repeat what drives growth.",
-        work_speed_t:"Speed", work_speed_d:"Fewer calls — more output.",
-        work_tasks_t:"Clear tasks", work_tasks_d:"Everyone knows what and why.",
-        work_growth_t:"Growth", work_growth_d:"Tests first — scale next.",
-        projects_title:"Projects", p1_title:"Project #1", p1_desc:"A tech product focused on automation and growth.",
-        p2_title:"Project #2", p2_desc:"Content + funnel system: fast production and hypothesis testing.",
-        p3_title:"Project #3", p3_desc:"Future directions: products, services, experiments.",
-        roles_title:"We’re recruiting",
-        r_editor_t:"Video Editor", r_editor_d:"Short-form edits: pacing, retention, captions, punch.",
-        r_designer_t:"Designer", r_designer_d:"Covers, simple graphics, brand elements.",
-        r_dev_t:"Developer", r_dev_d:"Bots, integrations, automations, mini-sites.",
-        join_title:"Join the team", join_rules_t:"How it works",
-        join_rules_1:"We value: responsibility, consistency, and finishing what you start.",
-        join_rules_2:"Flow: test task → first work → growth based on results.",
-        join_badge_1:"Consistency", join_badge_2:"Clear rules", join_badge_3:"Growth",
-        f_name_label:"Name / Nick", f_tg_label:"Telegram", f_role_label:"Role", f_role_choose:"Choose a role",
-        role_editor:"Video Editor", role_designer:"Designer", role_dev:"Developer", role_content:"Content manager", role_other:"Other",
-        f_exp_label:"Experience", exp_na:"Not specified", exp_junior:"Beginner", exp_mid:"Intermediate", exp_senior:"Advanced",
-        f_port_label:"Portfolio / samples (link)", f_time_label:"How much time can you commit?", f_about_label:"About you (short)",
-        f_test_label:"I’m ready for a test task", f_send:"Send application", to_top:"Top",
-        faq_title:"FAQ", faq_q1:"Is it paid?", faq_a1:"Start with a test and first tasks. Then — based on results: fixed / revenue share / equity.",
-        faq_q2:"How much time is needed?", faq_a2:"Even 1–2 hours/day, but consistently.",
-        faq_q3:"What’s the format?", faq_a3:"Tasks, deadlines, fast iterations. Managed via Telegram topics.",
-        footer_note:"Applications go straight to Telegram",
-        introTitle:"Hi. I’m NeroviX AI Assistant", introSub:"Quick intro: what this site is and who we are.",
-        dontShowText:"Don’t show this intro again", skipBtn:"Skip", joinBtn:"Join", okBtn:"Got it", langLabel:"Language",
-        applyTitle:"Application to NeroviX", sound:"Sound",
-        chat:[
-          { title:"Message", text:"Welcome to NeroviX." },
-          { title:"Who we are", text:"We build digital products and ship results." },
-          { title:"What we do", text:"• automation & bots\n• content systems & funnels\n• websites & integrations" },
-          { title:"Next", text:"If you want to join — click “Join”. The application will open in a clean modal window." }
-        ],
-        msg_fill:"Fill in: name, Telegram and role.",
-        msg_tg:"Telegram must look like @username (no spaces).",
-        msg_sending:"Sending…", msg_ok:"Application sent ✅", msg_bad:"Sending failed ❌ Try again."
+    (function(){
+      // ========== ERROR VISIBILITY ==========
+      const errbar = document.getElementById("errbar");
+      const errtxt = document.getElementById("errtxt");
+      function showErr(msg){
+        try{
+          if (!errbar || !errtxt) return;
+          errtxt.textContent = String(msg || "");
+          errbar.style.display = "block";
+        }catch(e){}
       }
-    };
+      window.addEventListener("error", (e) => {
+        showErr((e && (e.message || e.error)) ? (e.message || String(e.error)) : "Unknown error");
+      });
+      window.addEventListener("unhandledrejection", (e) => {
+        showErr(e && e.reason ? ("UnhandledPromiseRejection: " + String(e.reason)) : "UnhandledPromiseRejection");
+      });
 
-    // ======== Helpers ========
-    const $ = (id)=>document.getElementById(id);
-    const toastsEl = $("toasts");
+      // ========== SAFE HELPERS ==========
+      function $(id){ return document.getElementById(id); }
+      function safeOn(el, ev, fn){
+        if (!el) return;
+        el.addEventListener(ev, function(e){
+          try{ fn(e); } catch(err){ showErr(err && err.stack ? err.stack : String(err)); }
+        });
+      }
 
-    function escapeHtml(s){
-      return String(s).replace(/[&<>"']/g, m => ({
-        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
-      }[m]));
-    }
+      // ========== BACKGROUND FX (safe) ==========
+      function startFx(){
+        const canvas = $("fx");
+        if (!canvas) return;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) return;
 
-    function toast(type, title, desc, ms=2200){
-      if (!toastsEl) return;
-      const el = document.createElement("div");
-      el.className = "toast " + (type || "");
-      el.innerHTML = `
-        <div class="t"><span class="pill"></span><span>${escapeHtml(title || "")}</span></div>
-        ${desc ? `<div class="d">${escapeHtml(desc)}</div>` : ""}
-      `;
-      toastsEl.appendChild(el);
-      setTimeout(()=> {
-        el.classList.add("hide");
-        setTimeout(()=> el.remove(), 220);
-      }, ms);
-    }
+        let w=0,h=0,dpr=1;
+        const pts=[];
+        const prefersReduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const N = prefersReduce ? 40 : 110;
 
-    // ======== Language ========
-    function getInitialLang(){
-      const saved = localStorage.getItem(LANG_KEY);
-      if (saved && i18n[saved]) return saved;
-      const nav = (navigator.language || "ru").toLowerCase();
-      if (nav.startsWith("uk")) return "uk";
-      if (nav.startsWith("en")) return "en";
-      return "ru";
-    }
-    let currentLang = getInitialLang();
-
-    function applyLang(lang){
-      if (!i18n[lang]) return;
-      currentLang = lang;
-      localStorage.setItem(LANG_KEY, lang);
-
-      const ls = $("langSelect");
-      const lsi = $("langSelectIntro");
-      if (ls) ls.value = lang;
-      if (lsi) lsi.value = lang;
-
-      document.querySelectorAll("[data-i18n]").forEach(el=>{
-        const key = el.getAttribute("data-i18n");
-        const v = i18n[lang][key];
-        if (typeof v === "string"){
-          el.textContent = v;
+        function resize(){
+          dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+          w = canvas.width  = Math.floor(window.innerWidth  * dpr);
+          h = canvas.height = Math.floor(window.innerHeight * dpr);
+          canvas.style.width  = window.innerWidth + "px";
+          canvas.style.height = window.innerHeight + "px";
         }
-      });
-
-      if ($("introTitle")) $("introTitle").textContent = i18n[lang].introTitle;
-      if ($("introSub")) $("introSub").textContent = i18n[lang].introSub;
-      if ($("dontShowText")) $("dontShowText").textContent = i18n[lang].dontShowText;
-      if ($("skipBtn")) $("skipBtn").textContent = i18n[lang].skipBtn;
-      if ($("goJoinBtn")) $("goJoinBtn").textContent = i18n[lang].joinBtn;
-      if ($("closeBtn")) $("closeBtn").textContent = i18n[lang].okBtn;
-      if ($("langLabel")) $("langLabel").textContent = i18n[lang].langLabel;
-
-      if ($("applyTitle")) $("applyTitle").textContent = i18n[lang].applyTitle;
-      if ($("soundText")) $("soundText").textContent = i18n[lang].sound;
-
-      buildChat();
-    }
-
-    // ======== Micro-click sound ========
-    let soundEnabled = (localStorage.getItem(SOUND_KEY) !== "0");
-    let audioCtx = null;
-
-    function ensureAudio(){
-      if (!audioCtx){
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      }
-      if (audioCtx.state === "suspended") audioCtx.resume().catch(()=>{});
-    }
-    function playClick(freq=520, vol=0.02, dur=0.035){
-      if (!soundEnabled) return;
-      try{
-        ensureAudio();
-        const t0 = audioCtx.currentTime;
-        const o = audioCtx.createOscillator();
-        const g = audioCtx.createGain();
-        const f = audioCtx.createBiquadFilter();
-        f.type = "highpass";
-        f.frequency.setValueAtTime(300, t0);
-
-        o.type = "triangle";
-        o.frequency.setValueAtTime(freq, t0);
-        o.frequency.exponentialRampToValueAtTime(freq*0.6, t0 + dur);
-
-        g.gain.setValueAtTime(0.0001, t0);
-        g.gain.exponentialRampToValueAtTime(vol, t0 + 0.008);
-        g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
-
-        o.connect(f); f.connect(g); g.connect(audioCtx.destination);
-        o.start(t0);
-        o.stop(t0 + dur + 0.01);
-      }catch(e){}
-    }
-    function renderSoundToggle(){
-      const st = $("soundToggle");
-      if (!st) return;
-      st.classList.toggle("on", soundEnabled);
-    }
-
-    // ======== Checkbox pop ========
-    function bindChkPop(wrapperId, inputId){
-      const wrap = $(wrapperId);
-      const inp = $(inputId);
-      if (!wrap || !inp) return;
-      inp.addEventListener("change", () => {
-        wrap.classList.remove("pop");
-        void wrap.offsetWidth;
-        wrap.classList.add("pop");
-      });
-    }
-
-    // ======== Intro chat ========
-    const intro = $("intro");
-    const chatEl = $("chat");
-    const bot = $("bot");
-    const stage = $("stage");
-
-    let typingTimer = null;
-    let isTyping = false;
-    let introDone = false;
-
-    function setTalking(on){
-      if (!bot) return;
-      if (on){
-        bot.classList.add("talking");
-        bot.classList.add("pulse");
-      } else {
-        bot.classList.remove("talking");
-        bot.classList.remove("pulse");
-      }
-    }
-
-    function buildChat(){
-      if (!chatEl) return;
-      chatEl.innerHTML = "";
-      const msgs = (i18n[currentLang] && i18n[currentLang].chat) ? i18n[currentLang].chat : [];
-      msgs.forEach((m, idx)=>{
-        const b = document.createElement("div");
-        b.className = "bubble ai";
-        b.dataset.idx = String(idx);
-
-        const t = document.createElement("strong");
-        t.textContent = m.title;
-
-        const text = document.createElement("div");
-        text.className = "text";
-        text.textContent = "";
-
-        b.appendChild(t);
-        b.appendChild(text);
-        chatEl.appendChild(b);
-      });
-    }
-
-    function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
-
-    async function typeInto(el, fullText, speed=12){
-      if (!el) return;
-      clearTimeout(typingTimer);
-      isTyping = true;
-      setTalking(true);
-
-      el.textContent = "";
-      const caret = document.createElement("span");
-      caret.className = "typing-caret";
-      caret.textContent = "▋";
-      el.appendChild(caret);
-
-      let i = 0;
-      return new Promise(resolve=>{
-        const step = () => {
-          if (!isTyping) { resolve(); return; }
-
-          caret.remove();
-          el.textContent += fullText[i] || "";
-          el.appendChild(caret);
-
-          i++;
-          if (i <= fullText.length) {
-            typingTimer = setTimeout(step, speed);
-          } else {
-            isTyping = false;
-            setTalking(false);
-            resolve();
+        function rand(a,b){ return a + Math.random()*(b-a); }
+        function init(){
+          pts.length=0;
+          for(let i=0;i<N;i++){
+            pts.push({x:rand(0,w),y:rand(0,h),vx:rand(-0.14,0.14)*dpr,vy:rand(-0.10,0.10)*dpr,r:rand(0.9,2.6)*dpr,a:rand(0.12,0.6),t:rand(0,Math.PI*2)});
           }
-        };
-        step();
-      });
-    }
-
-    async function playIntroChat(){
-      try{
-        introDone = false;
-        const msgs = i18n[currentLang].chat;
-        for (let k=0; k<msgs.length; k++){
-          const bubble = chatEl ? chatEl.querySelector(\`.bubble[data-idx="\${k}"] .text\`) : null;
-          await typeInto(bubble, msgs[k].text, 12);
-          await sleep(160);
         }
-        introDone = true;
-        setTalking(false);
-      }catch(e){
-        console.error("Intro chat error:", e);
-        introDone = true;
-        setTalking(false);
-      }
-    }
+        function draw(){
+          ctx.clearRect(0,0,w,h);
+          for(const p of pts){
+            p.x+=p.vx; p.y+=p.vy; p.t+=0.02;
+            if(p.x<-80*dpr) p.x=w+80*dpr;
+            if(p.x>w+80*dpr) p.x=-80*dpr;
+            if(p.y<-80*dpr) p.y=h+80*dpr;
+            if(p.y>h+80*dpr) p.y=-80*dpr;
 
-    function showIntro(){
-      if (!intro) return;
-      intro.style.display = "flex";
-      document.body.style.overflow = "hidden";
-      buildChat();
-      playIntroChat();
-    }
-    function hideIntro(){
-      if (!intro) return;
-      intro.style.display = "none";
-      document.body.style.overflow = "";
-      stopTyping();
-      const ds = $("dontShow");
-      if (ds && ds.checked) localStorage.setItem(INTRO_KEY, "1");
-    }
-    function stopTyping(){
-      clearTimeout(typingTimer);
-      isTyping = false;
-      setTalking(false);
-    }
-    function fillAllChatInstant(){
-      stopTyping();
-      const msgs = i18n[currentLang].chat;
-      msgs.forEach((m, idx)=>{
-        const bubble = chatEl ? chatEl.querySelector(\`.bubble[data-idx="\${idx}"] .text\`) : null;
-        if (bubble) bubble.textContent = m.text;
-      });
-      introDone = true;
-    }
-
-    function bind3D(){
-      if (!stage || !bot) return;
-      const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
-      stage.addEventListener("mousemove", (e) => {
-        const r = stage.getBoundingClientRect();
-        const x = (e.clientX - r.left) / r.width;
-        const y = (e.clientY - r.top) / r.height;
-        const ry = clamp((x - 0.5) * 22, -18, 18);
-        const rx = clamp(-(y - 0.5) * 18, -14, 14);
-        bot.style.transform = \`rotateX(\${rx}deg) rotateY(\${ry}deg) translateY(-6px)\`;
-        bot.style.transition = "transform 60ms linear";
-      });
-      stage.addEventListener("mouseleave", () => {
-        bot.style.transition = "transform 350ms ease";
-        bot.style.transform = "";
-      });
-    }
-
-    // ======== Apply modal ========
-    const applyModal = $("applyModal");
-    function openApply(){
-      if (!applyModal) return;
-      applyModal.classList.add("show");
-      applyModal.setAttribute("aria-hidden", "false");
-      document.body.style.overflow = "hidden";
-      ensureAudio();
-      setTimeout(() => { $("m_name")?.focus(); }, 120);
-    }
-    function closeApply(){
-      if (!applyModal) return;
-      applyModal.classList.remove("show");
-      applyModal.setAttribute("aria-hidden", "true");
-      document.body.style.overflow = "";
-    }
-
-    // ======== Telegram auto check ========
-    function normalizeTg(v){
-      let s = (v || "").trim();
-      if (!s) return s;
-      s = s.replace(/^https?:\/\/t\.me\//i, "@").replace(/^t\.me\//i, "@");
-      s = s.replace(/\s+/g, "");
-      if (!s.startsWith("@")) s = "@" + s;
-      return s;
-    }
-    function isValidTg(v){ return /^@[A-Za-z0-9_]{3,32}$/.test(v); }
-
-    function clearForm(){
-      ["m_name","m_tg","m_portfolio","m_time","m_about"].forEach(id=>{ const el=$(id); if(el) el.value=""; });
-      const role = $("m_role"); if (role) role.selectedIndex = 0;
-      const exp = $("m_exp"); if (exp) exp.selectedIndex = 0;
-      const test = $("m_test"); if (test) test.checked = false;
-      const tg = $("m_tg"); if (tg) tg.classList.remove("tg-good","tg-bad");
-    }
-
-    async function send(){
-      const name = ($("m_name")?.value || "").trim();
-      const tgEl = $("m_tg");
-      const tg = normalizeTg((tgEl?.value || ""));
-      const role = $("m_role")?.value || "";
-
-      const exp = $("m_exp")?.value || "";
-      const portfolio = ($("m_portfolio")?.value || "").trim();
-      const time = ($("m_time")?.value || "").trim();
-      const about = ($("m_about")?.value || "").trim();
-      const test = !!$("m_test")?.checked;
-
-      if (!name || !tg || !role){
-        toast("bad", i18n[currentLang].msg_fill, "Имя, Telegram и роль — обязательны.", 2600);
-        if (!name) $("m_name")?.focus();
-        else if (!tg) $("m_tg")?.focus();
-        else $("m_role")?.focus();
-        return;
-      }
-      if (!isValidTg(tg)){
-        toast("bad", i18n[currentLang].msg_tg, "Пример: @username", 2600);
-        if (tgEl){ tgEl.classList.add("tg-bad"); tgEl.focus(); }
-        return;
-      }
-
-      const btn = $("m_sendBtn");
-      if (btn){ btn.disabled = true; btn.style.opacity = ".7"; }
-      toast("", i18n[currentLang].msg_sending, "Не закрывай окно…", 1600);
-
-      try{
-        const payload = { name, tg, role, exp, portfolio, time, about, test };
-        const res = await fetch(ENDPOINT_URL, {
-          method:"POST",
-          headers:{ "Content-Type":"application/json" },
-          body: JSON.stringify(payload)
-        });
-        if (!res.ok) throw new Error("bad_response");
-
-        toast("ok", i18n[currentLang].msg_ok, "Мы свяжемся в Telegram.", 2400);
-        clearForm();
-        setTimeout(closeApply, 900);
-      }catch(e){
-        console.error("Send error:", e);
-        toast("bad", i18n[currentLang].msg_bad, "Проверь интернет и попробуй снова.", 3200);
-      }finally{
-        if (btn){ btn.disabled = false; btn.style.opacity = "1"; }
-      }
-    }
-
-    // ======== FAQ accordion ========
-    function bindFAQ(){
-      const list = $("faqList");
-      if (!list) return;
-      const items = Array.from(list.querySelectorAll(".faq-item"));
-
-      items.forEach(item=>{
-        const q = item.querySelector(".faq-q");
-        const a = item.querySelector(".faq-a");
-        if (!q || !a) return;
-
-        const close = () => {
-          item.classList.remove("open");
-          a.style.height = "0px";
-        };
-        const open = () => {
-          item.classList.add("open");
-          const h = a.scrollHeight;
-          a.style.height = h + "px";
-        };
-
-        close();
-
-        q.addEventListener("click", () => {
-          playClick(460, 0.018, 0.05);
-          items.forEach(it=>{
-            if (it !== item){
-              const aa = it.querySelector(".faq-a");
-              it.classList.remove("open");
-              if (aa) aa.style.height = "0px";
-            }
-          });
-
-          if (item.classList.contains("open")) close();
-          else open();
-        });
-      });
-
-      window.addEventListener("resize", () => {
-        items.forEach(item=>{
-          if (item.classList.contains("open")){
-            const a = item.querySelector(".faq-a");
-            if (a) a.style.height = a.scrollHeight + "px";
-          }
-        });
-      });
-    }
-
-    // ======== Init ========
-    (function init(){
-      try{
-        applyLang(currentLang);
-
-        $("langSelect")?.addEventListener("change", e => applyLang(e.target.value));
-        $("langSelectIntro")?.addEventListener("change", e => applyLang(e.target.value));
-
-        bindChkPop("m_testWrap","m_test");
-        bindChkPop("dontShowWrap","dontShow");
-
-        bind3D();
-        bindFAQ();
-
-        $("skipBtn")?.addEventListener("click", () => {
-          playClick(520, 0.02, 0.04);
-          if (!introDone) fillAllChatInstant();
-          else hideIntro();
-        });
-        $("closeBtn")?.addEventListener("click", () => { playClick(520, 0.02, 0.04); hideIntro(); });
-        $("goJoinBtn")?.addEventListener("click", () => {
-          playClick(520, 0.02, 0.04);
-          hideIntro();
-          document.getElementById("join")?.scrollIntoView({behavior:"smooth"});
-          setTimeout(openApply, 260);
-        });
-
-        $("openApplyHero")?.addEventListener("click", () => { playClick(520, 0.02, 0.04); openApply(); });
-        $("openApplyHere")?.addEventListener("click", () => { playClick(520, 0.02, 0.04); openApply(); });
-
-        $("navJoinBtn")?.addEventListener("click", (e) => {
-          e.preventDefault();
-          playClick(520, 0.02, 0.04);
-          document.getElementById("join")?.scrollIntoView({behavior:"smooth"});
-          setTimeout(openApply, 260);
-        });
-
-        $("applyBackdrop")?.addEventListener("click", () => { playClick(620, 0.018, 0.035); closeApply(); });
-        $("applyClose")?.addEventListener("click", () => { playClick(620, 0.018, 0.035); closeApply(); });
-
-        $("m_sendBtn")?.addEventListener("click", () => { playClick(560, 0.02, 0.04); send(); });
-        $("m_clearBtn")?.addEventListener("click", () => { playClick(520, 0.02, 0.04); clearForm(); toast("", "Очищено", "Можно заполнить заново.", 1400); });
-
-        const tg = $("m_tg");
-        let tgTimer = null;
-        tg?.addEventListener("input", () => {
-          clearTimeout(tgTimer);
-          tgTimer = setTimeout(() => {
-            if (!tg.value.trim()){
-              tg.classList.remove("tg-good","tg-bad");
-              return;
-            }
-            const fixed = normalizeTg(tg.value);
-            tg.value = fixed;
-            tg.classList.remove("tg-good","tg-bad");
-            if (isValidTg(fixed)) tg.classList.add("tg-good");
-            else tg.classList.add("tg-bad");
-          }, 160);
-        });
-
-        $("soundToggle")?.addEventListener("click", () => {
-          soundEnabled = !soundEnabled;
-          localStorage.setItem(SOUND_KEY, soundEnabled ? "1" : "0");
-          renderSoundToggle();
-          playClick(520, 0.02, 0.04);
-          toast("", soundEnabled ? "Звук включён" : "Звук выключен", "Можно включать/выключать в заявке.", 1500);
-        });
-        renderSoundToggle();
-
-        document.addEventListener("click", (e) => {
-          const t = e.target;
-          if (t.closest(".btn")) playClick(520, 0.02, 0.04);
-          if (t.closest(".icon-btn")) playClick(620, 0.018, 0.035);
-          if (t.closest(".chk")) playClick(420, 0.018, 0.05);
-        }, { passive:true });
-
-        window.addEventListener("keydown", (e) => {
-          if (e.key === "Escape"){
-            if (intro && intro.style.display === "flex") hideIntro();
-            if (applyModal && applyModal.classList.contains("show")) closeApply();
-          }
-        });
-
-        const hidden = localStorage.getItem(INTRO_KEY) === "1";
-        const fab = $("aiFab");
-        const fabBtn = $("aiFabBtn");
-        if (!hidden){
-          setTimeout(showIntro, 420);
-        } else {
-          if (fab) fab.style.display = "block";
-          fabBtn?.addEventListener("click", () => { playClick(520, 0.02, 0.04); showIntro(); });
-        }
-
-      }catch(e){
-        console.error("Init error:", e);
-        toast("bad","JS ошибка","Открой DevTools → Console и покажи ошибку, если повторится.", 5000);
-      }
-    })();
-
-    // ======== Background particles (no lines) ========
-    (function techFx(){
-      const canvas = document.getElementById("fx");
-      if (!canvas) return;
-      const ctx = canvas.getContext("2d");
-      if (!ctx) return;
-
-      let w=0, h=0, dpr=1;
-      const prefersReduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-      // a bit more particles (stronger)
-      const POINTS = prefersReduce ? 40 : 120;
-      const pts = [];
-
-      function resize(){
-        dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
-        w = canvas.width = Math.floor(window.innerWidth * dpr);
-        h = canvas.height = Math.floor(window.innerHeight * dpr);
-        canvas.style.width = window.innerWidth + "px";
-        canvas.style.height = window.innerHeight + "px";
-      }
-      function rand(min, max){ return min + Math.random()*(max-min); }
-      function init(){
-        pts.length = 0;
-        for(let i=0;i<POINTS;i++){
-          pts.push({
-            x: rand(0,w),
-            y: rand(0,h),
-            vx: rand(-0.14,0.14) * dpr,
-            vy: rand(-0.10,0.10) * dpr,
-            r: rand(0.9, 2.6) * dpr,
-            a: rand(0.12, 0.60),
-            glow: rand(0.0, 1.0),
-            tw: rand(0.0, Math.PI*2)
-          });
-        }
-      }
-
-      function draw(){
-        ctx.clearRect(0,0,w,h);
-
-        // deep vignette + subtle blue glow
-        const g = ctx.createRadialGradient(w*0.5, h*0.35, 0, w*0.5, h*0.35, Math.max(w,h)*0.78);
-        g.addColorStop(0, "rgba(0,170,255,0.10)");
-        g.addColorStop(0.55, "rgba(0,0,0,0)");
-        g.addColorStop(1, "rgba(0,0,0,0.42)");
-        ctx.fillStyle = g;
-        ctx.fillRect(0,0,w,h);
-
-        for(const p of pts){
-          p.x += p.vx; p.y += p.vy;
-          p.tw += 0.02;
-          const twinkle = (Math.sin(p.tw)+1)*0.5; // 0..1
-
-          if(p.x < -80*dpr) p.x = w + 80*dpr;
-          if(p.x > w + 80*dpr) p.x = -80*dpr;
-          if(p.y < -80*dpr) p.y = h + 80*dpr;
-          if(p.y > h + 80*dpr) p.y = -80*dpr;
-
-          // rare larger glow blobs
-          if (p.glow > 0.86){
-            ctx.fillStyle = `rgba(106,240,255,${Math.min(0.22, p.a*0.6)})`;
+            const tw = (Math.sin(p.t)+1)*0.5;
+            const alpha = p.a*(0.75+tw*0.55);
+            ctx.fillStyle = "rgba(106,240,255,"+alpha.toFixed(3)+")";
             ctx.beginPath();
-            ctx.arc(p.x, p.y, p.r*7.0, 0, Math.PI*2);
+            ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
             ctx.fill();
           }
-
-          const alpha = p.a * (0.75 + twinkle*0.55);
-          ctx.fillStyle = `rgba(106,240,255,${alpha})`;
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
-          ctx.fill();
+          if(!prefersReduce) requestAnimationFrame(draw);
         }
 
-        if(!prefersReduce) requestAnimationFrame(draw);
+        resize(); init();
+        if(prefersReduce) draw(); else requestAnimationFrame(draw);
+        window.addEventListener("resize", ()=>{ resize(); init(); });
       }
 
-      resize(); init();
-      if(prefersReduce) draw();
-      else requestAnimationFrame(draw);
-      window.addEventListener("resize", () => { resize(); init(); });
+      // ========== INTRO SHOW (safe) ==========
+      function showIntro(){
+        const intro = $("intro");
+        if (!intro) return;
+        intro.style.display = "flex";
+        document.body.style.overflow = "hidden";
+      }
+      function hideIntro(){
+        const intro = $("intro");
+        if (!intro) return;
+        intro.style.display = "none";
+        document.body.style.overflow = "";
+      }
+
+      // ========== INIT ==========
+      document.addEventListener("DOMContentLoaded", function(){
+        try{
+          startFx();
+
+          // show intro a bit later
+          setTimeout(showIntro, 450);
+
+          safeOn($("skipBtn"), "click", hideIntro);
+          safeOn($("closeBtn"), "click", hideIntro);
+
+          safeOn($("dummyApply"), "click", function(){
+            alert("Стабильность ок ✅ Следующим шагом вернём форму заявки без поломок.");
+          });
+
+          // SAFE click sound handler placeholder (does nothing, but also never crashes)
+          document.addEventListener("click", function(e){
+            // never use closest() without checking Element
+            if (!(e.target instanceof Element)) return;
+          }, {passive:true});
+
+        }catch(err){
+          showErr(err && err.stack ? err.stack : String(err));
+        }
+      });
     })();
   </script>
 </body>
