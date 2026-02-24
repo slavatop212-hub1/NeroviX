@@ -7,7 +7,6 @@
   <style>
     :root{
       --bg:#050813;
-      --card: rgba(255,255,255,.06);
       --border: rgba(255,255,255,.12);
       --text:#EAF0FF;
       --muted:#98A6C7;
@@ -31,7 +30,7 @@
 
     /* ===================== TECH FUTURE BACKGROUND (ANIMATED) ===================== */
     .bg{
-      position:fixed; inset:0; z-index:-5;
+      position:fixed; inset:0; z-index:-6;
       background:
         radial-gradient(1100px 700px at 18% -5%, rgba(0,170,255,.26), transparent 60%),
         radial-gradient(900px 600px at 88% 10%, rgba(106,240,255,.14), transparent 55%),
@@ -39,9 +38,8 @@
         linear-gradient(180deg, #040614 0%, #070A12 45%, #040614 100%);
     }
 
-    /* animated aurora sheen */
     .aurora{
-      position:fixed; inset:-120px; z-index:-4; pointer-events:none;
+      position:fixed; inset:-120px; z-index:-5; pointer-events:none;
       background:
         radial-gradient(700px 420px at 20% 25%, rgba(0,170,255,.18), transparent 60%),
         radial-gradient(680px 420px at 80% 35%, rgba(106,240,255,.14), transparent 62%),
@@ -56,9 +54,8 @@
       50%{ transform: translate3d(2%, 1%, 0) scale(1.06); opacity:1; }
     }
 
-    /* moving grid (parallax) */
     .grid-overlay{
-      position:fixed; inset:0; z-index:-3; opacity:.18;
+      position:fixed; inset:0; z-index:-4; opacity:.16;
       background-image:
         linear-gradient(to right, rgba(255,255,255,.07) 1px, transparent 1px),
         linear-gradient(to bottom, rgba(255,255,255,.07) 1px, transparent 1px);
@@ -68,13 +65,12 @@
       animation: gridDrift 22s linear infinite;
     }
     @keyframes gridDrift{
-      0%{ background-position: 0 0, 0 0; transform: translate3d(0,0,0); }
-      100%{ background-position: 260px 220px, 260px 220px; transform: translate3d(0,0,0); }
+      0%{ background-position: 0 0, 0 0; }
+      100%{ background-position: 260px 220px, 260px 220px; }
     }
 
-    /* subtle scanlines */
     .scanlines{
-      position:fixed; inset:0; z-index:-2; pointer-events:none;
+      position:fixed; inset:0; z-index:-3; pointer-events:none;
       background: repeating-linear-gradient(
         to bottom,
         rgba(255,255,255,.04) 0px,
@@ -91,13 +87,11 @@
       100%{ background-position: 0 120px; }
     }
 
-    /* noise */
     .noise{
       position:fixed; inset:0; z-index:-1; opacity:.07; pointer-events:none;
       background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E");
     }
 
-    /* canvas particles (tech dots + links) */
     #fx{
       position:fixed; inset:0; z-index:-2;
       width:100%; height:100%;
@@ -105,7 +99,6 @@
       opacity:.9;
     }
 
-    /* Reduced motion */
     @media (prefers-reduced-motion: reduce){
       .aurora, .grid-overlay, .scanlines{ animation:none !important; }
     }
@@ -333,17 +326,6 @@
     }
     textarea{ resize: vertical; min-height: 92px; }
 
-    .check{
-      display:flex; align-items:center; gap:10px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.03);
-      padding:12px;
-      border-radius:14px;
-      color:var(--text);
-      font-size:14px;
-    }
-    .check input{ width:18px; height:18px; }
-
     .status{
       margin-top:6px;
       text-align:left;
@@ -360,6 +342,95 @@
       flex-wrap:wrap;
       align-items:center;
       justify-content:flex-start;
+    }
+
+    /* ===================== NEW: BEAUTIFUL CHECKBOX (ANIMATED) ===================== */
+    .chk{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:12px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+      cursor:pointer;
+      user-select:none;
+      color:var(--text);
+      position:relative;
+      overflow:hidden;
+    }
+    .chk input{
+      position:absolute;
+      opacity:0;
+      pointer-events:none;
+    }
+    .chk .box{
+      width:22px; height:22px;
+      border-radius:7px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(0,0,0,.20);
+      box-shadow: inset 0 0 0 1px rgba(0,170,255,.05);
+      position:relative;
+      flex:0 0 auto;
+      transform: translateZ(0);
+      transition: .18s ease;
+    }
+    .chk .box::before{
+      content:"";
+      position:absolute;
+      inset:-18px;
+      border-radius:999px;
+      background: radial-gradient(circle, rgba(106,240,255,.18), transparent 60%);
+      opacity:0;
+      transform: scale(.7);
+      transition: .22s ease;
+      pointer-events:none;
+    }
+    .chk .box::after{
+      content:"";
+      position:absolute;
+      left:6px; top:4px;
+      width:7px; height:12px;
+      border-right:3px solid rgba(234,240,255,.95);
+      border-bottom:3px solid rgba(234,240,255,.95);
+      transform: rotate(45deg) scale(0.2);
+      opacity:0;
+      transition: .18s ease;
+    }
+    .chk .lbl{
+      font-size:14px;
+      color:var(--text);
+      line-height:1.4;
+    }
+
+    .chk input:checked + .box{
+      border-color: rgba(106,240,255,.45);
+      background: linear-gradient(180deg, rgba(0,170,255,.28), rgba(0,170,255,.10));
+      box-shadow: 0 0 0 3px rgba(0,170,255,.12), 0 14px 35px rgba(0,170,255,.10);
+      transform: translateY(-1px);
+    }
+    .chk input:checked + .box::before{
+      opacity:1;
+      transform: scale(1);
+      animation: ripple .42s ease-out;
+    }
+    @keyframes ripple{
+      0%{ transform: scale(.6); opacity:.0; }
+      30%{ transform: scale(1); opacity:1; }
+      100%{ transform: scale(1.2); opacity:0; }
+    }
+    .chk input:checked + .box::after{
+      opacity:1;
+      transform: rotate(45deg) scale(1);
+      transition-delay: .02s;
+    }
+    .chk.pop{
+      animation: pop .28s ease;
+    }
+    @keyframes pop{
+      0%{ transform: scale(1); }
+      50%{ transform: scale(1.01); }
+      100%{ transform: scale(1); }
     }
 
     /* FAQ */
@@ -388,7 +459,7 @@
       display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;
     }
 
-    /* ================= INTRO OVERLAY blur + vignette ================= */
+    /* ================= INTRO OVERLAY ================= */
     .intro{
       position:fixed; inset:0; z-index:999;
       display:none;
@@ -410,7 +481,6 @@
       opacity:.9;
     }
 
-    /* ================= INTRO CARD premium light ================= */
     .intro-card{
       position:relative;
       width:min(1080px, 100%);
@@ -507,17 +577,6 @@
       50%,100%{ opacity:0; }
     }
 
-    .toggle{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      margin-top:10px;
-      user-select:none;
-      cursor:pointer;
-      color:var(--muted);
-      font-size:13px;
-    }
-    .toggle input{ width:18px; height:18px; }
     .intro-actions{
       display:flex;
       gap:10px;
@@ -525,13 +584,13 @@
       justify-content:flex-end;
     }
 
-    /* ================= NEW: HUMANOID ROUND FACE + PIXEL EYES ================= */
+    /* =================== ROBOT (HUMANOID SHAPE LIKE PHOTO) =================== */
     .stage{
       height:100%;
       display:flex;
       align-items:center;
       justify-content:center;
-      perspective: 1000px;
+      perspective: 1100px;
       position:relative;
       padding-top: 10px;
     }
@@ -573,7 +632,7 @@
     @keyframes spin{ from{ transform: rotate(0);} to{ transform: rotate(360deg);} }
 
     .bot{
-      width: 360px; height: 380px;
+      width: 360px; height: 400px;
       position:relative;
       transform-style: preserve-3d;
       animation: float 3.8s ease-in-out infinite;
@@ -584,99 +643,90 @@
       50%{ transform: rotateX(12deg) rotateY(-6deg) translateY(-10px); }
     }
 
-    /* round head shell */
-    .head{
-      position:absolute; inset:18px 34px 26px 34px;
-      border-radius: 999px;
+    /* neck / shoulders */
+    .bot .neck{
+      position:absolute;
+      left:50%; bottom: 12px;
+      width: 210px; height: 140px;
+      transform: translateX(-50%) translateZ(10px);
+      border-radius: 60px 60px 80px 80px;
       background:
-        radial-gradient(circle at 35% 28%, rgba(255,255,255,.16), transparent 55%),
-        radial-gradient(circle at 70% 78%, rgba(0,170,255,.18), transparent 55%),
-        linear-gradient(180deg, rgba(255,255,255,.10), rgba(0,0,0,.20));
-      border: 1px solid rgba(255,255,255,.18);
-      box-shadow:
-        inset 0 0 0 1px rgba(255,255,255,.06),
-        inset 0 26px 90px rgba(0,170,255,.10);
-      transform: translateZ(26px);
-      overflow:hidden;
-    }
-    .head::after{
-      content:"";
-      position:absolute; inset:12px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.10);
-      opacity:.75;
-      pointer-events:none;
+        radial-gradient(circle at 30% 30%, rgba(255,255,255,.10), transparent 55%),
+        linear-gradient(180deg, rgba(255,255,255,.06), rgba(0,0,0,.30));
+      border: 1px solid rgba(255,255,255,.10);
+      opacity:.65;
+      filter: blur(.0px);
     }
 
-    /* inner face plate */
-    .faceplate{
+    /* head silhouette (oval, not square) */
+    .bot .head{
       position:absolute;
-      inset: 56px 46px 74px 46px;
-      border-radius: 42px;
+      left:50%; top: 26px;
+      width: 240px; height: 300px;
+      transform: translateX(-50%) translateZ(26px);
+      border-radius: 140px;
       background:
-        radial-gradient(circle at 50% 35%, rgba(106,240,255,.18), transparent 60%),
-        linear-gradient(180deg, rgba(255,255,255,.08), rgba(0,0,0,.36));
-      border:1px solid rgba(106,240,255,.20);
+        radial-gradient(circle at 30% 18%, rgba(255,255,255,.10), transparent 58%),
+        linear-gradient(180deg, rgba(255,255,255,.06), rgba(0,0,0,.38));
+      border: 1px solid rgba(255,255,255,.12);
       box-shadow:
-        inset 0 0 0 1px rgba(0,170,255,.06),
-        0 16px 45px rgba(0,0,0,.25);
-      transform: translateZ(70px);
+        inset 0 0 0 1px rgba(255,255,255,.05),
+        inset 0 24px 80px rgba(0,170,255,.08);
       overflow:hidden;
     }
 
-    /* subtle circuit texture inside plate */
-    .faceplate::before{
-      content:"";
-      position:absolute; inset:0;
-      background:
-        linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
-      background-size: 26px 26px;
-      opacity:.22;
-      mask-image: radial-gradient(260px 160px at 50% 40%, rgba(0,0,0,1), transparent 75%);
-      pointer-events:none;
-      animation: plateDrift 16s linear infinite;
-    }
-    @keyframes plateDrift{
-      0%{ background-position: 0 0, 0 0; }
-      100%{ background-position: 160px 120px, 160px 120px; }
-    }
-
-    /* scanning beam */
-    .beam{
+    /* glossy visor */
+    .bot .visor{
       position:absolute;
-      left:-50px; right:-50px;
-      top:-120px;
-      height: 70px;
-      background: linear-gradient(90deg, transparent, rgba(106,240,255,.30), transparent);
-      transform: rotate(10deg);
-      opacity:0;
-      pointer-events:none;
+      left:50%; top: 44px;
+      width: 188px; height: 210px;
+      transform: translateX(-50%) translateZ(60px);
+      border-radius: 120px;
+      background:
+        radial-gradient(circle at 35% 25%, rgba(255,255,255,.18), transparent 55%),
+        radial-gradient(circle at 55% 60%, rgba(0,170,255,.14), transparent 65%),
+        linear-gradient(180deg, rgba(0,0,0,.72), rgba(0,0,0,.90));
+      border: 1px solid rgba(255,255,255,.10);
+      box-shadow:
+        0 22px 60px rgba(0,0,0,.35),
+        inset 0 0 0 1px rgba(255,255,255,.05);
+      overflow:hidden;
     }
 
-    /* PIXEL EYES */
-    .eyes{
+    /* visor shine line */
+    .bot .visor::before{
+      content:"";
+      position:absolute;
+      left:-30%; top:-30%;
+      width: 160%; height: 160%;
+      background: linear-gradient(120deg, transparent 40%, rgba(255,255,255,.10) 55%, transparent 70%);
+      transform: rotate(12deg);
+      opacity:.55;
+      animation: shine 6.2s ease-in-out infinite;
+      pointer-events:none;
+    }
+    @keyframes shine{
+      0%,100%{ transform: rotate(12deg) translateX(-6%); opacity:.35; }
+      50%{ transform: rotate(12deg) translateX(6%); opacity:.65; }
+    }
+
+    /* pixel eyes inside visor */
+    .bot .eyes{
       position:absolute;
       left:0; right:0;
-      top: 54px;
-      height: 74px;
+      top: 84px;
       display:flex;
       justify-content:space-between;
-      padding: 0 58px;
-      align-items:center;
+      padding: 0 48px;
       pointer-events:none;
     }
-
-    .pixel-eye{
-      width: 64px; height: 64px;
-      border-radius: 18px;
-      background: rgba(0,170,255,.10);
-      border:1px solid rgba(106,240,255,.18);
-      box-shadow: 0 0 26px rgba(0,170,255,.10);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      position:relative;
+    .bot .eye{
+      width: 46px; height: 46px;
+      border-radius: 14px;
+      background: rgba(0,170,255,.06);
+      border: 1px solid rgba(106,240,255,.14);
+      box-shadow: 0 0 24px rgba(0,170,255,.10);
+      display:flex; align-items:center; justify-content:center;
       overflow:hidden;
       transform-origin:center;
       animation: blink 3.6s infinite;
@@ -686,93 +736,55 @@
       94%{ transform: scaleY(.12); }
       96%{ transform: scaleY(1); }
     }
-
-    /* pixel matrix drawn via box-shadow */
-    .pixel-eye .px{
-      width: 7px; height: 7px;
+    .bot .eye .px{
+      width: 6px; height: 6px;
+      border-radius:2px;
       background: rgba(106,240,255,.95);
       box-shadow:
-        /* 5x5 pattern */
         10px 0 0 rgba(106,240,255,.95),
         20px 0 0 rgba(106,240,255,.95),
-        30px 0 0 rgba(106,240,255,.95),
 
         0 10px 0 rgba(106,240,255,.95),
         10px 10px 0 rgba(0,170,255,.20),
-        20px 10px 0 rgba(0,170,255,.20),
-        30px 10px 0 rgba(106,240,255,.95),
+        20px 10px 0 rgba(106,240,255,.95),
 
         0 20px 0 rgba(106,240,255,.95),
-        10px 20px 0 rgba(0,170,255,.20),
-        20px 20px 0 rgba(0,170,255,.20),
-        30px 20px 0 rgba(106,240,255,.95),
-
-        0 30px 0 rgba(106,240,255,.95),
-        10px 30px 0 rgba(106,240,255,.95),
-        20px 30px 0 rgba(106,240,255,.95),
-        30px 30px 0 rgba(106,240,255,.95);
-      filter: drop-shadow(0 0 12px rgba(106,240,255,.35));
-      border-radius:2px;
+        10px 20px 0 rgba(106,240,255,.95),
+        20px 20px 0 rgba(106,240,255,.95);
+      filter: drop-shadow(0 0 14px rgba(106,240,255,.35));
     }
 
-    .mouth{
+    /* scan beam (when talking) */
+    .bot .beam{
       position:absolute;
-      left: 72px; right:72px;
-      bottom: 34px;
-      height: 16px;
-      border-radius: 999px;
-      border:1px solid rgba(255,255,255,.14);
-      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(0,0,0,.22));
-      opacity:.92;
-      overflow:hidden;
-    }
-    .mouth::after{
-      content:"";
-      position:absolute; left:10px; right:10px; top:50%;
-      height:2px; transform: translateY(-50%);
-      background: linear-gradient(90deg, transparent, rgba(106,240,255,.55), transparent);
-      opacity:.6;
-    }
-
-    /* back shell */
-    .back{
-      position:absolute; inset:18px 34px 26px 34px;
-      border-radius: 999px;
-      background: rgba(0,0,0,.25);
-      border:1px solid rgba(255,255,255,.08);
-      transform: translateZ(-22px);
+      left:-60px; right:-60px;
+      top:-140px;
+      height: 70px;
+      background: linear-gradient(90deg, transparent, rgba(106,240,255,.24), transparent);
+      transform: rotate(10deg);
+      opacity:0;
+      pointer-events:none;
     }
 
     /* talking reaction */
-    .bot.talking .pixel-eye{
-      box-shadow: 0 0 34px rgba(0,170,255,.22);
-      border-color: rgba(106,240,255,.30);
-      background: rgba(0,170,255,.14);
+    .bot.talking .eye{
+      border-color: rgba(106,240,255,.32);
+      box-shadow: 0 0 34px rgba(0,170,255,.18);
+      background: rgba(0,170,255,.10);
     }
-    .bot.talking .pixel-eye .px{
+    .bot.talking .eye .px{
       filter: drop-shadow(0 0 18px rgba(106,240,255,.55));
     }
     .bot.talking .beam{
       opacity:1;
       animation: beamScan 1.7s ease-in-out infinite;
     }
-    .bot.talking .mouth{
-      box-shadow: 0 0 18px rgba(0,170,255,.14);
-    }
-    .bot.talking .mouth::after{
-      opacity: 1;
-      animation: mouthPulse 900ms ease-in-out infinite;
-    }
-    @keyframes mouthPulse{
-      0%,100%{ transform: translateY(-50%) scaleX(.85); opacity:.45; }
-      50%{ transform: translateY(-50%) scaleX(1.05); opacity:.9; }
-    }
     @keyframes beamScan{
-      0%{ top:-130px; opacity:0; }
+      0%{ top:-160px; opacity:0; }
       20%{ opacity:1; }
-      55%{ top:160px; opacity:1; }
-      80%{ top:240px; opacity:.35; }
-      100%{ top:300px; opacity:0; }
+      55%{ top:170px; opacity:1; }
+      80%{ top:260px; opacity:.35; }
+      100%{ top:330px; opacity:0; }
     }
 
     /* Responsive */
@@ -782,18 +794,19 @@
       .join{ grid-template-columns:1fr; }
       .row{ grid-template-columns:1fr; }
       h1{ font-size:38px; }
+
       .intro-card{ grid-template-columns:1fr; min-height:auto; }
       .intro-left{ border-right:none; border-bottom:1px solid rgba(255,255,255,.10); }
       .intro-actions{ justify-content:flex-start; }
-      .bot{ width:300px; height:320px; }
+
+      .bot{ width:300px; height:340px; }
       .ring{ width:360px; height:360px; }
       .halo{ width:380px; height:380px; }
-      .head{ inset:16px 28px 22px 28px; }
-      .back{ inset:16px 28px 22px 28px; }
-      .faceplate{ inset: 48px 38px 62px 38px; }
-      .eyes{ padding: 0 44px; }
-      .pixel-eye{ width:56px; height:56px; }
-      .mouth{ left:62px; right:62px; bottom:30px; }
+      .bot .head{ width: 210px; height: 265px; top: 22px; }
+      .bot .visor{ width: 168px; height: 188px; top: 40px; }
+      .bot .eyes{ top: 74px; padding: 0 40px; }
+      .bot .eye{ width: 42px; height: 42px; }
+      .bot .neck{ width: 190px; height: 120px; }
     }
   </style>
 </head>
@@ -822,26 +835,18 @@
           <div class="halo"></div>
           <div class="ring"></div>
 
-          <!-- NEW ROUND HUMANOID FACE -->
+          <!-- HUMANOID ROBOT -->
           <div class="bot" id="bot" aria-hidden="true">
-            <div class="back"></div>
-
             <div class="head">
-              <div class="faceplate">
+              <div class="visor">
                 <div class="beam"></div>
-
                 <div class="eyes">
-                  <div class="pixel-eye">
-                    <div class="px"></div>
-                  </div>
-                  <div class="pixel-eye">
-                    <div class="px"></div>
-                  </div>
+                  <div class="eye"><div class="px"></div></div>
+                  <div class="eye"><div class="px"></div></div>
                 </div>
-
-                <div class="mouth"></div>
               </div>
             </div>
+            <div class="neck"></div>
           </div>
         </div>
 
@@ -864,9 +869,11 @@
 
           <div class="chat" id="chat"></div>
 
-          <label class="toggle">
+          <!-- animated checkbox -->
+          <label class="chk" id="dontShowWrap">
             <input type="checkbox" id="dontShow" />
-            <span id="dontShowText">Больше не показывать это интро</span>
+            <span class="box"></span>
+            <span class="lbl" id="dontShowText">Больше не показывать это интро</span>
           </label>
         </div>
 
@@ -1078,9 +1085,11 @@
               <textarea id="about" placeholder="2-5 предложений"></textarea>
             </label>
 
-            <label class="check">
+            <!-- animated checkbox -->
+            <label class="chk" id="testWrap">
               <input type="checkbox" id="test" />
-              <span data-i18n="f_test_label">Готов(а) сделать тестовое задание</span>
+              <span class="box"></span>
+              <span class="lbl" data-i18n="f_test_label">Готов(а) сделать тестовое задание</span>
             </label>
 
             <div class="btn-row">
@@ -1490,15 +1499,22 @@
       return s;
     }
 
+    // ✅ FIX: отправляем ВСЮ структуру заявки (как в твоём PRO контексте)
     async function send() {
       const name = document.getElementById("name").value.trim();
       const tg = normalizeTg(document.getElementById("tg").value);
       const role = document.getElementById("role").value;
 
+      const exp = document.getElementById("exp").value || "";
+      const portfolio = (document.getElementById("portfolio").value || "").trim();
+      const time = (document.getElementById("time").value || "").trim();
+      const about = (document.getElementById("about").value || "").trim();
+      const test = document.getElementById("test").checked;
+
       if (!name || !tg || !role) { setStatus(i18n[currentLang].msg_fill, "bad"); return; }
       if (!/^@[A-Za-z0-9_]{3,32}$/.test(tg)) { setStatus(i18n[currentLang].msg_tg, "bad"); return; }
 
-      const data = { name, tg, role };
+      const data = { name, tg, role, exp, portfolio, time, about, test };
 
       sendBtn.disabled = true;
       sendBtn.style.opacity = ".7";
@@ -1510,15 +1526,30 @@
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(data)
         });
-        if (!res.ok) throw new Error("bad_response");
+
+        // Если воркер отдаёт текст ошибки — покажем
+        if (!res.ok) {
+          let txt = "";
+          try { txt = await res.text(); } catch(e){}
+          throw new Error(txt || "bad_response");
+        }
 
         setStatus(i18n[currentLang].msg_ok, "ok");
+
+        // clear
         document.getElementById("name").value = "";
         document.getElementById("tg").value = "";
         document.getElementById("role").selectedIndex = 0;
+        document.getElementById("exp").selectedIndex = 0;
+        document.getElementById("portfolio").value = "";
+        document.getElementById("time").value = "";
+        document.getElementById("about").value = "";
+        document.getElementById("test").checked = false;
 
       } catch (e) {
         setStatus(i18n[currentLang].msg_bad, "bad");
+        // console helpful
+        console.error("Send error:", e);
       } finally {
         sendBtn.disabled = false;
         sendBtn.style.opacity = "1";
@@ -1642,7 +1673,7 @@
       introDone = true;
     }
 
-    // mouse parallax
+    // parallax
     function bind3D(){
       const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
       stage.addEventListener("mousemove", (e) => {
@@ -1661,7 +1692,6 @@
     }
     bind3D();
 
-    // Skip: 1-й клик = показать весь текст, 2-й клик = закрыть
     skipBtn.addEventListener("click", () => {
       if (!introDone) fillAllChatInstant();
       else hideIntro();
@@ -1672,6 +1702,21 @@
     window.addEventListener("keydown", (e) => {
       if (e.key === "Escape" && intro.style.display === "flex") hideIntro();
     });
+
+    // ======== Checkbox pop animation helper ========
+    function bindChkPop(wrapperId, inputId){
+      const wrap = document.getElementById(wrapperId);
+      const inp = document.getElementById(inputId);
+      if (!wrap || !inp) return;
+      inp.addEventListener("change", () => {
+        wrap.classList.remove("pop");
+        // force reflow
+        void wrap.offsetWidth;
+        wrap.classList.add("pop");
+      });
+    }
+    bindChkPop("testWrap", "test");
+    bindChkPop("dontShowWrap", "dontShow");
 
     // ======== TECH BACKGROUND CANVAS (dots + links) ========
     (function techFx(){
@@ -1712,14 +1757,12 @@
       function step(){
         ctx.clearRect(0,0,w,h);
 
-        // slight vignette to integrate
         const vg = ctx.createRadialGradient(w*0.5, h*0.2, 0, w*0.5, h*0.5, Math.max(w,h)*0.7);
         vg.addColorStop(0, "rgba(0,170,255,0.05)");
         vg.addColorStop(1, "rgba(0,0,0,0)");
         ctx.fillStyle = vg;
         ctx.fillRect(0,0,w,h);
 
-        // move points
         for(const p of pts){
           p.x += p.vx;
           p.y += p.vy;
@@ -1729,7 +1772,6 @@
           if(p.y > h + 40*dpr) p.y = -40*dpr;
         }
 
-        // links
         for(let i=0;i<pts.length;i++){
           for(let j=i+1;j<pts.length;j++){
             const a = pts[i], b = pts[j];
@@ -1747,14 +1789,12 @@
           }
         }
 
-        // dots
         for(const p of pts){
           ctx.fillStyle = `rgba(106,240,255,${p.a})`;
           ctx.beginPath();
           ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
           ctx.fill();
 
-          // tiny glow
           ctx.fillStyle = `rgba(0,170,255,${p.a*0.20})`;
           ctx.beginPath();
           ctx.arc(p.x, p.y, p.r*3.2, 0, Math.PI*2);
@@ -1766,12 +1806,8 @@
 
       resize();
       init();
-      if(prefersReduce){
-        // draw once
-        step();
-      } else {
-        requestAnimationFrame(step);
-      }
+      if(prefersReduce){ step(); }
+      else { requestAnimationFrame(step); }
       window.addEventListener("resize", () => { resize(); init(); });
     })();
 
