@@ -7,6 +7,7 @@
   <style>
     :root{
       --bg:#050813;
+      --card: rgba(255,255,255,.06);
       --border: rgba(255,255,255,.12);
       --text:#EAF0FF;
       --muted:#98A6C7;
@@ -16,7 +17,9 @@
       --bad:#ff4d6d;
       --shadow: 0 18px 55px rgba(0,0,0,.45);
       --radius: 18px;
+      --toastBg: rgba(7,10,18,.70);
     }
+
     *{ box-sizing:border-box; }
     html{ scroll-behavior:smooth; }
     body{
@@ -26,15 +29,17 @@
       background: var(--bg);
       overflow-x:hidden;
     }
+    a{ color:inherit; text-decoration:none; }
+    .wrap{ max-width:1100px; margin:0 auto; padding:0 18px; }
 
     /* ===================== FAIL-SAFE ERROR BAR ===================== */
     .errbar{
       position:fixed; left:12px; right:12px; top:12px;
-      z-index:3000;
+      z-index:5000;
       display:none;
       border:1px solid rgba(255,77,109,.45);
-      background: rgba(10,10,16,.75);
-      backdrop-filter: blur(10px);
+      background: rgba(10,10,16,.78);
+      backdrop-filter: blur(12px);
       border-radius: 16px;
       padding: 10px 12px;
       box-shadow: 0 18px 50px rgba(0,0,0,.45);
@@ -48,59 +53,59 @@
       opacity:.95;
     }
 
-    /* ===================== BACKGROUND ===================== */
+    /* ===================== BACKGROUND (stronger, futuristic) ===================== */
     .bg{
       position:fixed; inset:0; z-index:-10;
       background:
-        radial-gradient(1200px 800px at 18% -8%, rgba(0,170,255,.32), transparent 62%),
-        radial-gradient(980px 680px at 88% 12%, rgba(106,240,255,.20), transparent 62%),
-        radial-gradient(1200px 900px at 60% 92%, rgba(0,170,255,.16), transparent 66%),
+        radial-gradient(1200px 800px at 18% -8%, rgba(0,170,255,.34), transparent 62%),
+        radial-gradient(980px 680px at 88% 12%, rgba(106,240,255,.22), transparent 62%),
+        radial-gradient(1200px 900px at 60% 92%, rgba(0,170,255,.18), transparent 66%),
         radial-gradient(900px 700px at 36% 62%, rgba(255,77,109,.10), transparent 62%),
         linear-gradient(180deg, #040614 0%, #070A12 45%, #040614 100%);
       pointer-events:none;
     }
     .aurora{
-      position:fixed; inset:-120px; z-index:-9; pointer-events:none;
+      position:fixed; inset:-140px; z-index:-9; pointer-events:none;
       background:
-        radial-gradient(900px 520px at 22% 32%, rgba(106,240,255,.18), transparent 70%),
-        radial-gradient(980px 560px at 76% 24%, rgba(0,170,255,.16), transparent 72%),
-        radial-gradient(1100px 700px at 56% 78%, rgba(0,170,255,.12), transparent 74%),
-        radial-gradient(980px 560px at 35% 88%, rgba(255,77,109,.08), transparent 76%);
-      filter: blur(26px) saturate(1.25);
-      opacity:.95;
+        radial-gradient(900px 520px at 22% 32%, rgba(106,240,255,.20), transparent 70%),
+        radial-gradient(980px 560px at 76% 24%, rgba(0,170,255,.18), transparent 72%),
+        radial-gradient(1100px 700px at 56% 78%, rgba(0,170,255,.14), transparent 74%),
+        radial-gradient(980px 560px at 35% 88%, rgba(255,77,109,.09), transparent 76%);
+      filter: blur(28px) saturate(1.35);
+      opacity:.92;
       animation: auroraMove 14s ease-in-out infinite;
       transform: translate3d(0,0,0);
       mix-blend-mode: screen;
     }
     @keyframes auroraMove{
-      0%,100%{ transform: translate3d(-2%, -1%, 0) scale(1.06); opacity:.80; }
-      50%{ transform: translate3d(2%, 1%, 0) scale(1.12); opacity:1; }
+      0%,100%{ transform: translate3d(-2%, -1%, 0) scale(1.08); opacity:.78; }
+      50%{ transform: translate3d(2%, 1%, 0) scale(1.14); opacity:1; }
     }
     .fog{
-      position:fixed; inset:-160px; z-index:-8; pointer-events:none;
+      position:fixed; inset:-180px; z-index:-8; pointer-events:none;
       background:
-        radial-gradient(700px 520px at 12% 52%, rgba(0,170,255,.12), transparent 70%),
-        radial-gradient(820px 600px at 88% 54%, rgba(106,240,255,.10), transparent 72%),
-        radial-gradient(900px 680px at 50% 10%, rgba(255,255,255,.04), transparent 70%),
-        radial-gradient(1000px 760px at 50% 96%, rgba(0,0,0,.22), transparent 72%);
-      filter: blur(34px) saturate(1.1);
-      opacity:.85;
+        radial-gradient(760px 580px at 10% 52%, rgba(0,170,255,.12), transparent 70%),
+        radial-gradient(920px 700px at 92% 56%, rgba(106,240,255,.11), transparent 72%),
+        radial-gradient(980px 720px at 52% 12%, rgba(255,255,255,.04), transparent 72%),
+        radial-gradient(1100px 820px at 50% 96%, rgba(0,0,0,.22), transparent 72%);
+      filter: blur(38px) saturate(1.15);
+      opacity:.78;
       animation: fogMove 18s ease-in-out infinite;
       transform: translate3d(0,0,0);
     }
     @keyframes fogMove{
-      0%,100%{ transform: translate3d(0%, 0%, 0) scale(1.02); opacity:.72; }
-      50%{ transform: translate3d(1.5%, -1.2%, 0) scale(1.06); opacity:.95; }
+      0%,100%{ transform: translate3d(0%, 0%, 0) scale(1.02); opacity:.68; }
+      50%{ transform: translate3d(1.5%, -1.2%, 0) scale(1.08); opacity:.92; }
     }
     .streams{
       position:fixed; inset:0; z-index:-7; pointer-events:none;
       background:
-        linear-gradient(110deg, transparent 0 40%, rgba(106,240,255,.07) 50%, transparent 60% 100%),
-        linear-gradient(120deg, transparent 0 46%, rgba(0,170,255,.06) 55%, transparent 64% 100%),
-        linear-gradient(100deg, transparent 0 42%, rgba(255,255,255,.03) 52%, transparent 62% 100%);
+        linear-gradient(110deg, transparent 0 42%, rgba(106,240,255,.075) 50%, transparent 58% 100%),
+        linear-gradient(120deg, transparent 0 46%, rgba(0,170,255,.065) 55%, transparent 64% 100%),
+        linear-gradient(100deg, transparent 0 44%, rgba(255,255,255,.03) 52%, transparent 62% 100%);
       background-size: 180% 180%, 220% 220%, 200% 200%;
       mix-blend-mode: screen;
-      opacity:.55;
+      opacity:.52;
       animation: streams 18s linear infinite;
     }
     @keyframes streams{
@@ -114,17 +119,14 @@
       opacity:.98;
     }
     .noise{
-      position:fixed; inset:0; z-index:-5; opacity:.07; pointer-events:none;
+      position:fixed; inset:0; z-index:-5; opacity:.06; pointer-events:none;
       background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E");
     }
     @media (prefers-reduced-motion: reduce){
       .aurora, .fog, .streams{ animation:none !important; }
     }
 
-    a{ color:inherit; text-decoration:none; }
-    .wrap{ max-width:1100px; margin:0 auto; padding:0 18px; }
-
-    /* ===================== ICON RING GLOW (clockwise) ===================== */
+    /* ===================== ICON BORDER “CLOCKWISE LIGHT” ===================== */
     .glow-border{ position:relative; isolation:isolate; }
     .glow-border::before{
       content:"";
@@ -153,13 +155,13 @@
       padding:2px;
       background: conic-gradient(
         from 0deg,
-        transparent 0 70%,
-        rgba(106,240,255,0) 70%,
-        rgba(106,240,255,.95) 78%,
-        rgba(0,170,255,.80) 82%,
-        rgba(106,240,255,.25) 86%,
-        rgba(106,240,255,0) 92%,
-        transparent 92% 100%
+        transparent 0 72%,
+        rgba(106,240,255,0) 72%,
+        rgba(106,240,255,.95) 80%,
+        rgba(0,170,255,.85) 84%,
+        rgba(106,240,255,.25) 88%,
+        rgba(106,240,255,0) 94%,
+        transparent 94% 100%
       );
       -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
       -webkit-mask-composite: xor;
@@ -267,29 +269,18 @@
       align-items:stretch;
     }
     .hero-left{ padding:30px 18px; }
-    h1{
-      margin:0 0 12px;
-      font-size:44px; line-height:1.05;
-      letter-spacing:-.5px;
-    }
-    .subtitle{
-      margin:0 0 20px;
-      color:var(--muted);
-      max-width:720px;
-      font-size:16px;
-      line-height:1.65;
-    }
+    h1{ margin:0 0 12px; font-size:44px; line-height:1.05; letter-spacing:-.5px; }
+    .subtitle{ margin:0 0 20px; color:var(--muted); max-width:720px; font-size:16px; line-height:1.65; }
     .hero-actions{ display:flex; gap:12px; flex-wrap:wrap; }
     .badge-row{ margin-top:16px; display:flex; gap:10px; flex-wrap:wrap; }
     .badge{
-      font-size:12px;
-      color:var(--muted);
+      font-size:12px; color:var(--muted);
       border:1px solid rgba(255,255,255,.10);
       background: rgba(255,255,255,.03);
-      padding:6px 10px;
-      border-radius:999px;
+      padding:6px 10px; border-radius:999px;
     }
 
+    /* PANEL */
     .panel{
       background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.02));
       border:1px solid var(--border);
@@ -324,10 +315,11 @@
     }
     .mini-ico span{ font-size:14px; }
     .mini-ico.glow-border:hover{ filter: saturate(1.25) brightness(1.08); transform: translateY(-1px); }
+
     .mini-text b{ display:block; font-size:13px; margin-bottom:2px; }
     .mini-text p{ margin:0; color:var(--muted); font-size:12px; line-height:1.45; }
 
-    /* sections */
+    /* SECTIONS */
     .section{ padding:38px 0; }
     .section h2{ margin:0 0 14px; font-size:22px; letter-spacing:.2px; }
     .grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap:14px; }
@@ -350,13 +342,71 @@
       background: rgba(255,255,255,.03);
     }
 
+    /* JOIN */
     .join{ display:grid; gap:14px; grid-template-columns: 1fr 1fr; align-items:stretch; }
     .join-left{ padding:18px; }
     .join-left p{ color:var(--muted); margin:0 0 10px; line-height:1.65; }
     .join-right{ padding:18px; }
+
     .btn-row{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:flex-start; }
 
-    /* ===================== INTRO ===================== */
+    /* ===================== FAQ (nice accordion) ===================== */
+    .faq-list{ display:grid; gap:12px; }
+    .faq-item{
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.03);
+      border-radius: var(--radius);
+      overflow:hidden;
+      transition: border-color .15s ease, background .15s ease;
+    }
+    .faq-item:hover{ border-color: rgba(0,170,255,.25); background: rgba(0,170,255,.04); }
+    .faq-q{
+      width:100%;
+      text-align:left;
+      cursor:pointer;
+      padding:14px 14px;
+      font-weight:900;
+      color:var(--text);
+      background: transparent;
+      border:none;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+    .faq-q .chev{
+      width:28px; height:28px;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.14);
+      display:flex; align-items:center; justify-content:center;
+      transition: transform .18s ease, border-color .18s ease;
+      flex: 0 0 auto;
+    }
+    .faq-a{
+      max-height:0;
+      overflow:hidden;
+      transition: max-height .25s ease;
+      border-top:1px solid rgba(255,255,255,.10);
+    }
+    .faq-a .inner{
+      padding:12px 14px 14px;
+      color:var(--muted);
+      line-height:1.65;
+      font-size:14px;
+    }
+    .faq-item.open .faq-q .chev{ transform: rotate(180deg); border-color: rgba(0,170,255,.35); }
+
+    /* ===================== FOOTER ===================== */
+    .footer{
+      padding:26px 0 36px;
+      border-top:1px solid var(--border);
+      color:var(--muted);
+      font-size:13px;
+    }
+    .footer-inner{ display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+
+    /* ===================== INTRO OVERLAY ===================== */
     .intro{
       position:fixed; inset:0; z-index:999;
       display:none;
@@ -370,6 +420,12 @@
         radial-gradient(820px 520px at 45% 55%, rgba(106,240,255,.08), transparent 60%),
         radial-gradient(1100px 900px at 50% 50%, rgba(0,0,0,.45), rgba(0,0,0,.74));
       backdrop-filter: blur(18px) saturate(1.2);
+    }
+    .intro-vignette{
+      position:absolute; inset:-2px;
+      pointer-events:none;
+      background: radial-gradient(circle at 50% 45%, transparent 0 52%, rgba(0,0,0,.55) 78%, rgba(0,0,0,.80) 100%);
+      opacity:.9;
     }
     .intro-card{
       position:relative;
@@ -421,10 +477,31 @@
       white-space: pre-wrap;
       min-height: 18px;
     }
-
+    .typing-caret{
+      display:inline-block;
+      width:10px;
+      margin-left:2px;
+      opacity:.9;
+      animation: caret 1s steps(2) infinite;
+    }
+    @keyframes caret{
+      0%,49%{ opacity:1; }
+      50%,100%{ opacity:0; }
+    }
+    .toggle{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      margin-top:10px;
+      user-select:none;
+      cursor:pointer;
+      color:var(--muted);
+      font-size:13px;
+    }
+    .toggle input{ width:18px; height:18px; }
     .intro-actions{ display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end; }
 
-    /* ===================== ROBOT ===================== */
+    /* ===================== ROBOT (humanoid / rounded) + AI pulse ===================== */
     .stage{
       height:100%;
       display:flex;
@@ -469,7 +546,7 @@
     @keyframes spin{ from{ transform: rotate(0);} to{ transform: rotate(360deg);} }
 
     .bot{
-      width: 360px; height: 400px;
+      width: 360px; height: 410px;
       position:relative;
       transform-style: preserve-3d;
       animation: float 3.8s ease-in-out infinite;
@@ -482,24 +559,24 @@
     .bot .neck{
       position:absolute;
       left:50%; bottom: 12px;
-      width: 210px; height: 140px;
+      width: 220px; height: 150px;
       transform: translateX(-50%) translateZ(10px);
-      border-radius: 60px 60px 80px 80px;
+      border-radius: 70px 70px 90px 90px;
       background:
         radial-gradient(circle at 30% 30%, rgba(255,255,255,.08), transparent 55%),
         linear-gradient(180deg, rgba(255,255,255,.05), rgba(0,0,0,.34));
       border: 1px solid rgba(255,255,255,.10);
-      opacity:.7;
+      opacity:.72;
     }
     .bot .head{
       position:absolute;
       left:50%; top: 26px;
-      width: 240px; height: 300px;
+      width: 250px; height: 310px;
       transform: translateX(-50%) translateZ(26px);
-      border-radius: 140px;
+      border-radius: 160px;
       background:
         radial-gradient(circle at 30% 18%, rgba(255,255,255,.08), transparent 58%),
-        linear-gradient(180deg, rgba(255,255,255,.05), rgba(0,0,0,.44));
+        linear-gradient(180deg, rgba(255,255,255,.05), rgba(0,0,0,.46));
       border: 1px solid rgba(255,255,255,.12);
       box-shadow:
         inset 0 0 0 1px rgba(255,255,255,.05),
@@ -508,26 +585,46 @@
     }
     .bot .visor{
       position:absolute;
-      left:50%; top: 44px;
-      width: 188px; height: 210px;
+      left:50%; top: 42px;
+      width: 196px; height: 220px;
       transform: translateX(-50%) translateZ(60px);
-      border-radius: 120px;
+      border-radius: 140px;
       background:
         radial-gradient(circle at 35% 25%, rgba(255,255,255,.16), transparent 55%),
         radial-gradient(circle at 55% 60%, rgba(0,170,255,.12), transparent 65%),
-        linear-gradient(180deg, rgba(0,0,0,.74), rgba(0,0,0,.92));
+        linear-gradient(180deg, rgba(0,0,0,.72), rgba(0,0,0,.92));
       border: 1px solid rgba(255,255,255,.10);
       box-shadow:
         0 22px 60px rgba(0,0,0,.35),
         inset 0 0 0 1px rgba(255,255,255,.05);
       overflow:hidden;
     }
+    .bot .visor::before{
+      content:"";
+      position:absolute; inset: -30px -40px auto auto;
+      width:220px; height:220px;
+      border-radius:50%;
+      background: radial-gradient(circle at 40% 40%, rgba(106,240,255,.22), transparent 60%);
+      filter: blur(2px);
+      opacity:.55;
+      pointer-events:none;
+    }
+    .scan{
+      position:absolute;
+      left:-60px; right:-60px;
+      top:-70px;
+      height: 52px;
+      background: linear-gradient(90deg, transparent, rgba(106,240,255,.28), transparent);
+      transform: rotate(10deg);
+      opacity:0;
+      pointer-events:none;
+    }
     .bot .eyes{
       position:absolute; left:0; right:0;
-      top: 84px;
+      top: 92px;
       display:flex;
       justify-content:space-between;
-      padding: 0 48px;
+      padding: 0 52px;
       pointer-events:none;
     }
     .bot .eye{
@@ -553,36 +650,289 @@
         10px 20px 0 rgba(106,240,255,.95),
         20px 20px 0 rgba(106,240,255,.95);
       filter: drop-shadow(0 0 14px rgba(106,240,255,.35));
+      transform-origin:center;
+      animation: blink 3.8s infinite;
+    }
+    @keyframes blink{
+      0%,92%,100%{ transform: scaleY(1); }
+      94%{ transform: scaleY(.15); }
+      96%{ transform: scaleY(1); }
     }
 
-    /* ===================== FOOTER ===================== */
-    .footer{
-      padding:26px 0 36px;
-      border-top:1px solid var(--border);
-      color:var(--muted);
+    /* AI pulse */
+    .bot.talking .scan{ opacity:1; animation: scan 1.9s ease-in-out infinite; }
+    @keyframes scan{
+      0%{ top:-80px; opacity:0; }
+      18%{ opacity:1; }
+      55%{ top:160px; opacity:1; }
+      82%{ opacity:.35; }
+      100%{ top:260px; opacity:0; }
+    }
+    .bot .pulse{
+      position:absolute;
+      inset:-8px;
+      border-radius: 160px;
+      pointer-events:none;
+      opacity:0;
+      background: radial-gradient(circle at 50% 50%, rgba(106,240,255,.0) 0 35%, rgba(106,240,255,.08) 55%, rgba(0,170,255,.0) 78%);
+      filter: blur(1px);
+      transition: opacity .2s ease;
+    }
+    .bot.talking .pulse{
+      opacity:1;
+      animation: breathe 1.25s ease-in-out infinite;
+    }
+    @keyframes breathe{
+      0%,100%{ transform: scale(1); filter: blur(1px); }
+      50%{ transform: scale(1.03); filter: blur(1.4px); }
+    }
+
+    /* ===================== TOASTS ===================== */
+    .toasts{
+      position:fixed;
+      right:14px;
+      top:72px;
+      z-index:4000;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      pointer-events:none;
+    }
+    .toast{
+      pointer-events:auto;
+      min-width: 260px;
+      max-width: 360px;
+      padding: 10px 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: var(--toastBg);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 18px 50px rgba(0,0,0,.40);
+      display:flex;
+      align-items:flex-start;
+      gap:10px;
+      transform: translateY(-6px);
+      opacity:0;
+      animation: toastIn .22s ease forwards;
+    }
+    @keyframes toastIn{
+      to { transform: translateY(0); opacity:1; }
+    }
+    .toast .ico{
+      width:28px; height:28px; border-radius:10px;
+      display:flex; align-items:center; justify-content:center;
+      background: rgba(0,0,0,.18);
+      border:1px solid rgba(255,255,255,.10);
+      flex: 0 0 auto;
+    }
+    .toast .txt b{ display:block; font-size:13px; margin-bottom:2px; }
+    .toast .txt p{ margin:0; font-size:13px; color:var(--muted); line-height:1.45; }
+    .toast.ok{ border-color: rgba(45,212,191,.35); }
+    .toast.ok .ico{ border-color: rgba(45,212,191,.30); }
+    .toast.bad{ border-color: rgba(255,77,109,.35); }
+    .toast.bad .ico{ border-color: rgba(255,77,109,.30); }
+    .toast.info{ border-color: rgba(0,170,255,.30); }
+    .toast.info .ico{ border-color: rgba(0,170,255,.28); }
+    .toast .x{
+      margin-left:auto;
+      width:28px; height:28px;
+      border-radius:10px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.14);
+      color: var(--text);
+      cursor:pointer;
+      display:flex; align-items:center; justify-content:center;
+    }
+
+    /* ===================== APPLICATION MODAL ===================== */
+    .modal{
+      position:fixed; inset:0; z-index:1200;
+      display:none;
+      align-items:center; justify-content:center;
+      padding:22px;
+    }
+    .modal-backdrop{
+      position:absolute; inset:0;
+      background: rgba(0,0,0,.55);
+      backdrop-filter: blur(14px);
+    }
+    .modal-card{
+      position:relative;
+      width:min(980px, 100%);
+      border-radius: 22px;
+      border:1px solid rgba(255,255,255,.14);
+      background:
+        radial-gradient(700px 400px at 15% 20%, rgba(0,170,255,.12), transparent 60%),
+        radial-gradient(600px 420px at 85% 10%, rgba(106,240,255,.08), transparent 55%),
+        linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
+      box-shadow: 0 30px 90px rgba(0,0,0,.62);
+      overflow:hidden;
+      z-index:2;
+    }
+    .modal-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:14px 14px 10px;
+      border-bottom:1px solid rgba(255,255,255,.10);
+    }
+    .modal-title{
+      font-weight:900;
+      font-size:14px;
+      letter-spacing:.2px;
+    }
+    .modal-actions{ display:flex; align-items:center; gap:10px; }
+    .sound-toggle{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 10px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.14);
+      color: var(--muted);
       font-size:13px;
+      cursor:pointer;
+      user-select:none;
     }
-    .footer-inner{ display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+    .sound-dot{
+      width:10px; height:10px; border-radius:99px;
+      background: rgba(255,255,255,.18);
+      box-shadow: 0 0 14px rgba(0,170,255,.0);
+      transition: .15s;
+    }
+    .sound-toggle.on .sound-dot{
+      background: linear-gradient(180deg, var(--acc2), var(--acc));
+      box-shadow: 0 0 18px rgba(0,170,255,.45);
+    }
+    .iconbtn{
+      width:34px; height:34px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.14);
+      color: var(--text);
+      cursor:pointer;
+      display:flex; align-items:center; justify-content:center;
+    }
+    .modal-body{ padding:14px; }
+    form{ display:grid; gap:12px; }
+    .row{ display:grid; grid-template-columns: 1fr 1fr; gap:12px; }
+    label{
+      display:flex; flex-direction:column; gap:7px;
+      font-size:13px; color:var(--muted); text-align:left;
+    }
+    input, select, textarea{
+      padding:12px 12px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.18);
+      color: var(--text);
+      outline:none;
+      font-size:14px;
+    }
+    input:focus, select:focus, textarea:focus{
+      border-color: rgba(0,170,255,.65);
+      box-shadow: 0 0 0 3px rgba(0,170,255,.10);
+    }
+    textarea{ resize: vertical; min-height: 92px; }
 
+    /* live validation */
+    .field-ok{ border-color: rgba(45,212,191,.50) !important; box-shadow: 0 0 0 3px rgba(45,212,191,.10) !important; }
+    .field-bad{ border-color: rgba(255,77,109,.55) !important; box-shadow: 0 0 0 3px rgba(255,77,109,.10) !important; }
+
+    /* checkbox animation */
+    .check{
+      display:flex; align-items:center; gap:12px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+      padding:12px;
+      border-radius:14px;
+      color:var(--text);
+      font-size:14px;
+      cursor:pointer;
+      user-select:none;
+      position:relative;
+      overflow:hidden;
+    }
+    .check::after{
+      content:"";
+      position:absolute;
+      inset:-40px;
+      background: radial-gradient(circle at var(--mx,50%) var(--my,50%), rgba(0,170,255,.18), transparent 45%);
+      opacity:0;
+      transition: opacity .22s ease;
+      pointer-events:none;
+    }
+    .check:hover::after{ opacity:1; }
+
+    .chk{
+      width:22px; height:22px;
+      border-radius:8px;
+      border:1px solid rgba(255,255,255,.18);
+      background: rgba(0,0,0,.16);
+      display:flex; align-items:center; justify-content:center;
+      position:relative;
+      flex: 0 0 auto;
+      box-shadow: inset 0 0 0 1px rgba(0,170,255,.06);
+      transition: transform .12s ease, border-color .12s ease;
+    }
+    .chk svg{
+      width:16px; height:16px;
+      opacity:0;
+      transform: scale(.6);
+      transition: .15s ease;
+      filter: drop-shadow(0 0 10px rgba(106,240,255,.35));
+    }
+    .check input{ position:absolute; opacity:0; pointer-events:none; }
+    .check input:checked + .chk{
+      border-color: rgba(0,170,255,.55);
+      background: linear-gradient(180deg, rgba(0,170,255,.18), rgba(0,0,0,.20));
+      transform: scale(1.02);
+      box-shadow: 0 0 0 3px rgba(0,170,255,.10);
+    }
+    .check input:checked + .chk svg{
+      opacity:1;
+      transform: scale(1);
+    }
+    .check input:checked ~ .check-text{
+      text-shadow: 0 0 22px rgba(0,170,255,.16);
+    }
+    .modal-foot{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:flex-start;
+      padding:12px 14px 14px;
+      border-top:1px solid rgba(255,255,255,.10);
+    }
+
+    /* ===================== Responsive ===================== */
     @media (max-width: 900px){
       .hero-grid{ grid-template-columns:1fr; }
       .grid{ grid-template-columns:1fr; }
       .join{ grid-template-columns:1fr; }
+      .row{ grid-template-columns:1fr; }
       h1{ font-size:38px; }
       .intro-card{ grid-template-columns:1fr; min-height:auto; }
       .intro-left{ border-right:none; border-bottom:1px solid rgba(255,255,255,.10); }
       .intro-actions{ justify-content:flex-start; }
+      .bot{ width:300px; height:360px; }
+      .ring{ width:360px; height:360px; }
+      .halo{ width:380px; height:380px; }
     }
   </style>
 </head>
 
 <body>
-  <!-- If something breaks: you'll see it -->
+  <!-- JS errors visible -->
   <div class="errbar" id="errbar">
-    <b>JS ERROR (скопируй этот текст и пришли мне):</b>
+    <b>JS ERROR (скопируй и пришли мне):</b>
     <code id="errtxt"></code>
   </div>
 
+  <!-- Background -->
   <div class="bg"></div>
   <div class="aurora"></div>
   <div class="fog"></div>
@@ -590,10 +940,15 @@
   <canvas id="fx"></canvas>
   <div class="noise"></div>
 
+  <!-- Toasts -->
+  <div class="toasts" id="toasts" aria-live="polite" aria-atomic="true"></div>
+
   <!-- INTRO -->
-  <div class="intro" id="intro">
+  <div class="intro" id="intro" aria-hidden="true">
     <div class="intro-backdrop"></div>
-    <div class="intro-card" role="dialog" aria-modal="true">
+    <div class="intro-vignette"></div>
+
+    <div class="intro-card" role="dialog" aria-modal="true" aria-label="NeroviX intro">
       <div class="intro-left">
         <div class="brand">
           <div class="dot glow-border" style="border-radius:999px;"></div>
@@ -606,7 +961,9 @@
 
           <div class="bot" id="bot" aria-hidden="true">
             <div class="head">
+              <div class="pulse"></div>
               <div class="visor">
+                <div class="scan"></div>
                 <div class="eyes">
                   <div class="eye"><div class="px"></div></div>
                   <div class="eye"><div class="px"></div></div>
@@ -620,7 +977,7 @@
         <div style="margin-top:10px; display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
           <div class="lang" style="margin-left:0;">
             <span id="langLabel">Язык</span>
-            <select id="langSelectIntro" aria-label="Language">
+            <select id="langSelectIntro" aria-label="Language intro">
               <option value="ru">RU</option>
               <option value="uk">UA</option>
               <option value="en">EN</option>
@@ -634,28 +991,101 @@
           <h2 class="intro-title" id="introTitle">Привет. Я NeroviX AI Assistant</h2>
           <p class="intro-sub" id="introSub">Коротко покажу, что это за сайт и кто мы.</p>
 
-          <div class="chat" id="chat">
-            <div class="bubble ai">
-              <strong id="b1t">Сообщение</strong>
-              <div class="text" id="b1">Добро пожаловать на сайт NeroviX.</div>
-            </div>
-            <div class="bubble ai">
-              <strong id="b2t">Кто мы</strong>
-              <div class="text" id="b2">Мы строим цифровые проекты и доводим их до результата.</div>
-            </div>
-            <div class="bubble ai">
-              <strong id="b3t">Что делаем</strong>
-              <div class="text" id="b3">• автоматизация и боты
-• контент-системы и воронки
-• сайты и интеграции</div>
-            </div>
-          </div>
+          <div class="chat" id="chat"></div>
+
+          <label class="toggle">
+            <input type="checkbox" id="dontShow" />
+            <span id="dontShowText">Больше не показывать это интро</span>
+          </label>
         </div>
 
         <div class="intro-actions">
           <button class="btn ghost glow-border" id="skipBtn" type="button">Пропустить</button>
-          <button class="btn primary glow-border" id="closeBtn" type="button">Понятно</button>
+          <button class="btn primary glow-border" id="goJoinBtn" type="button">Вступить</button>
+          <button class="btn glow-border" id="closeBtn" type="button">Понятно</button>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- APPLICATION MODAL -->
+  <div class="modal" id="applyModal" aria-hidden="true">
+    <div class="modal-backdrop" id="applyBackdrop"></div>
+
+    <div class="modal-card" role="dialog" aria-modal="true" aria-label="Application form">
+      <div class="modal-head">
+        <div class="modal-title" id="applyTitle">Заявка в NeroviX</div>
+
+        <div class="modal-actions">
+          <div class="sound-toggle" id="soundToggle" role="button" tabindex="0" aria-label="Toggle sound">
+            <span class="sound-dot"></span>
+            <span id="soundText">Звук</span>
+          </div>
+          <button class="iconbtn glow-border" id="applyClose" type="button" aria-label="Close">✕</button>
+        </div>
+      </div>
+
+      <div class="modal-body">
+        <form id="form" novalidate>
+          <div class="row">
+            <label id="f_name_label">Имя / Ник
+              <input type="text" id="name" placeholder="Например: Ваня" autocomplete="name" />
+            </label>
+
+            <label id="f_tg_label">Telegram
+              <input type="text" id="tg" placeholder="@username" autocomplete="off" />
+            </label>
+          </div>
+
+          <div class="row">
+            <label id="f_role_label">Роль
+              <select id="role">
+                <option value="" selected id="f_role_choose">Выбери роль</option>
+                <option value="editor" id="role_editor">Монтажёр</option>
+                <option value="designer" id="role_designer">Дизайнер</option>
+                <option value="dev" id="role_dev">Разработчик</option>
+                <option value="content" id="role_content">Контент-менеджер</option>
+                <option value="other" id="role_other">Другое</option>
+              </select>
+            </label>
+
+            <label id="f_exp_label">Опыт
+              <select id="exp">
+                <option value="" selected id="exp_na">Не указано</option>
+                <option value="junior" id="exp_junior">Новичок</option>
+                <option value="mid" id="exp_mid">Средний</option>
+                <option value="senior" id="exp_senior">Опытный</option>
+              </select>
+            </label>
+          </div>
+
+          <label id="f_port_label">Портфолио / примеры (ссылка)
+            <input type="text" id="portfolio" placeholder="YouTube / TikTok / Drive / Behance" />
+          </label>
+
+          <label id="f_time_label">Сколько времени готов уделять?
+            <input type="text" id="time" placeholder="Например: 1-2 часа в день" />
+          </label>
+
+          <label id="f_about_label">О себе (коротко)
+            <textarea id="about" placeholder="2-5 предложений"></textarea>
+          </label>
+
+          <label class="check" id="checkLabel">
+            <input type="checkbox" id="test" />
+            <span class="chk" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M20 6.5L10 17L4.5 11.5" stroke="rgba(106,240,255,.95)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+            <span class="check-text" id="f_test_label">Готов(а) сделать тестовое задание</span>
+          </label>
+        </form>
+      </div>
+
+      <div class="modal-foot">
+        <button class="btn primary big glow-border" type="button" id="sendBtn">Отправить заявку</button>
+        <button class="btn big ghost glow-border" type="button" id="clearBtn">Очистить</button>
       </div>
     </div>
   </div>
@@ -668,20 +1098,20 @@
       </div>
 
       <nav class="menu">
-        <a href="#projects" id="navProjects">Проекты</a>
-        <a href="#roles" id="navRoles">Роли</a>
-        <a href="#faq" id="navFaq">FAQ</a>
+        <a href="#projects" id="nav_projects">Проекты</a>
+        <a href="#roles" id="nav_roles">Роли</a>
+        <a href="#faq" id="nav_faq">FAQ</a>
 
         <div class="lang" title="Language">
-          <span id="navLang">Язык</span>
-          <select id="langSelect">
+          <span id="nav_lang">Язык</span>
+          <select id="langSelect" aria-label="Language">
             <option value="ru">RU</option>
             <option value="uk">UA</option>
             <option value="en">EN</option>
           </select>
         </div>
 
-        <a class="btn primary glow-border" href="#join" id="navJoinBtn">Вступить</a>
+        <button class="btn primary glow-border" id="openApplyTop" type="button">Вступить</button>
       </nav>
     </div>
   </header>
@@ -691,14 +1121,14 @@
       <div class="hero-grid">
         <div class="hero-left">
           <h1>NeroviX</h1>
-          <p class="subtitle" id="heroSub">
+          <p class="subtitle" id="hero_sub">
             Команда цифровых проектов. Создаём ботов, системы, сайты и контент-механики.
             Набираем людей под задачи и рост — без воды, по результату.
           </p>
 
           <div class="hero-actions">
-            <a class="btn primary big glow-border" href="#join" id="heroJoin">Вступить в команду</a>
-            <a class="btn big glow-border" href="#projects" id="heroProjects">Посмотреть проекты</a>
+            <button class="btn primary big glow-border" id="openApplyHero" type="button">Вступить в команду</button>
+            <a class="btn big glow-border" href="#projects" id="hero_projects">Посмотреть проекты</a>
           </div>
 
           <div class="badge-row">
@@ -711,29 +1141,31 @@
 
         <div class="hero-right panel">
           <div class="glow"></div>
-          <div class="card-title">Как мы работаем</div>
-          <div class="card-sub">Быстро тестируем гипотезы, фиксируем правила, повторяем то, что даёт рост.</div>
+          <div class="card-title" id="work_title">Как мы работаем</div>
+          <div class="card-sub" id="work_sub">
+            Быстро тестируем гипотезы, фиксируем правила, повторяем то, что даёт рост.
+          </div>
 
           <div class="mini-list">
             <div class="mini-item">
-              <div class="mini-ico glow-border"><span>⚡</span></div>
+              <div class="mini-ico glow-border" tabindex="0"><span>⚡</span></div>
               <div class="mini-text">
-                <b>Скорость</b>
-                <p>Меньше созвонов — больше результата.</p>
+                <b id="work_speed_t">Скорость</b>
+                <p id="work_speed_d">Меньше созвонов — больше результата.</p>
               </div>
             </div>
             <div class="mini-item">
-              <div class="mini-ico glow-border"><span>🎯</span></div>
+              <div class="mini-ico glow-border" tabindex="0"><span>🎯</span></div>
               <div class="mini-text">
-                <b>Чёткие задачи</b>
-                <p>Понятно кто что делает и зачем.</p>
+                <b id="work_tasks_t">Чёткие задачи</b>
+                <p id="work_tasks_d">Понятно кто что делает и зачем.</p>
               </div>
             </div>
             <div class="mini-item">
-              <div class="mini-ico glow-border"><span>📈</span></div>
+              <div class="mini-ico glow-border" tabindex="0"><span>📈</span></div>
               <div class="mini-text">
-                <b>Рост</b>
-                <p>Сначала тесты — потом масштаб.</p>
+                <b id="work_growth_t">Рост</b>
+                <p id="work_growth_d">Сначала тесты — потом масштаб.</p>
               </div>
             </div>
           </div>
@@ -743,25 +1175,25 @@
     </section>
 
     <section class="section" id="projects">
-      <h2>Проекты</h2>
+      <h2 id="projects_title">Проекты</h2>
       <div class="grid">
         <div class="card">
-          <h3>Проект #1</h3>
-          <p>Технологический продукт с упором на автоматизацию и рост.</p>
+          <h3 id="p1_title">Проект #1</h3>
+          <p id="p1_desc">Технологический продукт с упором на автоматизацию и рост.</p>
           <div class="tags">
             <span class="tag">Telegram</span><span class="tag">Growth</span><span class="tag">Automation</span>
           </div>
         </div>
         <div class="card">
-          <h3>Проект #2</h3>
-          <p>Система контента и воронок: быстрое производство и тест гипотез.</p>
+          <h3 id="p2_title">Проект #2</h3>
+          <p id="p2_desc">Система контента и воронок: быстрое производство и тест гипотез.</p>
           <div class="tags">
             <span class="tag">Web</span><span class="tag">AI</span><span class="tag">Content</span>
           </div>
         </div>
         <div class="card">
-          <h3>Проект #3</h3>
-          <p>Будущие направления: продукты, сервисы, эксперименты.</p>
+          <h3 id="p3_title">Проект #3</h3>
+          <p id="p3_desc">Будущие направления: продукты, сервисы, эксперименты.</p>
           <div class="tags">
             <span class="tag">Systems</span><span class="tag">Ops</span><span class="tag">Experiments</span>
           </div>
@@ -770,77 +1202,102 @@
     </section>
 
     <section class="section" id="roles">
-      <h2>Кого набираем</h2>
+      <h2 id="roles_title">Кого набираем</h2>
       <div class="grid">
         <div class="card">
-          <h3>Монтажёр</h3>
-          <p>Короткие ролики: динамика, удержание, титры, темп.</p>
+          <h3 id="r_editor_t">Монтажёр</h3>
+          <p id="r_editor_d">Короткие ролики: динамика, удержание, титры, темп.</p>
           <div class="tags"><span class="tag">CapCut / AE</span><span class="tag">Shorts</span></div>
         </div>
         <div class="card">
-          <h3>Дизайнер</h3>
-          <p>Оформление, обложки, графика, элементы бренда.</p>
+          <h3 id="r_designer_t">Дизайнер</h3>
+          <p id="r_designer_d">Оформление, обложки, графика, элементы бренда.</p>
           <div class="tags"><span class="tag">Figma</span><span class="tag">Brand</span></div>
         </div>
         <div class="card">
-          <h3>Разработчик</h3>
-          <p>Боты, интеграции, автоворонки, мини-сайты.</p>
+          <h3 id="r_dev_t">Разработчик</h3>
+          <p id="r_dev_d">Боты, интеграции, автоворонки, мини-сайты.</p>
           <div class="tags"><span class="tag">Telegram</span><span class="tag">JS/Python</span></div>
         </div>
       </div>
     </section>
 
     <section class="section" id="join">
-      <h2>Вступить в команду</h2>
+      <h2 id="join_title">Вступить в команду</h2>
 
       <div class="join">
         <div class="join-left panel">
-          <div class="card-title">Условия</div>
-          <p>Нам важны: ответственность, регулярность, умение доводить до результата.</p>
-          <p>Формат: тест → первые задачи → рост и распределение по результату.</p>
+          <div class="card-title" id="join_rules_t">Условия</div>
+          <p id="join_rules_1">Нам важны: ответственность, регулярность, умение доводить до результата.</p>
+          <p id="join_rules_2">Формат: тест → первые задачи → рост и распределение по результату.</p>
           <div class="badge-row">
-            <span class="badge">Регулярность</span>
-            <span class="badge">Чёткие правила</span>
-            <span class="badge">Рост</span>
+            <span class="badge" id="join_badge_1">Регулярность</span>
+            <span class="badge" id="join_badge_2">Чёткие правила</span>
+            <span class="badge" id="join_badge_3">Рост</span>
           </div>
         </div>
 
         <div class="join-right panel">
-          <div class="card-title">Заявка</div>
-          <div class="card-sub">Сейчас это заглушка. Дальше мы вернём красивую форму, когда убедимся что всё стабильно.</div>
+          <div class="card-title" id="apply_cta_title">Заявка</div>
+          <div class="card-sub" id="apply_cta_sub">Открой форму и отправь заявку — она улетит в наш Telegram.</div>
           <div class="btn-row">
-            <button class="btn primary big glow-border" type="button" id="dummyApply">Открыть заявку</button>
-            <a class="btn big glow-border" href="#top">Наверх</a>
+            <button class="btn primary big glow-border" type="button" id="openApplyJoin">Открыть заявку</button>
+            <a class="btn big glow-border" href="#top" id="to_top">Наверх</a>
           </div>
         </div>
       </div>
     </section>
 
     <section class="section" id="faq">
-      <h2>FAQ</h2>
-      <div class="card">
-        <p style="margin:0; color:var(--muted); line-height:1.6;">
-          FAQ вернём следующим шагом. Сейчас ключевое — чтобы сайт **никогда не падал**.
-        </p>
+      <h2 id="faq_title">FAQ</h2>
+      <div class="faq-list" id="faqList">
+        <div class="faq-item">
+          <button class="faq-q" type="button">
+            <span id="faq_q1">Это оплачивается?</span>
+            <span class="chev glow-border" style="border-radius:10px;">⌄</span>
+          </button>
+          <div class="faq-a">
+            <div class="inner" id="faq_a1">На старте — тест и первые задачи. Дальше — по результату: фикс/процент/доля.</div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" type="button">
+            <span id="faq_q2">Сколько времени нужно?</span>
+            <span class="chev glow-border" style="border-radius:10px;">⌄</span>
+          </button>
+          <div class="faq-a">
+            <div class="inner" id="faq_a2">Даже 1–2 часа в день, но регулярно. Лучше стабильность, чем “пропал на неделю”.</div>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-q" type="button">
+            <span id="faq_q3">Какой формат работы?</span>
+            <span class="chev glow-border" style="border-radius:10px;">⌄</span>
+          </button>
+          <div class="faq-a">
+            <div class="inner" id="faq_a3">Задачи, дедлайны, быстрые правки. Управление по темам в Telegram.</div>
+          </div>
+        </div>
       </div>
     </section>
 
     <footer class="footer">
       <div class="footer-inner">
         <div>© NeroviX</div>
-        <div>Заявки приходят прямо в Telegram</div>
+        <div id="footer_note">Заявки приходят прямо в Telegram</div>
       </div>
     </footer>
   </main>
 
   <script>
     (function(){
-      // ========== ERROR VISIBILITY ==========
+      /* ===================== FAIL-SAFE ===================== */
       const errbar = document.getElementById("errbar");
       const errtxt = document.getElementById("errtxt");
       function showErr(msg){
         try{
-          if (!errbar || !errtxt) return;
           errtxt.textContent = String(msg || "");
           errbar.style.display = "block";
         }catch(e){}
@@ -852,26 +1309,349 @@
         showErr(e && e.reason ? ("UnhandledPromiseRejection: " + String(e.reason)) : "UnhandledPromiseRejection");
       });
 
-      // ========== SAFE HELPERS ==========
       function $(id){ return document.getElementById(id); }
-      function safeOn(el, ev, fn){
-        if (!el) return;
-        el.addEventListener(ev, function(e){
-          try{ fn(e); } catch(err){ showErr(err && err.stack ? err.stack : String(err)); }
-        });
+      function safe(fn){ try{ return fn(); } catch(e){ showErr(e && e.stack ? e.stack : String(e)); } }
+      function on(el, ev, fn, opts){
+        if(!el) return;
+        el.addEventListener(ev, (e)=> safe(()=>fn(e)), opts);
       }
 
-      // ========== BACKGROUND FX (safe) ==========
+      /* ===================== CONFIG ===================== */
+      // твой воркер (оставляю как был)
+      const ENDPOINT_URL = "https://super-voice-25ca.slavatop212.workers.dev/";
+      const INTRO_KEY = "nerovix_intro_hidden_v4";
+      const LANG_KEY  = "nerovix_lang_v2";
+      const SOUND_KEY = "nerovix_sound_v1";
+
+      /* ===================== I18N ===================== */
+      const i18n = {
+        ru: {
+          nav_projects:"Проекты", nav_roles:"Роли", nav_faq:"FAQ", nav_lang:"Язык", nav_join_btn:"Вступить",
+          hero_sub:"Команда цифровых проектов. Создаём ботов, системы, сайты и контент-механики. Набираем людей под задачи и рост — без воды, по результату.",
+          hero_join:"Вступить в команду", hero_projects:"Посмотреть проекты",
+          work_title:"Как мы работаем", work_sub:"Быстро тестируем гипотезы, фиксируем правила, повторяем то, что даёт рост.",
+          work_speed_t:"Скорость", work_speed_d:"Меньше созвонов — больше результата.",
+          work_tasks_t:"Чёткие задачи", work_tasks_d:"Понятно кто что делает и зачем.",
+          work_growth_t:"Рост", work_growth_d:"Сначала тесты — потом масштаб.",
+          projects_title:"Проекты",
+          p1_title:"Проект #1", p1_desc:"Технологический продукт с упором на автоматизацию и рост.",
+          p2_title:"Проект #2", p2_desc:"Система контента и воронок: быстрое производство и тест гипотез.",
+          p3_title:"Проект #3", p3_desc:"Будущие направления: продукты, сервисы, эксперименты.",
+          roles_title:"Кого набираем",
+          r_editor_t:"Монтажёр", r_editor_d:"Короткие ролики: динамика, удержание, титры, темп.",
+          r_designer_t:"Дизайнер", r_designer_d:"Оформление, обложки, графика, элементы бренда.",
+          r_dev_t:"Разработчик", r_dev_d:"Боты, интеграции, автоворонки, мини-сайты.",
+          join_title:"Вступить в команду",
+          join_rules_t:"Условия",
+          join_rules_1:"Нам важны: ответственность, регулярность, умение доводить до результата.",
+          join_rules_2:"Формат: тест → первые задачи → рост и распределение по результату.",
+          join_badge_1:"Регулярность", join_badge_2:"Чёткие правила", join_badge_3:"Рост",
+          apply_cta_title:"Заявка", apply_cta_sub:"Открой форму и отправь заявку — она улетит в наш Telegram.",
+          to_top:"Наверх",
+          faq_title:"FAQ",
+          faq_q1:"Это оплачивается?", faq_a1:"На старте — тест и первые задачи. Дальше — по результату: фикс/процент/доля.",
+          faq_q2:"Сколько времени нужно?", faq_a2:"Даже 1–2 часа в день, но регулярно. Лучше стабильность, чем “пропал на неделю”.",
+          faq_q3:"Какой формат работы?", faq_a3:"Задачи, дедлайны, быстрые правки. Управление по темам в Telegram.",
+          footer_note:"Заявки приходят прямо в Telegram",
+
+          introTitle:"Привет. Я NeroviX AI Assistant",
+          introSub:"Коротко покажу, что это за сайт и кто мы.",
+          dontShowText:"Больше не показывать это интро",
+          skipBtn:"Пропустить",
+          joinBtn:"Вступить",
+          okBtn:"Понятно",
+          langLabel:"Язык",
+
+          applyTitle:"Заявка в NeroviX",
+          soundText:"Звук",
+          f_name_label:"Имя / Ник",
+          f_tg_label:"Telegram",
+          f_role_label:"Роль",
+          f_role_choose:"Выбери роль",
+          role_editor:"Монтажёр",
+          role_designer:"Дизайнер",
+          role_dev:"Разработчик",
+          role_content:"Контент-менеджер",
+          role_other:"Другое",
+          f_exp_label:"Опыт",
+          exp_na:"Не указано",
+          exp_junior:"Новичок",
+          exp_mid:"Средний",
+          exp_senior:"Опытный",
+          f_port_label:"Портфолио / примеры (ссылка)",
+          f_time_label:"Сколько времени готов уделять?",
+          f_about_label:"О себе (коротко)",
+          f_test_label:"Готов(а) сделать тестовое задание",
+          send:"Отправить заявку",
+          clear:"Очистить",
+
+          msg_fill:"Заполни: имя, Telegram и роль.",
+          msg_tg:"Telegram должен быть вида @username (без пробелов).",
+          msg_sending:"Отправляю…",
+          msg_ok:"Заявка отправлена ✅",
+          msg_bad:"Ошибка отправки ❌ Попробуй ещё раз.",
+          msg_sound_on:"Звук включен",
+          msg_sound_off:"Звук выключен",
+
+          chat: [
+            { title:"Сообщение", text:"Добро пожаловать на сайт NeroviX." },
+            { title:"Кто мы", text:"Мы строим цифровые проекты и доводим их до результата." },
+            { title:"Что делаем", text:"• автоматизация и боты\n• контент-системы и воронки\n• сайты и интеграции" },
+            { title:"Дальше", text:"Если хочешь попасть в команду — нажми «Вступить». Заявка сразу улетит в наш Telegram." }
+          ]
+        },
+
+        uk: {
+          nav_projects:"Проєкти", nav_roles:"Ролі", nav_faq:"FAQ", nav_lang:"Мова", nav_join_btn:"Вступити",
+          hero_sub:"Команда цифрових проєктів. Створюємо ботів, системи, сайти та контент-механіки. Набираємо людей під задачі й ріст — без води, по результату.",
+          hero_join:"Вступити в команду", hero_projects:"Переглянути проєкти",
+          work_title:"Як ми працюємо", work_sub:"Швидко тестуємо гіпотези, фіксуємо правила, повторюємо те, що дає ріст.",
+          work_speed_t:"Швидкість", work_speed_d:"Менше дзвінків — більше результату.",
+          work_tasks_t:"Чіткі задачі", work_tasks_d:"Зрозуміло хто що робить і навіщо.",
+          work_growth_t:"Ріст", work_growth_d:"Спочатку тести — потім масштаб.",
+          projects_title:"Проєкти",
+          p1_title:"Проєкт #1", p1_desc:"Технологічний продукт з фокусом на автоматизацію та ріст.",
+          p2_title:"Проєкт #2", p2_desc:"Система контенту та воронок: швидке виробництво й тест гіпотез.",
+          p3_title:"Проєкт #3", p3_desc:"Майбутні напрями: продукти, сервіси, експерименти.",
+          roles_title:"Кого набираємо",
+          r_editor_t:"Монтажер", r_editor_d:"Короткі ролики: динаміка, утримання, титри, темп.",
+          r_designer_t:"Дизайнер", r_designer_d:"Оформлення, обкладинки, графіка, елементи бренду.",
+          r_dev_t:"Розробник", r_dev_d:"Боти, інтеграції, автовирви, міні-сайти.",
+          join_title:"Вступити в команду",
+          join_rules_t:"Умови",
+          join_rules_1:"Нам важливі: відповідальність, регулярність, вміння доводити до результату.",
+          join_rules_2:"Формат: тест → перші задачі → ріст і розподіл за результатом.",
+          join_badge_1:"Регулярність", join_badge_2:"Чіткі правила", join_badge_3:"Ріст",
+          apply_cta_title:"Заявка", apply_cta_sub:"Відкрий форму й надішли заявку — вона піде в наш Telegram.",
+          to_top:"Вгору",
+          faq_title:"FAQ",
+          faq_q1:"Це оплачується?", faq_a1:"На старті — тест і перші задачі. Далі — за результатом: фікс/відсоток/частка.",
+          faq_q2:"Скільки часу потрібно?", faq_a2:"Навіть 1–2 години на день, але регулярно.",
+          faq_q3:"Який формат роботи?", faq_a3:"Задачі, дедлайни, швидкі правки. Управління по темах у Telegram.",
+          footer_note:"Заявки приходять прямо в Telegram",
+
+          introTitle:"Привіт. Я NeroviX AI Assistant",
+          introSub:"Коротко покажу, що це за сайт і хто ми.",
+          dontShowText:"Більше не показувати це інтро",
+          skipBtn:"Пропустити",
+          joinBtn:"Вступити",
+          okBtn:"Зрозуміло",
+          langLabel:"Мова",
+
+          applyTitle:"Заявка в NeroviX",
+          soundText:"Звук",
+          f_name_label:"Ім’я / Нік",
+          f_tg_label:"Telegram",
+          f_role_label:"Роль",
+          f_role_choose:"Обери роль",
+          role_editor:"Монтажер",
+          role_designer:"Дизайнер",
+          role_dev:"Розробник",
+          role_content:"Контент-менеджер",
+          role_other:"Інше",
+          f_exp_label:"Досвід",
+          exp_na:"Не вказано",
+          exp_junior:"Новачок",
+          exp_mid:"Середній",
+          exp_senior:"Досвідчений",
+          f_port_label:"Портфоліо / приклади (посилання)",
+          f_time_label:"Скільки часу готовий(а) приділяти?",
+          f_about_label:"Про себе (коротко)",
+          f_test_label:"Готовий(а) виконати тестове завдання",
+          send:"Надіслати заявку",
+          clear:"Очистити",
+
+          msg_fill:"Заповни: ім’я, Telegram і роль.",
+          msg_tg:"Telegram має бути у форматі @username (без пробілів).",
+          msg_sending:"Надсилаю…",
+          msg_ok:"Заявку надіслано ✅",
+          msg_bad:"Помилка надсилання ❌ Спробуй ще раз.",
+          msg_sound_on:"Звук увімкнено",
+          msg_sound_off:"Звук вимкнено",
+
+          chat: [
+            { title:"Повідомлення", text:"Ласкаво просимо на сайт NeroviX." },
+            { title:"Хто ми", text:"Ми створюємо цифрові проєкти й доводимо їх до результату." },
+            { title:"Що робимо", text:"• автоматизація та боти\n• контент-системи і воронки\n• сайти та інтеграції" },
+            { title:"Далі", text:"Якщо хочеш у команду — натисни «Вступити». Заявка одразу піде в наш Telegram." }
+          ]
+        },
+
+        en: {
+          nav_projects:"Projects", nav_roles:"Roles", nav_faq:"FAQ", nav_lang:"Language", nav_join_btn:"Join",
+          hero_sub:"A digital projects team. We build bots, systems, sites and content mechanics. We recruit people for tasks and growth — no fluff, results-driven.",
+          hero_join:"Join the team", hero_projects:"View projects",
+          work_title:"How we work", work_sub:"We test hypotheses fast, set rules, and repeat what drives growth.",
+          work_speed_t:"Speed", work_speed_d:"Fewer calls — more output.",
+          work_tasks_t:"Clear tasks", work_tasks_d:"Everyone knows what and why.",
+          work_growth_t:"Growth", work_growth_d:"Tests first — scale next.",
+          projects_title:"Projects",
+          p1_title:"Project #1", p1_desc:"A tech product focused on automation and growth.",
+          p2_title:"Project #2", p2_desc:"Content + funnel system: fast production and hypothesis testing.",
+          p3_title:"Project #3", p3_desc:"Future directions: products, services, experiments.",
+          roles_title:"We’re recruiting",
+          r_editor_t:"Video Editor", r_editor_d:"Short-form edits: pacing, retention, captions, punch.",
+          r_designer_t:"Designer", r_designer_d:"Covers, simple graphics, brand elements.",
+          r_dev_t:"Developer", r_dev_d:"Bots, integrations, automations, mini-sites.",
+          join_title:"Join the team",
+          join_rules_t:"How it works",
+          join_rules_1:"We value: responsibility, consistency, and finishing what you start.",
+          join_rules_2:"Flow: test task → first work → growth based on results.",
+          join_badge_1:"Consistency", join_badge_2:"Clear rules", join_badge_3:"Growth",
+          apply_cta_title:"Application", apply_cta_sub:"Open the form and send it — it goes straight to our Telegram.",
+          to_top:"Top",
+          faq_title:"FAQ",
+          faq_q1:"Is it paid?", faq_a1:"Start with a test and first tasks. Then — based on results: fixed / revenue share / equity.",
+          faq_q2:"How much time is needed?", faq_a2:"Even 1–2 hours/day, but consistently.",
+          faq_q3:"What’s the format?", faq_a3:"Tasks, deadlines, fast iterations. Managed via Telegram topics.",
+          footer_note:"Applications go straight to Telegram",
+
+          introTitle:"Hi. I’m NeroviX AI Assistant",
+          introSub:"Quick intro: what this site is and who we are.",
+          dontShowText:"Don’t show this intro again",
+          skipBtn:"Skip",
+          joinBtn:"Join",
+          okBtn:"Got it",
+          langLabel:"Language",
+
+          applyTitle:"Apply to NeroviX",
+          soundText:"Sound",
+          f_name_label:"Name / Nick",
+          f_tg_label:"Telegram",
+          f_role_label:"Role",
+          f_role_choose:"Choose a role",
+          role_editor:"Video Editor",
+          role_designer:"Designer",
+          role_dev:"Developer",
+          role_content:"Content manager",
+          role_other:"Other",
+          f_exp_label:"Experience",
+          exp_na:"Not specified",
+          exp_junior:"Beginner",
+          exp_mid:"Intermediate",
+          exp_senior:"Advanced",
+          f_port_label:"Portfolio / samples (link)",
+          f_time_label:"How much time can you commit?",
+          f_about_label:"About you (short)",
+          f_test_label:"I’m ready for a test task",
+          send:"Send application",
+          clear:"Clear",
+
+          msg_fill:"Fill in: name, Telegram and role.",
+          msg_tg:"Telegram must look like @username (no spaces).",
+          msg_sending:"Sending…",
+          msg_ok:"Application sent ✅",
+          msg_bad:"Sending failed ❌ Try again.",
+          msg_sound_on:"Sound on",
+          msg_sound_off:"Sound off",
+
+          chat: [
+            { title:"Message", text:"Welcome to NeroviX." },
+            { title:"Who we are", text:"We build digital products and ship results." },
+            { title:"What we do", text:"• automation & bots\n• content systems & funnels\n• websites & integrations" },
+            { title:"Next", text:"If you want to join — click “Join”. Your application will be sent to our Telegram instantly." }
+          ]
+        }
+      };
+
+      /* ===================== STATE ===================== */
+      let currentLang = "ru";
+      let soundEnabled = true;
+      let audioReady = false;
+      let audioCtx = null;
+
+      /* ===================== AUDIO (micro click) ===================== */
+      function initAudio(){
+        if(audioReady) return;
+        const Ctx = window.AudioContext || window.webkitAudioContext;
+        if(!Ctx) return;
+        audioCtx = new Ctx();
+        audioReady = true;
+      }
+      function microClick(){
+        if(!soundEnabled) return;
+        if(!audioReady) initAudio();
+        if(!audioCtx) return;
+
+        // resume on user gesture
+        if(audioCtx.state === "suspended"){
+          audioCtx.resume().catch(()=>{});
+        }
+
+        const t = audioCtx.currentTime;
+        const o = audioCtx.createOscillator();
+        const g = audioCtx.createGain();
+        const f = 900 + Math.random()*220;
+
+        o.type = "triangle";
+        o.frequency.setValueAtTime(f, t);
+        o.frequency.exponentialRampToValueAtTime(f*0.75, t+0.02);
+
+        // super quiet
+        g.gain.setValueAtTime(0.00001, t);
+        g.gain.exponentialRampToValueAtTime(0.02, t+0.006);
+        g.gain.exponentialRampToValueAtTime(0.00001, t+0.035);
+
+        o.connect(g).connect(audioCtx.destination);
+        o.start(t);
+        o.stop(t+0.045);
+      }
+
+      /* ===================== TOASTS ===================== */
+      const toasts = $("toasts");
+      function toast(type, title, text, ms=2400){
+        if(!toasts) return;
+        const el = document.createElement("div");
+        el.className = "toast " + (type || "info");
+
+        const ico = document.createElement("div");
+        ico.className = "ico";
+        ico.textContent = type==="ok" ? "✓" : (type==="bad" ? "!" : "•");
+
+        const txt = document.createElement("div");
+        txt.className = "txt";
+        const b = document.createElement("b");
+        b.textContent = title || "";
+        const p = document.createElement("p");
+        p.textContent = text || "";
+        txt.appendChild(b); txt.appendChild(p);
+
+        const x = document.createElement("button");
+        x.className = "x";
+        x.type = "button";
+        x.textContent = "✕";
+        on(x, "click", ()=> removeToast(el));
+
+        el.appendChild(ico);
+        el.appendChild(txt);
+        el.appendChild(x);
+
+        toasts.appendChild(el);
+
+        const timer = setTimeout(()=> removeToast(el), ms);
+        el._timer = timer;
+      }
+      function removeToast(el){
+        if(!el) return;
+        clearTimeout(el._timer);
+        el.style.transition = "opacity .18s ease, transform .18s ease";
+        el.style.opacity = "0";
+        el.style.transform = "translateY(-6px)";
+        setTimeout(()=>{ if(el && el.parentNode) el.parentNode.removeChild(el); }, 180);
+      }
+
+      /* ===================== PARTICLES BACKGROUND ===================== */
       function startFx(){
         const canvas = $("fx");
-        if (!canvas) return;
+        if(!canvas) return;
         const ctx = canvas.getContext("2d");
-        if (!ctx) return;
+        if(!ctx) return;
+
+        const prefersReduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const N = prefersReduce ? 45 : 120;
 
         let w=0,h=0,dpr=1;
         const pts=[];
-        const prefersReduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-        const N = prefersReduce ? 40 : 110;
 
         function resize(){
           dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
@@ -884,25 +1664,57 @@
         function init(){
           pts.length=0;
           for(let i=0;i<N;i++){
-            pts.push({x:rand(0,w),y:rand(0,h),vx:rand(-0.14,0.14)*dpr,vy:rand(-0.10,0.10)*dpr,r:rand(0.9,2.6)*dpr,a:rand(0.12,0.6),t:rand(0,Math.PI*2)});
+            pts.push({
+              x: rand(0,w),
+              y: rand(0,h),
+              vx: rand(-0.12,0.12)*dpr,
+              vy: rand(-0.08,0.08)*dpr,
+              r: rand(0.9,2.8)*dpr,
+              a: rand(0.08,0.55),
+              t: rand(0,Math.PI*2)
+            });
           }
         }
         function draw(){
           ctx.clearRect(0,0,w,h);
+
+          // soft glow dots + subtle links near
           for(const p of pts){
-            p.x+=p.vx; p.y+=p.vy; p.t+=0.02;
+            p.x += p.vx; p.y += p.vy; p.t += 0.02;
             if(p.x<-80*dpr) p.x=w+80*dpr;
             if(p.x>w+80*dpr) p.x=-80*dpr;
             if(p.y<-80*dpr) p.y=h+80*dpr;
             if(p.y>h+80*dpr) p.y=-80*dpr;
 
             const tw = (Math.sin(p.t)+1)*0.5;
-            const alpha = p.a*(0.75+tw*0.55);
-            ctx.fillStyle = "rgba(106,240,255,"+alpha.toFixed(3)+")";
+            const alpha = p.a*(0.75+tw*0.65);
+
+            // dot
+            ctx.fillStyle = `rgba(106,240,255,${alpha})`;
             ctx.beginPath();
             ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
             ctx.fill();
           }
+
+          // lines
+          for(let i=0;i<pts.length;i++){
+            const a = pts[i];
+            for(let j=i+1;j<pts.length;j++){
+              const b = pts[j];
+              const dx = a.x-b.x, dy = a.y-b.y;
+              const dist = Math.sqrt(dx*dx+dy*dy);
+              if(dist < 110*dpr){
+                const t = 1 - dist/(110*dpr);
+                ctx.strokeStyle = `rgba(0,170,255,${(t*0.12).toFixed(3)})`;
+                ctx.lineWidth = 1*dpr;
+                ctx.beginPath();
+                ctx.moveTo(a.x,a.y);
+                ctx.lineTo(b.x,b.y);
+                ctx.stroke();
+              }
+            }
+          }
+
           if(!prefersReduce) requestAnimationFrame(draw);
         }
 
@@ -911,44 +1723,566 @@
         window.addEventListener("resize", ()=>{ resize(); init(); });
       }
 
-      // ========== INTRO SHOW (safe) ==========
+      /* ===================== INTRO CHAT (typing + AI pulse) ===================== */
+      const intro = $("intro");
+      const chatEl = $("chat");
+      const bot = $("bot");
+
+      let typingTimer = null;
+      let isTyping = false;
+      let introDone = false;
+
+      function setTalking(onTalk){
+        if(!bot) return;
+        if(onTalk) bot.classList.add("talking");
+        else bot.classList.remove("talking");
+      }
+      function sleep(ms){ return new Promise(r=>setTimeout(r,ms)); }
+
+      function buildChat(){
+        if(!chatEl) return;
+        chatEl.innerHTML = "";
+        const msgs = i18n[currentLang].chat;
+        msgs.forEach((m, idx)=>{
+          const b = document.createElement("div");
+          b.className = "bubble ai";
+          b.dataset.idx = String(idx);
+
+          const t = document.createElement("strong");
+          t.textContent = m.title;
+
+          const text = document.createElement("div");
+          text.className = "text";
+          text.textContent = "";
+
+          b.appendChild(t);
+          b.appendChild(text);
+          chatEl.appendChild(b);
+        });
+      }
+
+      async function typeInto(el, fullText, speed=12){
+        clearTimeout(typingTimer);
+        isTyping = true;
+        setTalking(true);
+
+        el.textContent = "";
+        const caret = document.createElement("span");
+        caret.className = "typing-caret";
+        caret.textContent = "▋";
+        el.appendChild(caret);
+
+        let i=0;
+        return new Promise(resolve=>{
+          const step = () => safe(()=>{
+            if(!isTyping){ resolve(); return; }
+            caret.remove();
+            el.textContent += fullText[i] || "";
+            el.appendChild(caret);
+            i++;
+            if(i <= fullText.length){
+              typingTimer = setTimeout(step, speed);
+            } else {
+              isTyping = false;
+              setTalking(false);
+              resolve();
+            }
+          });
+          step();
+        });
+      }
+
+      async function playIntroChat(){
+        introDone = false;
+        const msgs = i18n[currentLang].chat;
+        for(let k=0;k<msgs.length;k++){
+          const bubble = chatEl ? chatEl.querySelector(`.bubble[data-idx="${k}"] .text`) : null;
+          if(bubble) await typeInto(bubble, msgs[k].text, 12);
+          await sleep(160);
+        }
+        introDone = true;
+        setTalking(false);
+      }
+
+      function stopTyping(){
+        clearTimeout(typingTimer);
+        isTyping = false;
+        setTalking(false);
+      }
+
+      function fillAllChatInstant(){
+        stopTyping();
+        const msgs = i18n[currentLang].chat;
+        msgs.forEach((m, idx)=>{
+          const bubble = chatEl ? chatEl.querySelector(`.bubble[data-idx="${idx}"] .text`) : null;
+          if(bubble) bubble.textContent = m.text;
+        });
+        introDone = true;
+      }
+
       function showIntro(){
-        const intro = $("intro");
-        if (!intro) return;
+        if(!intro) return;
         intro.style.display = "flex";
+        intro.setAttribute("aria-hidden","false");
         document.body.style.overflow = "hidden";
+        buildChat();
+        playIntroChat();
       }
       function hideIntro(){
-        const intro = $("intro");
-        if (!intro) return;
+        if(!intro) return;
         intro.style.display = "none";
+        intro.setAttribute("aria-hidden","true");
         document.body.style.overflow = "";
+        stopTyping();
+        if($("dontShow")?.checked) localStorage.setItem(INTRO_KEY,"1");
       }
 
-      // ========== INIT ==========
-      document.addEventListener("DOMContentLoaded", function(){
-        try{
-          startFx();
+      /* ===================== APPLICATION MODAL ===================== */
+      const applyModal = $("applyModal");
+      const applyBackdrop = $("applyBackdrop");
+      const applyClose = $("applyClose");
+      const soundToggle = $("soundToggle");
+      const soundText = $("soundText");
 
-          // show intro a bit later
-          setTimeout(showIntro, 450);
+      const nameEl = $("name");
+      const tgEl = $("tg");
+      const roleEl = $("role");
+      const expEl = $("exp");
+      const portfolioEl = $("portfolio");
+      const timeEl = $("time");
+      const aboutEl = $("about");
+      const testEl = $("test");
 
-          safeOn($("skipBtn"), "click", hideIntro);
-          safeOn($("closeBtn"), "click", hideIntro);
+      const sendBtn = $("sendBtn");
+      const clearBtn = $("clearBtn");
 
-          safeOn($("dummyApply"), "click", function(){
-            alert("Стабильность ок ✅ Следующим шагом вернём форму заявки без поломок.");
+      let lastFocus = null;
+
+      function openApply(){
+        if(!applyModal) return;
+        lastFocus = document.activeElement;
+        applyModal.style.display = "flex";
+        applyModal.setAttribute("aria-hidden","false");
+        document.body.style.overflow = "hidden";
+        // focus first input
+        setTimeout(()=>{ nameEl?.focus(); }, 50);
+      }
+      function closeApply(){
+        if(!applyModal) return;
+        applyModal.style.display = "none";
+        applyModal.setAttribute("aria-hidden","true");
+        document.body.style.overflow = "";
+        if(lastFocus && lastFocus.focus) lastFocus.focus();
+      }
+
+      function clearForm(){
+        if(nameEl) nameEl.value="";
+        if(tgEl) tgEl.value="";
+        if(roleEl) roleEl.value="";
+        if(expEl) expEl.value="";
+        if(portfolioEl) portfolioEl.value="";
+        if(timeEl) timeEl.value="";
+        if(aboutEl) aboutEl.value="";
+        if(testEl) testEl.checked=false;
+
+        markField(tgEl, null);
+      }
+
+      /* Telegram normalize + validation */
+      function normalizeTg(v){
+        let s = (v || "").trim();
+        if(!s) return s;
+        s = s.replace(/^https?:\/\/t\.me\//i, "@").replace(/^t\.me\//i, "@").replace(/^@+/, "@");
+        s = s.replace(/\s+/g, "");
+        if(!s.startsWith("@")) s = "@" + s;
+        return s;
+      }
+      function isValidTg(s){
+        return /^@[A-Za-z0-9_]{3,32}$/.test(s || "");
+      }
+      function markField(el, state){
+        if(!el) return;
+        el.classList.remove("field-ok","field-bad");
+        if(state === "ok") el.classList.add("field-ok");
+        if(state === "bad") el.classList.add("field-bad");
+      }
+
+      /* ===================== FAQ accordion ===================== */
+      function setupFaq(){
+        const list = $("faqList");
+        if(!list) return;
+        const items = Array.from(list.querySelectorAll(".faq-item"));
+        items.forEach(item=>{
+          const q = item.querySelector(".faq-q");
+          const a = item.querySelector(".faq-a");
+          if(!q || !a) return;
+
+          const closeItem = ()=>{
+            item.classList.remove("open");
+            a.style.maxHeight = "0px";
+          };
+          const openItem = ()=>{
+            item.classList.add("open");
+            a.style.maxHeight = (a.scrollHeight + 4) + "px";
+          };
+
+          on(q, "click", ()=>{
+            microClick();
+            const isOpen = item.classList.contains("open");
+            // close all
+            items.forEach(it=>{
+              const aa = it.querySelector(".faq-a");
+              if(aa){ it.classList.remove("open"); aa.style.maxHeight="0px"; }
+            });
+            if(!isOpen) openItem();
           });
 
-          // SAFE click sound handler placeholder (does nothing, but also never crashes)
-          document.addEventListener("click", function(e){
-            // never use closest() without checking Element
-            if (!(e.target instanceof Element)) return;
-          }, {passive:true});
+          // recalculation on resize
+          window.addEventListener("resize", ()=>{
+            if(item.classList.contains("open")){
+              a.style.maxHeight = (a.scrollHeight + 4) + "px";
+            }
+          });
+        });
+      }
 
-        }catch(err){
-          showErr(err && err.stack ? err.stack : String(err));
+      /* ===================== Language apply ===================== */
+      function getInitialLang(){
+        const saved = localStorage.getItem(LANG_KEY);
+        if(saved && i18n[saved]) return saved;
+        const nav = (navigator.language || "ru").toLowerCase();
+        if(nav.startsWith("uk")) return "uk";
+        if(nav.startsWith("en")) return "en";
+        return "ru";
+      }
+
+      function applyLang(lang){
+        if(!i18n[lang]) return;
+        currentLang = lang;
+        localStorage.setItem(LANG_KEY, lang);
+
+        const L = i18n[lang];
+
+        // selects
+        const ls = $("langSelect"); const lsi = $("langSelectIntro");
+        if(ls) ls.value = lang;
+        if(lsi) lsi.value = lang;
+
+        // nav
+        $("nav_projects").textContent = L.nav_projects;
+        $("nav_roles").textContent = L.nav_roles;
+        $("nav_faq").textContent = L.nav_faq;
+        $("nav_lang").textContent = L.nav_lang;
+        $("openApplyTop").textContent = L.nav_join_btn;
+
+        // hero
+        $("hero_sub").textContent = L.hero_sub;
+        $("openApplyHero").textContent = L.hero_join;
+        $("hero_projects").textContent = L.hero_projects;
+
+        // work card
+        $("work_title").textContent = L.work_title;
+        $("work_sub").textContent = L.work_sub;
+        $("work_speed_t").textContent = L.work_speed_t;
+        $("work_speed_d").textContent = L.work_speed_d;
+        $("work_tasks_t").textContent = L.work_tasks_t;
+        $("work_tasks_d").textContent = L.work_tasks_d;
+        $("work_growth_t").textContent = L.work_growth_t;
+        $("work_growth_d").textContent = L.work_growth_d;
+
+        // sections
+        $("projects_title").textContent = L.projects_title;
+        $("p1_title").textContent = L.p1_title;
+        $("p1_desc").textContent = L.p1_desc;
+        $("p2_title").textContent = L.p2_title;
+        $("p2_desc").textContent = L.p2_desc;
+        $("p3_title").textContent = L.p3_title;
+        $("p3_desc").textContent = L.p3_desc;
+
+        $("roles_title").textContent = L.roles_title;
+        $("r_editor_t").textContent = L.r_editor_t;
+        $("r_editor_d").textContent = L.r_editor_d;
+        $("r_designer_t").textContent = L.r_designer_t;
+        $("r_designer_d").textContent = L.r_designer_d;
+        $("r_dev_t").textContent = L.r_dev_t;
+        $("r_dev_d").textContent = L.r_dev_d;
+
+        $("join_title").textContent = L.join_title;
+        $("join_rules_t").textContent = L.join_rules_t;
+        $("join_rules_1").textContent = L.join_rules_1;
+        $("join_rules_2").textContent = L.join_rules_2;
+        $("join_badge_1").textContent = L.join_badge_1;
+        $("join_badge_2").textContent = L.join_badge_2;
+        $("join_badge_3").textContent = L.join_badge_3;
+
+        $("apply_cta_title").textContent = L.apply_cta_title;
+        $("apply_cta_sub").textContent = L.apply_cta_sub;
+        $("openApplyJoin").textContent = L.nav_join_btn;
+        $("to_top").textContent = L.to_top;
+
+        // FAQ
+        $("faq_title").textContent = L.faq_title;
+        $("faq_q1").textContent = L.faq_q1;
+        $("faq_a1").textContent = L.faq_a1;
+        $("faq_q2").textContent = L.faq_q2;
+        $("faq_a2").textContent = L.faq_a2;
+        $("faq_q3").textContent = L.faq_q3;
+        $("faq_a3").textContent = L.faq_a3;
+
+        $("footer_note").textContent = L.footer_note;
+
+        // Intro
+        $("introTitle").textContent = L.introTitle;
+        $("introSub").textContent = L.introSub;
+        $("dontShowText").textContent = L.dontShowText;
+        $("skipBtn").textContent = L.skipBtn;
+        $("goJoinBtn").textContent = L.joinBtn;
+        $("closeBtn").textContent = L.okBtn;
+        $("langLabel").textContent = L.langLabel;
+
+        // Modal / form
+        $("applyTitle").textContent = L.applyTitle;
+        soundText.textContent = L.soundText;
+
+        $("f_name_label").childNodes[0].textContent = L.f_name_label + "\n              ";
+        $("f_tg_label").childNodes[0].textContent = L.f_tg_label + "\n              ";
+        $("f_role_label").childNodes[0].textContent = L.f_role_label + "\n              ";
+        $("f_role_choose").textContent = L.f_role_choose;
+        $("role_editor").textContent = L.role_editor;
+        $("role_designer").textContent = L.role_designer;
+        $("role_dev").textContent = L.role_dev;
+        $("role_content").textContent = L.role_content;
+        $("role_other").textContent = L.role_other;
+
+        $("f_exp_label").childNodes[0].textContent = L.f_exp_label + "\n              ";
+        $("exp_na").textContent = L.exp_na;
+        $("exp_junior").textContent = L.exp_junior;
+        $("exp_mid").textContent = L.exp_mid;
+        $("exp_senior").textContent = L.exp_senior;
+
+        $("f_port_label").childNodes[0].textContent = L.f_port_label + "\n            ";
+        $("f_time_label").childNodes[0].textContent = L.f_time_label + "\n            ";
+        $("f_about_label").childNodes[0].textContent = L.f_about_label + "\n            ";
+
+        $("f_test_label").textContent = L.f_test_label;
+
+        sendBtn.textContent = L.send;
+        clearBtn.textContent = L.clear;
+
+        // rebuild chat in current language (if intro open or next open)
+        buildChat();
+      }
+
+      /* ===================== Sending ===================== */
+      async function send(){
+        const L = i18n[currentLang];
+
+        const name = (nameEl?.value || "").trim();
+        const tgRaw = (tgEl?.value || "");
+        const tg = normalizeTg(tgRaw);
+        if(tgEl) tgEl.value = tg;
+
+        const role = (roleEl?.value || "").trim();
+
+        // basic checks
+        if(!name || !tg || !role){
+          toast("bad", "Ошибка", L.msg_fill, 2600);
+          microClick();
+          return;
         }
+        if(!isValidTg(tg)){
+          toast("bad", "Ошибка", L.msg_tg, 2600);
+          markField(tgEl, "bad");
+          microClick();
+          return;
+        }
+
+        // Build payload (can extend later)
+        const data = {
+          name,
+          tg,
+          role,
+          exp: (expEl?.value || ""),
+          portfolio: (portfolioEl?.value || ""),
+          time: (timeEl?.value || ""),
+          about: (aboutEl?.value || ""),
+          test: !!(testEl?.checked)
+        };
+
+        // UI state
+        sendBtn.disabled = true;
+        sendBtn.style.opacity = ".7";
+
+        toast("info", "NeroviX", L.msg_sending, 1800);
+
+        try{
+          const res = await fetch(ENDPOINT_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+          });
+          if(!res.ok) throw new Error("bad_response");
+
+          toast("ok", "NeroviX", L.msg_ok, 2600);
+          clearForm();
+          closeApply();
+
+        }catch(e){
+          toast("bad", "NeroviX", L.msg_bad, 3000);
+        }finally{
+          sendBtn.disabled = false;
+          sendBtn.style.opacity = "1";
+        }
+      }
+
+      /* ===================== CHECK hover glow point ===================== */
+      function bindCheckGlow(){
+        const label = $("checkLabel");
+        if(!label) return;
+        on(label, "mousemove", (e)=>{
+          const r = label.getBoundingClientRect();
+          const x = ((e.clientX - r.left)/r.width)*100;
+          const y = ((e.clientY - r.top)/r.height)*100;
+          label.style.setProperty("--mx", x.toFixed(1)+"%");
+          label.style.setProperty("--my", y.toFixed(1)+"%");
+        }, {passive:true});
+      }
+
+      /* ===================== Stage parallax (safe) ===================== */
+      function bind3D(){
+        const stage = $("stage");
+        if(!stage || !bot) return;
+        const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
+        on(stage, "mousemove", (e)=>{
+          const r = stage.getBoundingClientRect();
+          const x = (e.clientX - r.left) / r.width;
+          const y = (e.clientY - r.top) / r.height;
+          const ry = clamp((x - 0.5) * 22, -18, 18);
+          const rx = clamp(-(y - 0.5) * 18, -14, 14);
+          bot.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg) translateY(-6px)`;
+          bot.style.transition = "transform 60ms linear";
+        });
+        on(stage, "mouseleave", ()=>{
+          bot.style.transition = "transform 350ms ease";
+          bot.style.transform = "";
+        });
+      }
+
+      /* ===================== SOUND TOGGLE ===================== */
+      function setSound(onState){
+        soundEnabled = !!onState;
+        localStorage.setItem(SOUND_KEY, soundEnabled ? "1" : "0");
+        if(soundToggle){
+          soundToggle.classList.toggle("on", soundEnabled);
+        }
+      }
+
+      /* ===================== GLOBAL CLICK SOUND HOOK ===================== */
+      function bindMicroClicks(){
+        // click sound on buttons, links, selects, checkbox labels
+        document.addEventListener("pointerdown", (e)=>{
+          if(!(e.target instanceof Element)) return;
+          const t = e.target;
+
+          const hit =
+            t.closest?.("button") ||
+            t.closest?.("a.btn") ||
+            t.closest?.(".sound-toggle") ||
+            t.closest?.(".faq-q") ||
+            t.closest?.(".lang select") ||
+            t.closest?.(".check");
+
+          if(hit) microClick();
+        }, {passive:true});
+      }
+
+      /* ===================== INIT ===================== */
+      document.addEventListener("DOMContentLoaded", ()=>{
+        safe(()=>{
+
+          startFx();
+          bind3D();
+          bindCheckGlow();
+          setupFaq();
+          bindMicroClicks();
+
+          // language init
+          currentLang = getInitialLang();
+          applyLang(currentLang);
+
+          // sound init
+          const s = localStorage.getItem(SOUND_KEY);
+          setSound(s !== "0");
+
+          // hook lang selects
+          on($("langSelect"), "change", (e)=> applyLang(e.target.value));
+          on($("langSelectIntro"), "change", (e)=> applyLang(e.target.value));
+
+          // intro show
+          const hidden = localStorage.getItem(INTRO_KEY) === "1";
+          if(!hidden) setTimeout(showIntro, 420);
+
+          // intro buttons
+          on($("skipBtn"), "click", ()=>{
+            if(!introDone) fillAllChatInstant();
+            else hideIntro();
+          });
+          on($("closeBtn"), "click", hideIntro);
+          on($("goJoinBtn"), "click", ()=>{
+            hideIntro();
+            openApply();
+          });
+
+          // modal open triggers
+          on($("openApplyTop"), "click", openApply);
+          on($("openApplyHero"), "click", openApply);
+          on($("openApplyJoin"), "click", openApply);
+
+          // modal close
+          on(applyBackdrop, "click", closeApply);
+          on(applyClose, "click", closeApply);
+          window.addEventListener("keydown", (e)=>{
+            if(e.key === "Escape"){
+              if(intro && intro.style.display === "flex") hideIntro();
+              if(applyModal && applyModal.style.display === "flex") closeApply();
+            }
+          });
+
+          // sound toggle
+          const L = ()=> i18n[currentLang];
+          on(soundToggle, "click", ()=>{
+            setSound(!soundEnabled);
+            toast("info", "NeroviX", soundEnabled ? L().msg_sound_on : L().msg_sound_off, 1600);
+          });
+          on(soundToggle, "keydown", (e)=>{
+            if(e.key === "Enter" || e.key === " "){
+              e.preventDefault();
+              setSound(!soundEnabled);
+              toast("info", "NeroviX", soundEnabled ? L().msg_sound_on : L().msg_sound_off, 1600);
+            }
+          });
+
+          // clear / send
+          on(clearBtn, "click", ()=>{ clearForm(); toast("info","NeroviX", i18n[currentLang].clear, 1200); });
+          on(sendBtn, "click", send);
+
+          // Telegram live normalize + validate
+          const tgHandler = ()=>{
+            if(!tgEl) return;
+            const before = tgEl.value;
+            const norm = normalizeTg(before);
+            if(norm !== before && before.trim() !== ""){
+              // avoid cursor jump too much: only auto-fix on blur OR when missing @ at start
+              // but user asked "если ввёл без @ — автоматически поправляет"
+              tgEl.value = norm;
+            }
+            if(norm.trim()===""){ markField(tgEl, null); return; }
+            markField(tgEl, isValidTg(norm) ? "ok" : "bad");
+          };
+          on(tgEl, "input", tgHandler);
+          on(tgEl, "blur", tgHandler);
+
+        });
       });
     })();
   </script>
