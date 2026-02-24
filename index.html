@@ -28,45 +28,67 @@
       overflow-x:hidden;
     }
 
-    /* ===================== BACKGROUND (more sci-fi, less math) ===================== */
+    /* ===================== BACKGROUND (stronger sci-fi, no math) ===================== */
     .bg{
-      position:fixed; inset:0; z-index:-8;
+      position:fixed; inset:0; z-index:-10;
       background:
-        radial-gradient(1200px 800px at 18% -8%, rgba(0,170,255,.28), transparent 62%),
-        radial-gradient(980px 680px at 88% 12%, rgba(106,240,255,.16), transparent 62%),
-        radial-gradient(1200px 900px at 60% 92%, rgba(0,170,255,.12), transparent 66%),
-        radial-gradient(900px 700px at 36% 62%, rgba(255,77,109,.08), transparent 62%),
+        radial-gradient(1200px 800px at 18% -8%, rgba(0,170,255,.32), transparent 62%),
+        radial-gradient(980px 680px at 88% 12%, rgba(106,240,255,.20), transparent 62%),
+        radial-gradient(1200px 900px at 60% 92%, rgba(0,170,255,.16), transparent 66%),
+        radial-gradient(900px 700px at 36% 62%, rgba(255,77,109,.10), transparent 62%),
         linear-gradient(180deg, #040614 0%, #070A12 45%, #040614 100%);
       pointer-events:none;
     }
 
-    .nebula{
-      position:fixed; inset:-140px; z-index:-7;
+    /* aurora ribbons */
+    .aurora{
+      position:fixed; inset:-120px; z-index:-9;
       pointer-events:none;
       background:
-        radial-gradient(700px 500px at 18% 30%, rgba(0,170,255,.20), transparent 66%),
-        radial-gradient(800px 560px at 78% 18%, rgba(106,240,255,.16), transparent 70%),
-        radial-gradient(860px 600px at 58% 78%, rgba(0,170,255,.12), transparent 72%);
-      filter: blur(26px) saturate(1.15);
-      opacity:.9;
-      animation: nebulaMove 12s ease-in-out infinite;
+        radial-gradient(900px 520px at 22% 32%, rgba(106,240,255,.18), transparent 70%),
+        radial-gradient(980px 560px at 76% 24%, rgba(0,170,255,.16), transparent 72%),
+        radial-gradient(1100px 700px at 56% 78%, rgba(0,170,255,.12), transparent 74%),
+        radial-gradient(980px 560px at 35% 88%, rgba(255,77,109,.08), transparent 76%);
+      filter: blur(26px) saturate(1.25);
+      opacity:.95;
+      animation: auroraMove 14s ease-in-out infinite;
+      transform: translate3d(0,0,0);
+      mix-blend-mode: screen;
+    }
+    @keyframes auroraMove{
+      0%,100%{ transform: translate3d(-2%, -1%, 0) scale(1.06); opacity:.80; }
+      50%{ transform: translate3d(2%, 1%, 0) scale(1.12); opacity:1; }
+    }
+
+    /* volumetric fog blobs */
+    .fog{
+      position:fixed; inset:-160px; z-index:-8;
+      pointer-events:none;
+      background:
+        radial-gradient(700px 520px at 12% 52%, rgba(0,170,255,.12), transparent 70%),
+        radial-gradient(820px 600px at 88% 54%, rgba(106,240,255,.10), transparent 72%),
+        radial-gradient(900px 680px at 50% 10%, rgba(255,255,255,.04), transparent 70%),
+        radial-gradient(1000px 760px at 50% 96%, rgba(0,0,0,.22), transparent 72%);
+      filter: blur(34px) saturate(1.1);
+      opacity:.85;
+      animation: fogMove 18s ease-in-out infinite;
       transform: translate3d(0,0,0);
     }
-    @keyframes nebulaMove{
-      0%,100%{ transform: translate3d(-2%, -1%, 0) scale(1.03); opacity:.75; }
-      50%{ transform: translate3d(2%, 1%, 0) scale(1.07); opacity:1; }
+    @keyframes fogMove{
+      0%,100%{ transform: translate3d(0%, 0%, 0) scale(1.02); opacity:.72; }
+      50%{ transform: translate3d(1.5%, -1.2%, 0) scale(1.06); opacity:.95; }
     }
 
     /* subtle moving light streams */
     .streams{
-      position:fixed; inset:0; z-index:-6; pointer-events:none;
+      position:fixed; inset:0; z-index:-7; pointer-events:none;
       background:
-        linear-gradient(110deg, transparent 0 40%, rgba(106,240,255,.06) 50%, transparent 60% 100%),
-        linear-gradient(120deg, transparent 0 46%, rgba(0,170,255,.05) 55%, transparent 64% 100%),
-        linear-gradient(100deg, transparent 0 42%, rgba(255,255,255,.02) 52%, transparent 62% 100%);
+        linear-gradient(110deg, transparent 0 40%, rgba(106,240,255,.07) 50%, transparent 60% 100%),
+        linear-gradient(120deg, transparent 0 46%, rgba(0,170,255,.06) 55%, transparent 64% 100%),
+        linear-gradient(100deg, transparent 0 42%, rgba(255,255,255,.03) 52%, transparent 62% 100%);
       background-size: 180% 180%, 220% 220%, 200% 200%;
       mix-blend-mode: screen;
-      opacity:.45;
+      opacity:.55;
       animation: streams 18s linear infinite;
     }
     @keyframes streams{
@@ -76,31 +98,33 @@
 
     /* particles canvas */
     #fx{
-      position:fixed; inset:0; z-index:-5;
+      position:fixed; inset:0; z-index:-6;
       width:100%; height:100%;
       pointer-events:none;
-      opacity:.95;
+      opacity:.98;
     }
 
     .noise{
-      position:fixed; inset:0; z-index:-4; opacity:.07; pointer-events:none;
+      position:fixed; inset:0; z-index:-5; opacity:.07; pointer-events:none;
       background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E");
     }
 
     header.nav, main.wrap{ position:relative; z-index:5; }
 
     @media (prefers-reduced-motion: reduce){
-      .nebula, .streams{ animation:none !important; }
+      .aurora, .fog, .streams{ animation:none !important; }
     }
 
     a{ color:inherit; text-decoration:none; }
     .wrap{ max-width:1100px; margin:0 auto; padding:0 18px; }
 
-    /* ===================== GLOW BORDER (moving light on hover) ===================== */
+    /* ===================== ICON RING GLOW (clockwise moving light) ===================== */
     .glow-border{
       position:relative;
       isolation:isolate;
     }
+
+    /* Base subtle ring */
     .glow-border::before{
       content:"";
       position:absolute;
@@ -109,12 +133,9 @@
       padding:2px;
       background: conic-gradient(
         from 0deg,
-        transparent 0 18%,
-        rgba(106,240,255,.95) 22%,
-        rgba(0,170,255,.75) 28%,
-        transparent 34% 60%,
-        rgba(106,240,255,.55) 66%,
-        transparent 72% 100%
+        transparent 0 55%,
+        rgba(106,240,255,.00) 55%,
+        rgba(106,240,255,.00) 100%
       );
       -webkit-mask:
         linear-gradient(#000 0 0) content-box,
@@ -122,17 +143,73 @@
       -webkit-mask-composite: xor;
       mask-composite: exclude;
       opacity:0;
-      filter: blur(.2px);
-      transform: translateZ(0);
-      transition: opacity .18s ease;
+      z-index:-1;
+      transition: opacity .18s ease, filter .18s ease;
+    }
+
+    /* Bright moving "comet" on hover */
+    .glow-border::after{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      border-radius: inherit;
+      padding:2px;
+      background: conic-gradient(
+        from 0deg,
+        transparent 0 70%,
+        rgba(106,240,255,0) 70%,
+        rgba(106,240,255,.95) 78%,
+        rgba(0,170,255,.80) 82%,
+        rgba(106,240,255,.25) 86%,
+        rgba(106,240,255,0) 92%,
+        transparent 92% 100%
+      );
+      -webkit-mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      opacity:0;
+      filter: blur(.35px);
+      transform: rotate(0deg);
       z-index:-1;
     }
-    .glow-border:hover::before{
+
+    .glow-border:hover::before,
+    .glow-border:focus-visible::before{
       opacity:1;
-      animation: borderSpin .9s linear infinite;
+      filter: drop-shadow(0 0 10px rgba(0,170,255,.12));
+      background: conic-gradient(
+        from 0deg,
+        rgba(106,240,255,.12),
+        rgba(0,170,255,.10),
+        rgba(106,240,255,.08),
+        rgba(0,170,255,.10),
+        rgba(106,240,255,.12)
+      );
     }
-    @keyframes borderSpin{
+
+    .glow-border:hover::after,
+    .glow-border:focus-visible::after{
+      opacity:1;
+      animation: ringSpin .95s linear infinite; /* clockwise */
+      filter: drop-shadow(0 0 14px rgba(106,240,255,.28)) drop-shadow(0 0 28px rgba(0,170,255,.14));
+    }
+
+    @keyframes ringSpin{
       to { transform: rotate(360deg); }
+    }
+
+    /* Extra "inside glow" only for icon chips */
+    .mini-ico.glow-border:hover,
+    .mini-ico.glow-border:focus-visible,
+    .icon-btn.glow-border:hover,
+    .icon-btn.glow-border:focus-visible{
+      box-shadow: 0 0 0 3px rgba(0,170,255,.10), 0 18px 40px rgba(0,170,255,.10);
+    }
+    .dot.glow-border:hover,
+    .dot.glow-border:focus-visible{
+      box-shadow: 0 0 22px rgba(0,170,255,.65);
     }
 
     /* ===================== NAV ===================== */
@@ -219,9 +296,6 @@
       background: rgba(255,255,255,.03);
     }
 
-    /* add glow moving border on buttons too (optional) */
-    .btn.glow-border::before{ inset:-3px; }
-
     /* ===================== HERO ===================== */
     .hero{ padding:70px 0 32px; }
     .hero-grid{
@@ -293,8 +367,13 @@
       border:1px solid rgba(0,170,255,.25);
       display:flex; align-items:center; justify-content:center;
       flex: 0 0 auto;
+      transition: filter .18s ease, transform .18s ease;
     }
     .mini-ico span{ font-size:14px; }
+    .mini-ico.glow-border:hover{
+      filter: saturate(1.25) brightness(1.08);
+      transform: translateY(-1px);
+    }
     .mini-text b{ display:block; font-size:13px; margin-bottom:2px; }
     .mini-text p{ margin:0; color:var(--muted); font-size:12px; line-height:1.45; }
 
@@ -858,7 +937,7 @@
       display:none;
     }
 
-    /* ===================== FAQ (beautiful accordion) ===================== */
+    /* ===================== FAQ (accordion) ===================== */
     .faq{
       display:grid;
       gap:12px;
@@ -956,7 +1035,8 @@
 
 <body>
   <div class="bg"></div>
-  <div class="nebula"></div>
+  <div class="aurora"></div>
+  <div class="fog"></div>
   <div class="streams"></div>
   <canvas id="fx"></canvas>
   <div class="noise"></div>
@@ -1277,10 +1357,10 @@
           </div>
 
           <div class="badge-row" style="margin-top:12px;">
-            <span class="badge">Auto-check Telegram</span>
-            <span class="badge">Toasts</span>
-            <span class="badge">Micro clicks</span>
-            <span class="badge">Hover glow</span>
+            <span class="badge">Aurora</span>
+            <span class="badge">Volumetric</span>
+            <span class="badge">Particles</span>
+            <span class="badge">Ring glow</span>
           </div>
         </div>
       </div>
@@ -1516,7 +1596,6 @@
         const key = el.getAttribute("data-i18n");
         const v = i18n[lang][key];
         if (typeof v === "string"){
-          // ВАЖНО: мы больше НЕ трогаем label целиком. Только отдельные текстовые элементы.
           el.textContent = v;
         }
       });
@@ -1671,7 +1750,7 @@
         introDone = false;
         const msgs = i18n[currentLang].chat;
         for (let k=0; k<msgs.length; k++){
-          const bubble = chatEl ? chatEl.querySelector(`.bubble[data-idx="${k}"] .text`) : null;
+          const bubble = chatEl ? chatEl.querySelector(\`.bubble[data-idx="\${k}"] .text\`) : null;
           await typeInto(bubble, msgs[k].text, 12);
           await sleep(160);
         }
@@ -1708,7 +1787,7 @@
       stopTyping();
       const msgs = i18n[currentLang].chat;
       msgs.forEach((m, idx)=>{
-        const bubble = chatEl ? chatEl.querySelector(`.bubble[data-idx="${idx}"] .text`) : null;
+        const bubble = chatEl ? chatEl.querySelector(\`.bubble[data-idx="\${idx}"] .text\`) : null;
         if (bubble) bubble.textContent = m.text;
       });
       introDone = true;
@@ -1723,7 +1802,7 @@
         const y = (e.clientY - r.top) / r.height;
         const ry = clamp((x - 0.5) * 22, -18, 18);
         const rx = clamp(-(y - 0.5) * 18, -14, 14);
-        bot.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg) translateY(-6px)`;
+        bot.style.transform = \`rotateX(\${rx}deg) rotateY(\${ry}deg) translateY(-6px)\`;
         bot.style.transition = "transform 60ms linear";
       });
       stage.addEventListener("mouseleave", () => {
@@ -1834,7 +1913,6 @@
         };
         const open = () => {
           item.classList.add("open");
-          // set to content height
           const h = a.scrollHeight;
           a.style.height = h + "px";
         };
@@ -1843,7 +1921,6 @@
 
         q.addEventListener("click", () => {
           playClick(460, 0.018, 0.05);
-          // close others
           items.forEach(it=>{
             if (it !== item){
               const aa = it.querySelector(".faq-a");
@@ -1857,7 +1934,6 @@
         });
       });
 
-      // on resize fix opened height
       window.addEventListener("resize", () => {
         items.forEach(item=>{
           if (item.classList.contains("open")){
@@ -1937,7 +2013,6 @@
         });
         renderSoundToggle();
 
-        // global click sounds (very light)
         document.addEventListener("click", (e) => {
           const t = e.target;
           if (t.closest(".btn")) playClick(520, 0.02, 0.04);
@@ -1968,7 +2043,7 @@
       }
     })();
 
-    // ======== Background particles (no lines, no "math") ========
+    // ======== Background particles (no lines) ========
     (function techFx(){
       const canvas = document.getElementById("fx");
       if (!canvas) return;
@@ -1977,7 +2052,9 @@
 
       let w=0, h=0, dpr=1;
       const prefersReduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      const POINTS = prefersReduce ? 36 : 90;
+
+      // a bit more particles (stronger)
+      const POINTS = prefersReduce ? 40 : 120;
       const pts = [];
 
       function resize(){
@@ -1994,11 +2071,12 @@
           pts.push({
             x: rand(0,w),
             y: rand(0,h),
-            vx: rand(-0.12,0.12) * dpr,
-            vy: rand(-0.08,0.08) * dpr,
-            r: rand(0.9, 2.2) * dpr,
-            a: rand(0.12, 0.55),
-            glow: rand(0.0, 1.0)
+            vx: rand(-0.14,0.14) * dpr,
+            vy: rand(-0.10,0.10) * dpr,
+            r: rand(0.9, 2.6) * dpr,
+            a: rand(0.12, 0.60),
+            glow: rand(0.0, 1.0),
+            tw: rand(0.0, Math.PI*2)
           });
         }
       }
@@ -2006,30 +2084,34 @@
       function draw(){
         ctx.clearRect(0,0,w,h);
 
-        // soft vignette
-        const g = ctx.createRadialGradient(w*0.5, h*0.35, 0, w*0.5, h*0.35, Math.max(w,h)*0.7);
-        g.addColorStop(0, "rgba(0,170,255,0.08)");
+        // deep vignette + subtle blue glow
+        const g = ctx.createRadialGradient(w*0.5, h*0.35, 0, w*0.5, h*0.35, Math.max(w,h)*0.78);
+        g.addColorStop(0, "rgba(0,170,255,0.10)");
         g.addColorStop(0.55, "rgba(0,0,0,0)");
-        g.addColorStop(1, "rgba(0,0,0,0.35)");
+        g.addColorStop(1, "rgba(0,0,0,0.42)");
         ctx.fillStyle = g;
         ctx.fillRect(0,0,w,h);
 
         for(const p of pts){
           p.x += p.vx; p.y += p.vy;
-          if(p.x < -60*dpr) p.x = w + 60*dpr;
-          if(p.x > w + 60*dpr) p.x = -60*dpr;
-          if(p.y < -60*dpr) p.y = h + 60*dpr;
-          if(p.y > h + 60*dpr) p.y = -60*dpr;
+          p.tw += 0.02;
+          const twinkle = (Math.sin(p.tw)+1)*0.5; // 0..1
 
-          // glow
+          if(p.x < -80*dpr) p.x = w + 80*dpr;
+          if(p.x > w + 80*dpr) p.x = -80*dpr;
+          if(p.y < -80*dpr) p.y = h + 80*dpr;
+          if(p.y > h + 80*dpr) p.y = -80*dpr;
+
+          // rare larger glow blobs
           if (p.glow > 0.86){
             ctx.fillStyle = `rgba(106,240,255,${Math.min(0.22, p.a*0.6)})`;
             ctx.beginPath();
-            ctx.arc(p.x, p.y, p.r*6.5, 0, Math.PI*2);
+            ctx.arc(p.x, p.y, p.r*7.0, 0, Math.PI*2);
             ctx.fill();
           }
 
-          ctx.fillStyle = `rgba(106,240,255,${p.a})`;
+          const alpha = p.a * (0.75 + twinkle*0.55);
+          ctx.fillStyle = `rgba(106,240,255,${alpha})`;
           ctx.beginPath();
           ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
           ctx.fill();
