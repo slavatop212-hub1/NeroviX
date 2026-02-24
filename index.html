@@ -29,7 +29,7 @@
       overflow-x:hidden;
     }
 
-    /* Фон */
+    /* Фон сайта */
     .bg{
       position:fixed; inset:0; z-index:-3;
       background:
@@ -65,25 +65,51 @@
     .nav-inner{
       display:flex; align-items:center; justify-content:space-between;
       padding:14px 0;
+      gap:14px;
     }
     .brand{
       display:flex; align-items:center; gap:10px;
-      font-weight:800; letter-spacing:.4px;
+      font-weight:900; letter-spacing:.4px;
+      white-space:nowrap;
     }
     .dot{
       width:10px; height:10px; border-radius:99px;
       background: linear-gradient(180deg, var(--acc2), var(--acc));
       box-shadow: 0 0 18px rgba(0,170,255,.6);
     }
-    .menu{ display:flex; gap:16px; align-items:center; }
+    .menu{
+      display:flex; gap:10px; align-items:center; flex-wrap:wrap;
+      justify-content:flex-end;
+    }
     .menu a{
       color:var(--muted);
       font-size:14px;
       padding:8px 10px;
       border-radius:12px;
       transition:.15s;
+      white-space:nowrap;
     }
     .menu a:hover{ color:var(--text); background: rgba(255,255,255,.03); }
+
+    .lang{
+      display:flex; align-items:center; gap:8px;
+      padding:6px 10px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.03);
+      color:var(--muted);
+      font-size:13px;
+      white-space:nowrap;
+    }
+    .lang select{
+      border:none;
+      background: transparent;
+      color: var(--text);
+      outline:none;
+      font-weight:800;
+      cursor:pointer;
+    }
+    .lang option{ color:#111; }
 
     .btn{
       display:inline-flex; align-items:center; justify-content:center;
@@ -96,7 +122,8 @@
       cursor:pointer;
       transition:.15s;
       user-select:none;
-      font-weight:800;
+      font-weight:900;
+      white-space:nowrap;
     }
     .btn:hover{ transform: translateY(-1px); box-shadow: 0 10px 28px rgba(0,170,255,.12); }
     .btn:active{ transform: translateY(0px); }
@@ -303,35 +330,60 @@
       display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;
     }
 
-    /* ========= 3D INTRO ASSISTANT ========= */
+    /* ================= INTRO OVERLAY (3) blur + vignette ================= */
     .intro{
       position:fixed; inset:0; z-index:999;
       display:none;
       align-items:center; justify-content:center;
       padding:22px;
-      background: rgba(0,0,0,.62);
-      backdrop-filter: blur(12px);
     }
+    .intro-backdrop{
+      position:absolute; inset:0;
+      background:
+        radial-gradient(900px 520px at 50% 45%, rgba(0,170,255,.08), transparent 60%),
+        radial-gradient(820px 520px at 45% 55%, rgba(106,240,255,.06), transparent 60%),
+        radial-gradient(1100px 900px at 50% 50%, rgba(0,0,0,.45), rgba(0,0,0,.72));
+      backdrop-filter: blur(18px) saturate(1.2);
+    }
+    .intro-vignette{
+      position:absolute; inset:-2px;
+      pointer-events:none;
+      background: radial-gradient(circle at 50% 45%, transparent 0 52%, rgba(0,0,0,.55) 78%, rgba(0,0,0,.78) 100%);
+      opacity:.9;
+    }
+
+    /* ================= INTRO CARD (4) premium light ================= */
     .intro-card{
-      width:min(1040px, 100%);
+      position:relative;
+      width:min(1080px, 100%);
       border-radius: 22px;
-      border:1px solid rgba(255,255,255,.12);
-      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
-      box-shadow: 0 30px 90px rgba(0,0,0,.55);
+      border:1px solid rgba(255,255,255,.14);
+      background:
+        radial-gradient(700px 400px at 15% 20%, rgba(0,170,255,.14), transparent 60%),
+        radial-gradient(600px 420px at 85% 10%, rgba(106,240,255,.10), transparent 55%),
+        linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.03));
+      box-shadow: 0 30px 90px rgba(0,0,0,.62);
       overflow:hidden;
       display:grid;
-      grid-template-columns: 1fr 1.15fr;
-      min-height: 560px;
-      position:relative;
+      grid-template-columns: 1fr 1.2fr;
+      min-height: 580px;
+      z-index:2;
+    }
+    .intro-card::before{
+      content:"";
+      position:absolute; inset:-2px;
+      background: radial-gradient(520px 280px at 30% 20%, rgba(255,255,255,.08), transparent 60%);
+      pointer-events:none;
+      opacity:.85;
     }
     .intro-left{
-      padding:24px;
+      padding:22px;
       position:relative;
       overflow:hidden;
       border-right: 1px solid rgba(255,255,255,.10);
     }
     .intro-right{
-      padding:24px;
+      padding:22px;
       display:flex;
       flex-direction:column;
       justify-content:space-between;
@@ -341,6 +393,7 @@
       font-size:30px;
       margin:0 0 6px;
       letter-spacing:-.2px;
+      font-weight:900;
     }
     .intro-sub{
       margin:0;
@@ -348,26 +401,41 @@
       line-height:1.7;
       font-size:15px;
     }
-    .typebox{
-      margin-top:12px;
+
+    /* ================= (5) chat bubbles ================= */
+    .chat{
+      margin-top:14px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .bubble{
       border-radius:18px;
       border:1px solid rgba(255,255,255,.12);
       background: rgba(0,0,0,.18);
-      padding:16px 16px 14px;
+      padding:12px 14px;
+      max-width: 92%;
+      box-shadow: 0 12px 28px rgba(0,0,0,.22);
     }
-    .type-label{
-      color: rgba(106,240,255,.85);
-      font-weight:900;
+    .bubble.ai{
+      align-self:flex-start;
+      border-color: rgba(0,170,255,.20);
+      background: linear-gradient(180deg, rgba(0,170,255,.10), rgba(0,0,0,.20));
+    }
+    .bubble strong{
+      display:block;
       font-size:12px;
-      letter-spacing:.6px;
-      text-transform: uppercase;
-      margin-bottom:10px;
+      letter-spacing:.7px;
+      text-transform:uppercase;
+      color: rgba(106,240,255,.9);
+      margin-bottom:6px;
+      font-weight:900;
     }
-    .type-text{
-      font-size:16px;
-      line-height:1.75;
-      min-height: 150px;
+    .bubble .text{
+      font-size:15px;
+      line-height:1.7;
       white-space: pre-wrap;
+      min-height: 18px;
     }
     .typing-caret{
       display:inline-block;
@@ -380,17 +448,7 @@
       0%,49%{ opacity:1; }
       50%,100%{ opacity:0; }
     }
-    .intro-actions{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      justify-content:flex-end;
-    }
-    .small{
-      font-size:12px;
-      color:var(--muted);
-      text-align:left;
-    }
+
     .toggle{
       display:flex;
       align-items:center;
@@ -398,166 +456,203 @@
       margin-top:10px;
       user-select:none;
       cursor:pointer;
+      color:var(--muted);
+      font-size:13px;
     }
     .toggle input{ width:18px; height:18px; }
+    .intro-actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
 
-    /* ====== Псевдо 3D робот (как 3D модель) ====== */
+    /* ================= “гуманоидная” маска/визор (не коробка) ================= */
     .stage{
       height:100%;
       display:flex;
       align-items:center;
       justify-content:center;
-      perspective: 900px;
+      perspective: 1000px;
       position:relative;
+      padding-top: 10px;
     }
-    .holo{
+    .halo{
       position:absolute;
-      inset:auto;
-      width:420px;
-      height:420px;
+      width:520px; height:520px;
       border-radius:50%;
-      background: radial-gradient(circle at 50% 50%, rgba(0,170,255,.22), transparent 60%);
+      background: radial-gradient(circle at 50% 50%, rgba(0,170,255,.18), transparent 62%);
       filter: blur(2px);
-      animation: holo 4.4s ease-in-out infinite;
+      opacity:.9;
+      animation: halo 4.6s ease-in-out infinite;
       pointer-events:none;
     }
-    @keyframes holo{
+    @keyframes halo{
       0%,100%{ transform: translateY(0) scale(1); opacity:.75; }
-      50%{ transform: translateY(-10px) scale(1.05); opacity:1; }
+      50%{ transform: translateY(-10px) scale(1.04); opacity:1; }
     }
 
-    .bot3d{
-      width: 360px;
-      height: 360px;
+    .head3d{
+      width: 360px; height: 380px;
       position:relative;
       transform-style: preserve-3d;
       animation: float 3.8s ease-in-out infinite;
-      filter: drop-shadow(0 25px 45px rgba(0,0,0,.45));
+      filter: drop-shadow(0 30px 55px rgba(0,0,0,.48));
     }
     @keyframes float{
       0%,100%{ transform: rotateX(8deg) rotateY(-14deg) translateY(0); }
       50%{ transform: rotateX(10deg) rotateY(-6deg) translateY(-10px); }
     }
 
-    .bot-core{
+    .mask{
       position:absolute; inset:0;
+      border-radius: 46px 46px 58px 58px;
+      background:
+        radial-gradient(circle at 40% 30%, rgba(255,255,255,.14), transparent 55%),
+        radial-gradient(circle at 70% 70%, rgba(0,170,255,.16), transparent 55%),
+        linear-gradient(180deg, rgba(255,255,255,.10), rgba(0,0,0,.18));
+      border: 1px solid rgba(255,255,255,.16);
+      box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,.06),
+        inset 0 24px 80px rgba(0,170,255,.08);
+      transform: translateZ(28px);
+      overflow:hidden;
+    }
+    .mask::before{
+      content:"";
+      position:absolute;
+      inset:20px 18px 26px 18px;
+      border-radius: 38px 38px 48px 48px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.18);
+      box-shadow: inset 0 0 0 1px rgba(0,170,255,.06);
+    }
+
+    .visor{
+      position:absolute;
+      left:52px; right:52px;
+      top:88px;
+      height:132px;
       border-radius: 34px;
       background:
-        radial-gradient(circle at 35% 30%, rgba(106,240,255,.22), transparent 55%),
-        radial-gradient(circle at 70% 65%, rgba(0,170,255,.18), transparent 55%),
-        linear-gradient(180deg, rgba(255,255,255,.08), rgba(0,0,0,.15));
-      border:1px solid rgba(0,170,255,.35);
-      box-shadow:
-        inset 0 0 0 1px rgba(255,255,255,.07),
-        inset 0 30px 90px rgba(0,170,255,.08);
-      transform: translateZ(22px);
-    }
-
-    .bot-side{
-      position:absolute;
-      inset: 24px;
-      border-radius: 28px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.22);
-      transform: translateZ(55px);
-    }
-
-    .bot-visor{
-      position:absolute;
-      left: 54px; right:54px;
-      top: 78px;
-      height: 110px;
-      border-radius: 26px;
-      background:
-        radial-gradient(circle at 50% 40%, rgba(0,170,255,.20), transparent 60%),
-        linear-gradient(180deg, rgba(255,255,255,.07), rgba(0,0,0,.25));
-      border:1px solid rgba(106,240,255,.20);
-      transform: translateZ(80px);
+        radial-gradient(circle at 50% 40%, rgba(106,240,255,.18), transparent 60%),
+        linear-gradient(180deg, rgba(255,255,255,.08), rgba(0,0,0,.34));
+      border:1px solid rgba(106,240,255,.18);
+      transform: translateZ(70px);
       overflow:hidden;
     }
     .scan{
       position:absolute;
-      inset:-40px -40px auto -40px;
-      height: 46px;
-      background: linear-gradient(90deg, transparent, rgba(106,240,255,.25), transparent);
-      transform: rotate(12deg);
-      animation: scan 2.6s ease-in-out infinite;
-      filter: blur(.2px);
-    }
-    @keyframes scan{
-      0%{ top:-60px; opacity:0; }
-      15%{ opacity:1; }
-      55%{ top:120px; opacity:1; }
-      75%{ opacity:.3; }
-      100%{ top:200px; opacity:0; }
+      left:-60px; right:-60px;
+      top:-70px;
+      height: 52px;
+      background: linear-gradient(90deg, transparent, rgba(106,240,255,.28), transparent);
+      transform: rotate(10deg);
+      opacity:0;
+      pointer-events:none;
     }
 
     .eye{
       position:absolute;
-      top: 38px;
-      width: 46px; height:46px;
-      border-radius: 16px;
-      background: rgba(0,170,255,.24);
-      border:1px solid rgba(106,240,255,.22);
-      box-shadow: 0 0 28px rgba(0,170,255,.18);
+      top: 46px;
+      width: 52px; height:52px;
+      border-radius: 18px;
+      background: rgba(0,170,255,.12);
+      border:1px solid rgba(106,240,255,.18);
+      box-shadow: 0 0 26px rgba(0,170,255,.10);
       display:flex; align-items:center; justify-content:center;
+      overflow:hidden;
     }
     .eye::after{
       content:"";
-      width: 12px; height:12px;
+      width: 14px; height:14px;
       border-radius: 999px;
       background: rgba(106,240,255,.85);
-      box-shadow: 0 0 18px rgba(106,240,255,.55);
+      box-shadow: 0 0 20px rgba(106,240,255,.55);
+      transform-origin:center;
       animation: blink 3.4s infinite;
     }
     @keyframes blink{
       0%,92%,100%{ transform: scaleY(1); }
-      94%{ transform: scaleY(.12); }
+      94%{ transform: scaleY(.10); }
       96%{ transform: scaleY(1); }
     }
-    .eye.left{ left: 52px; }
-    .eye.right{ right: 52px; }
+    .eye.left{ left: 58px; }
+    .eye.right{ right: 58px; }
 
+    .nose{
+      position:absolute;
+      left:50%; transform: translateX(-50%);
+      top: 148px;
+      width: 18px; height: 44px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      opacity:.65;
+    }
     .mouth{
       position:absolute;
       left: 84px; right:84px;
-      top: 96px;
-      height: 16px;
+      top: 208px;
+      height: 18px;
       border-radius: 999px;
       border:1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.05);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.06), rgba(0,0,0,.22));
+      opacity:.9;
     }
 
-    .bot-back{
+    .back{
       position:absolute; inset:0;
-      border-radius: 34px;
+      border-radius: 46px 46px 58px 58px;
       background: rgba(0,0,0,.25);
       border:1px solid rgba(255,255,255,.08);
-      transform: translateZ(-20px);
+      transform: translateZ(-22px);
     }
 
-    .bot-ring{
+    .ring{
       position:absolute;
       left: 50%; top: 50%;
-      width: 420px; height: 420px;
+      width: 430px; height: 430px;
       transform: translate(-50%,-50%) translateZ(0);
       border-radius: 999px;
-      border: 1px solid rgba(0,170,255,.22);
-      box-shadow: 0 0 60px rgba(0,170,255,.10);
+      border: 1px solid rgba(0,170,255,.20);
+      box-shadow: 0 0 70px rgba(0,170,255,.10);
       opacity:.85;
       pointer-events:none;
     }
-    .bot-ring::after{
+    .ring::after{
       content:"";
       position:absolute; inset:18px;
       border-radius:999px;
       border: 1px dashed rgba(106,240,255,.18);
-      opacity:.65;
+      opacity:.6;
       animation: spin 10s linear infinite;
     }
     @keyframes spin{ from{ transform: rotate(0);} to{ transform: rotate(360deg);} }
 
-    /* responsive */
+    /* ================= (1) реакция на печать ================= */
+    .head3d.talking .eye{
+      box-shadow: 0 0 34px rgba(0,170,255,.22);
+      border-color: rgba(106,240,255,.30);
+      background: rgba(0,170,255,.16);
+    }
+    .head3d.talking .eye::after{
+      box-shadow: 0 0 28px rgba(106,240,255,.70);
+    }
+    .head3d.talking .scan{
+      opacity:1;
+      animation: scan 1.9s ease-in-out infinite;
+    }
+    @keyframes scan{
+      0%{ top:-80px; opacity:0; }
+      20%{ opacity:1; }
+      55%{ top:140px; opacity:1; }
+      80%{ opacity:.3; }
+      100%{ top:240px; opacity:0; }
+    }
+
+    /* Responsive */
     @media (max-width: 900px){
       .hero-grid{ grid-template-columns:1fr; }
       .grid{ grid-template-columns:1fr; }
@@ -567,9 +662,12 @@
       .intro-card{ grid-template-columns:1fr; min-height:auto; }
       .intro-left{ border-right:none; border-bottom:1px solid rgba(255,255,255,.10); }
       .intro-actions{ justify-content:flex-start; }
-      .bot3d{ width:300px; height:300px; }
-      .bot-ring{ width:360px; height:360px; }
-      .holo{ width:360px; height:360px; }
+      .head3d{ width:300px; height:320px; }
+      .ring{ width:360px; height:360px; }
+      .halo{ width:380px; height:380px; }
+      .visor{ left:42px; right:42px; }
+      .eye.left{ left: 48px; }
+      .eye.right{ right: 48px; }
     }
   </style>
 </head>
@@ -579,9 +677,12 @@
   <div class="grid-overlay"></div>
   <div class="noise"></div>
 
-  <!-- 3D INTRO ASSISTANT -->
+  <!-- INTRO AI ASSISTANT -->
   <div class="intro" id="intro">
-    <div class="intro-card">
+    <div class="intro-backdrop"></div>
+    <div class="intro-vignette"></div>
+
+    <div class="intro-card" role="dialog" aria-modal="true">
       <div class="intro-left">
         <div class="brand">
           <div class="dot"></div>
@@ -589,42 +690,45 @@
         </div>
 
         <div class="stage" id="stage">
-          <div class="holo"></div>
+          <div class="halo"></div>
+          <div class="ring"></div>
 
-          <div class="bot-ring"></div>
-
-          <div class="bot3d" id="bot3d">
-            <div class="bot-back"></div>
-            <div class="bot-core"></div>
-            <div class="bot-side"></div>
-
-            <div class="bot-visor">
-              <div class="scan"></div>
-              <div class="eye left"></div>
-              <div class="eye right"></div>
-              <div class="mouth"></div>
+          <div class="head3d" id="head3d" aria-hidden="true">
+            <div class="back"></div>
+            <div class="mask">
+              <div class="visor">
+                <div class="scan"></div>
+                <div class="eye left"></div>
+                <div class="eye right"></div>
+                <div class="nose"></div>
+                <div class="mouth"></div>
+              </div>
             </div>
           </div>
         </div>
 
-        <div class="small" style="margin-top:10px;">
-          Нажми «Вступить», чтобы сразу перейти к форме.
+        <div style="margin-top:10px; display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+          <div class="lang" style="margin-left:0;">
+            <span id="langLabel">Язык</span>
+            <select id="langSelectIntro" aria-label="Language">
+              <option value="ru">RU</option>
+              <option value="uk">UA</option>
+              <option value="en">EN</option>
+            </select>
+          </div>
         </div>
       </div>
 
       <div class="intro-right">
         <div>
-          <h2 class="intro-title">Привет. Я NeroviX-бот 🤖</h2>
-          <p class="intro-sub">Коротко покажу, что это за сайт и кто мы.</p>
+          <h2 class="intro-title" id="introTitle">Привет. Я NeroviX AI Assistant</h2>
+          <p class="intro-sub" id="introSub">Коротко покажу, что это за сайт и кто мы.</p>
 
-          <div class="typebox">
-            <div class="type-label">Сообщение</div>
-            <div class="type-text" id="typed"></div>
-          </div>
+          <div class="chat" id="chat"></div>
 
           <label class="toggle">
             <input type="checkbox" id="dontShow" />
-            Больше не показывать это интро
+            <span id="dontShowText">Больше не показывать это интро</span>
           </label>
         </div>
 
@@ -643,29 +747,39 @@
         <div class="dot"></div>
         <div>NeroviX</div>
       </div>
+
       <nav class="menu">
-        <a href="#projects">Проекты</a>
-        <a href="#roles">Роли</a>
-        <a href="#faq">FAQ</a>
-        <a class="btn primary" href="#join">Вступить</a>
+        <a href="#projects" data-i18n="nav_projects">Проекты</a>
+        <a href="#roles" data-i18n="nav_roles">Роли</a>
+        <a href="#faq" data-i18n="nav_faq">FAQ</a>
+
+        <div class="lang" title="Language">
+          <span data-i18n="nav_lang">Язык</span>
+          <select id="langSelect">
+            <option value="ru">RU</option>
+            <option value="uk">UA</option>
+            <option value="en">EN</option>
+          </select>
+        </div>
+
+        <a class="btn primary" href="#join" data-i18n="nav_join_btn">Вступить</a>
       </nav>
     </div>
   </header>
 
   <main class="wrap">
-    <!-- HERO -->
     <section class="hero" id="top">
       <div class="hero-grid">
         <div class="hero-left">
           <h1>NeroviX</h1>
-          <p class="subtitle">
+          <p class="subtitle" data-i18n="hero_sub">
             Команда цифровых проектов. Создаём ботов, системы, сайты и контент-механики.
             Набираем людей под задачи и рост — без воды, по результату.
           </p>
 
           <div class="hero-actions">
-            <a class="btn primary big" href="#join">Вступить в команду</a>
-            <a class="btn big" href="#projects">Посмотреть проекты</a>
+            <a class="btn primary big" href="#join" data-i18n="hero_join">Вступить в команду</a>
+            <a class="btn big" href="#projects" data-i18n="hero_projects">Посмотреть проекты</a>
           </div>
 
           <div class="badge-row">
@@ -678,8 +792,8 @@
 
         <div class="hero-right panel">
           <div class="glow"></div>
-          <div class="card-title">Как мы работаем</div>
-          <div class="card-sub">
+          <div class="card-title" data-i18n="work_title">Как мы работаем</div>
+          <div class="card-sub" data-i18n="work_sub">
             Быстро тестируем гипотезы, фиксируем правила, повторяем то, что даёт рост.
           </div>
 
@@ -687,22 +801,22 @@
             <div class="mini-item">
               <div class="mini-ico"><span>⚡</span></div>
               <div class="mini-text">
-                <b>Скорость</b>
-                <p>Меньше созвонов — больше результата.</p>
+                <b data-i18n="work_speed_t">Скорость</b>
+                <p data-i18n="work_speed_d">Меньше созвонов — больше результата.</p>
               </div>
             </div>
             <div class="mini-item">
               <div class="mini-ico"><span>🎯</span></div>
               <div class="mini-text">
-                <b>Чёткие задачи</b>
-                <p>Понятно кто что делает и зачем.</p>
+                <b data-i18n="work_tasks_t">Чёткие задачи</b>
+                <p data-i18n="work_tasks_d">Понятно кто что делает и зачем.</p>
               </div>
             </div>
             <div class="mini-item">
               <div class="mini-ico"><span>📈</span></div>
               <div class="mini-text">
-                <b>Рост</b>
-                <p>Сначала тесты — потом масштаб.</p>
+                <b data-i18n="work_growth_t">Рост</b>
+                <p data-i18n="work_growth_d">Сначала тесты — потом масштаб.</p>
               </div>
             </div>
           </div>
@@ -711,13 +825,12 @@
       </div>
     </section>
 
-    <!-- PROJECTS -->
     <section class="section" id="projects">
-      <h2>Проекты</h2>
+      <h2 data-i18n="projects_title">Проекты</h2>
       <div class="grid">
         <div class="card">
-          <h3>Проект #1</h3>
-          <p>Технологический продукт с упором на автоматизацию и рост.</p>
+          <h3 data-i18n="p1_title">Проект #1</h3>
+          <p data-i18n="p1_desc">Технологический продукт с упором на автоматизацию и рост.</p>
           <div class="tags">
             <span class="tag">Telegram</span>
             <span class="tag">Growth</span>
@@ -725,8 +838,8 @@
           </div>
         </div>
         <div class="card">
-          <h3>Проект #2</h3>
-          <p>Система контента и воронок: быстрое производство и тест гипотез.</p>
+          <h3 data-i18n="p2_title">Проект #2</h3>
+          <p data-i18n="p2_desc">Система контента и воронок: быстрое производство и тест гипотез.</p>
           <div class="tags">
             <span class="tag">Web</span>
             <span class="tag">AI</span>
@@ -734,8 +847,8 @@
           </div>
         </div>
         <div class="card">
-          <h3>Проект #3</h3>
-          <p>Будущие направления: продукты, сервисы, эксперименты.</p>
+          <h3 data-i18n="p3_title">Проект #3</h3>
+          <p data-i18n="p3_desc">Будущие направления: продукты, сервисы, эксперименты.</p>
           <div class="tags">
             <span class="tag">Systems</span>
             <span class="tag">Ops</span>
@@ -745,98 +858,96 @@
       </div>
     </section>
 
-    <!-- ROLES -->
     <section class="section" id="roles">
-      <h2>Кого набираем</h2>
+      <h2 data-i18n="roles_title">Кого набираем</h2>
       <div class="grid">
         <div class="card">
-          <h3>Монтажёр</h3>
-          <p>Короткие ролики: динамика, удержание, титры, темп.</p>
+          <h3 data-i18n="r_editor_t">Монтажёр</h3>
+          <p data-i18n="r_editor_d">Короткие ролики: динамика, удержание, титры, темп.</p>
           <div class="tags"><span class="tag">CapCut / AE</span><span class="tag">Shorts</span></div>
         </div>
         <div class="card">
-          <h3>Дизайнер</h3>
-          <p>Оформление, обложки, графика, элементы бренда.</p>
+          <h3 data-i18n="r_designer_t">Дизайнер</h3>
+          <p data-i18n="r_designer_d">Оформление, обложки, графика, элементы бренда.</p>
           <div class="tags"><span class="tag">Figma</span><span class="tag">Brand</span></div>
         </div>
         <div class="card">
-          <h3>Разработчик</h3>
-          <p>Боты, интеграции, автоворонки, мини-сайты.</p>
+          <h3 data-i18n="r_dev_t">Разработчик</h3>
+          <p data-i18n="r_dev_d">Боты, интеграции, автоворонки, мини-сайты.</p>
           <div class="tags"><span class="tag">Telegram</span><span class="tag">JS/Python</span></div>
         </div>
       </div>
     </section>
 
-    <!-- JOIN -->
     <section class="section" id="join">
-      <h2>Вступить в команду</h2>
+      <h2 data-i18n="join_title">Вступить в команду</h2>
 
       <div class="join">
         <div class="join-left panel">
-          <div class="card-title">Условия</div>
-          <p>Нам важны: ответственность, регулярность, умение доводить до результата.</p>
-          <p>Формат: тест → первые задачи → рост и распределение по результату.</p>
+          <div class="card-title" data-i18n="join_rules_t">Условия</div>
+          <p data-i18n="join_rules_1">Нам важны: ответственность, регулярность, умение доводить до результата.</p>
+          <p data-i18n="join_rules_2">Формат: тест → первые задачи → рост и распределение по результату.</p>
           <div class="badge-row">
-            <span class="badge">Регулярность</span>
-            <span class="badge">Чёткие правила</span>
-            <span class="badge">Рост</span>
+            <span class="badge" data-i18n="join_badge_1">Регулярность</span>
+            <span class="badge" data-i18n="join_badge_2">Чёткие правила</span>
+            <span class="badge" data-i18n="join_badge_3">Рост</span>
           </div>
         </div>
 
         <div class="join-right panel">
           <form id="form">
             <div class="row">
-              <label>Имя / Ник
+              <label data-i18n="f_name_label">Имя / Ник
                 <input type="text" id="name" placeholder="Например: Ваня" required />
               </label>
 
-              <label>Telegram
+              <label data-i18n="f_tg_label">Telegram
                 <input type="text" id="tg" placeholder="@username" required />
               </label>
             </div>
 
             <div class="row">
-              <label>Роль
+              <label data-i18n="f_role_label">Роль
                 <select id="role" required>
-                  <option value="" disabled selected>Выбери роль</option>
-                  <option>Монтажёр</option>
-                  <option>Дизайнер</option>
-                  <option>Разработчик</option>
-                  <option>Контент-менеджер</option>
-                  <option>Другое</option>
+                  <option value="" disabled selected data-i18n="f_role_choose">Выбери роль</option>
+                  <option value="editor" data-i18n="role_editor">Монтажёр</option>
+                  <option value="designer" data-i18n="role_designer">Дизайнер</option>
+                  <option value="dev" data-i18n="role_dev">Разработчик</option>
+                  <option value="content" data-i18n="role_content">Контент-менеджер</option>
+                  <option value="other" data-i18n="role_other">Другое</option>
                 </select>
               </label>
 
-              <label>Опыт
+              <label data-i18n="f_exp_label">Опыт
                 <select id="exp">
-                  <option value="" selected>Не указано</option>
-                  <option>Новичок</option>
-                  <option>Средний</option>
-                  <option>Опытный</option>
+                  <option value="" selected data-i18n="exp_na">Не указано</option>
+                  <option value="junior" data-i18n="exp_junior">Новичок</option>
+                  <option value="mid" data-i18n="exp_mid">Средний</option>
+                  <option value="senior" data-i18n="exp_senior">Опытный</option>
                 </select>
               </label>
             </div>
 
-            <label>Портфолио / примеры (ссылка)
+            <label data-i18n="f_port_label">Портфолио / примеры (ссылка)
               <input type="text" id="portfolio" placeholder="YouTube / TikTok / Drive / Behance" />
             </label>
 
-            <label>Сколько времени готов уделять?
+            <label data-i18n="f_time_label">Сколько времени готов уделять?
               <input type="text" id="time" placeholder="Например: 1-2 часа в день" />
             </label>
 
-            <label>О себе (коротко)
+            <label data-i18n="f_about_label">О себе (коротко)
               <textarea id="about" placeholder="2-5 предложений"></textarea>
             </label>
 
             <label class="check">
               <input type="checkbox" id="test" />
-              Готов(а) сделать тестовое задание
+              <span data-i18n="f_test_label">Готов(а) сделать тестовое задание</span>
             </label>
 
             <div class="btn-row">
-              <button class="btn primary big" type="button" id="sendBtn" onclick="send()">Отправить заявку</button>
-              <a class="btn big" href="#top">Наверх</a>
+              <button class="btn primary big" type="button" id="sendBtn" onclick="send()" data-i18n="f_send">Отправить заявку</button>
+              <a class="btn big" href="#top" data-i18n="to_top">Наверх</a>
             </div>
 
             <div id="status" class="status"></div>
@@ -845,21 +956,20 @@
       </div>
     </section>
 
-    <!-- FAQ -->
     <section class="section" id="faq">
-      <h2>FAQ</h2>
+      <h2 data-i18n="faq_title">FAQ</h2>
       <div style="display:grid; gap:12px;">
         <details>
-          <summary>Это оплачивается?</summary>
-          <p>На старте — тест и первые задачи. Дальше — по результату: фикс/процент/доля (как решите внутри команды).</p>
+          <summary data-i18n="faq_q1">Это оплачивается?</summary>
+          <p data-i18n="faq_a1">На старте — тест и первые задачи. Дальше — по результату: фикс/процент/доля.</p>
         </details>
         <details>
-          <summary>Сколько времени нужно?</summary>
-          <p>Даже 1–2 часа в день, но регулярно. Лучше стабильность, чем “пропал на неделю”.</p>
+          <summary data-i18n="faq_q2">Сколько времени нужно?</summary>
+          <p data-i18n="faq_a2">Даже 1–2 часа в день, но регулярно. Лучше стабильность, чем “пропал на неделю”.</p>
         </details>
         <details>
-          <summary>Какой формат работы?</summary>
-          <p>Задачи, дедлайны, быстрые правки. Общение и управление по темам в Telegram.</p>
+          <summary data-i18n="faq_q3">Какой формат работы?</summary>
+          <p data-i18n="faq_a3">Задачи, дедлайны, быстрые правки. Управление по темам в Telegram.</p>
         </details>
       </div>
     </section>
@@ -867,16 +977,364 @@
     <footer class="footer">
       <div class="footer-inner">
         <div>© NeroviX</div>
-        <div>Заявки приходят прямо в Telegram</div>
+        <div data-i18n="footer_note">Заявки приходят прямо в Telegram</div>
       </div>
     </footer>
   </main>
 
   <script>
-    // ТВОЙ воркер
+    // ======== ВАЖНО: твой воркер ========
     const ENDPOINT_URL = "https://super-voice-25ca.slavatop212.workers.dev/";
+    const INTRO_KEY = "nerovix_intro_hidden_v3";
+    const LANG_KEY = "nerovix_lang_v1";
 
-    // ---------- Форма ----------
+    // ======== i18n ========
+    const i18n = {
+      ru: {
+        nav_projects: "Проекты",
+        nav_roles: "Роли",
+        nav_faq: "FAQ",
+        nav_lang: "Язык",
+        nav_join_btn: "Вступить",
+
+        hero_sub: "Команда цифровых проектов. Создаём ботов, системы, сайты и контент-механики. Набираем людей под задачи и рост — без воды, по результату.",
+        hero_join: "Вступить в команду",
+        hero_projects: "Посмотреть проекты",
+
+        work_title: "Как мы работаем",
+        work_sub: "Быстро тестируем гипотезы, фиксируем правила, повторяем то, что даёт рост.",
+        work_speed_t: "Скорость",
+        work_speed_d: "Меньше созвонов — больше результата.",
+        work_tasks_t: "Чёткие задачи",
+        work_tasks_d: "Понятно кто что делает и зачем.",
+        work_growth_t: "Рост",
+        work_growth_d: "Сначала тесты — потом масштаб.",
+
+        projects_title: "Проекты",
+        p1_title: "Проект #1",
+        p1_desc: "Технологический продукт с упором на автоматизацию и рост.",
+        p2_title: "Проект #2",
+        p2_desc: "Система контента и воронок: быстрое производство и тест гипотез.",
+        p3_title: "Проект #3",
+        p3_desc: "Будущие направления: продукты, сервисы, эксперименты.",
+
+        roles_title: "Кого набираем",
+        r_editor_t: "Монтажёр",
+        r_editor_d: "Короткие ролики: динамика, удержание, титры, темп.",
+        r_designer_t: "Дизайнер",
+        r_designer_d: "Оформление, обложки, графика, элементы бренда.",
+        r_dev_t: "Разработчик",
+        r_dev_d: "Боты, интеграции, автоворонки, мини-сайты.",
+
+        join_title: "Вступить в команду",
+        join_rules_t: "Условия",
+        join_rules_1: "Нам важны: ответственность, регулярность, умение доводить до результата.",
+        join_rules_2: "Формат: тест → первые задачи → рост и распределение по результату.",
+        join_badge_1: "Регулярность",
+        join_badge_2: "Чёткие правила",
+        join_badge_3: "Рост",
+
+        f_name_label: "Имя / Ник",
+        f_tg_label: "Telegram",
+        f_role_label: "Роль",
+        f_role_choose: "Выбери роль",
+        role_editor: "Монтажёр",
+        role_designer: "Дизайнер",
+        role_dev: "Разработчик",
+        role_content: "Контент-менеджер",
+        role_other: "Другое",
+
+        f_exp_label: "Опыт",
+        exp_na: "Не указано",
+        exp_junior: "Новичок",
+        exp_mid: "Средний",
+        exp_senior: "Опытный",
+
+        f_port_label: "Портфолио / примеры (ссылка)",
+        f_time_label: "Сколько времени готов уделять?",
+        f_about_label: "О себе (коротко)",
+        f_test_label: "Готов(а) сделать тестовое задание",
+        f_send: "Отправить заявку",
+        to_top: "Наверх",
+
+        faq_title: "FAQ",
+        faq_q1: "Это оплачивается?",
+        faq_a1: "На старте — тест и первые задачи. Дальше — по результату: фикс/процент/доля.",
+        faq_q2: "Сколько времени нужно?",
+        faq_a2: "Даже 1–2 часа в день, но регулярно.",
+        faq_q3: "Какой формат работы?",
+        faq_a3: "Задачи, дедлайны, быстрые правки. Управление по темам в Telegram.",
+
+        footer_note: "Заявки приходят прямо в Telegram",
+
+        introTitle: "Привет. Я NeroviX AI Assistant",
+        introSub: "Коротко покажу, что это за сайт и кто мы.",
+        dontShowText: "Больше не показывать это интро",
+        skipBtn: "Пропустить",
+        joinBtn: "Вступить",
+        okBtn: "Понятно",
+        langLabel: "Язык",
+
+        chat: [
+          { title: "Сообщение", text: "Добро пожаловать на сайт NeroviX." },
+          { title: "Кто мы", text: "Мы строим цифровые проекты и доводим их до результата." },
+          { title: "Что делаем", text: "• автоматизация и боты\n• контент-системы и воронки\n• сайты и интеграции" },
+          { title: "Дальше", text: "Если хочешь попасть в команду — нажми «Вступить». Заявка сразу улетит в наш Telegram." }
+        ],
+
+        msg_fill: "Заполни: имя, Telegram и роль.",
+        msg_tg: "Telegram должен быть вида @username (без пробелов).",
+        msg_sending: "Отправляю...",
+        msg_ok: "Заявка отправлена ✅",
+        msg_bad: "Ошибка отправки ❌ Попробуй ещё раз."
+      },
+
+      uk: {
+        nav_projects: "Проєкти",
+        nav_roles: "Ролі",
+        nav_faq: "FAQ",
+        nav_lang: "Мова",
+        nav_join_btn: "Вступити",
+
+        hero_sub: "Команда цифрових проєктів. Створюємо ботів, системи, сайти та контент-механіки. Набираємо людей під задачі й ріст — без води, по результату.",
+        hero_join: "Вступити в команду",
+        hero_projects: "Переглянути проєкти",
+
+        work_title: "Як ми працюємо",
+        work_sub: "Швидко тестуємо гіпотези, фіксуємо правила, повторюємо те, що дає ріст.",
+        work_speed_t: "Швидкість",
+        work_speed_d: "Менше дзвінків — більше результату.",
+        work_tasks_t: "Чіткі задачі",
+        work_tasks_d: "Зрозуміло хто що робить і навіщо.",
+        work_growth_t: "Ріст",
+        work_growth_d: "Спочатку тести — потім масштаб.",
+
+        projects_title: "Проєкти",
+        p1_title: "Проєкт #1",
+        p1_desc: "Технологічний продукт з фокусом на автоматизацію та ріст.",
+        p2_title: "Проєкт #2",
+        p2_desc: "Система контенту та воронок: швидке виробництво й тест гіпотез.",
+        p3_title: "Проєкт #3",
+        p3_desc: "Майбутні напрями: продукти, сервіси, експерименти.",
+
+        roles_title: "Кого набираємо",
+        r_editor_t: "Монтажер",
+        r_editor_d: "Короткі ролики: динаміка, утримання, титри, темп.",
+        r_designer_t: "Дизайнер",
+        r_designer_d: "Оформлення, обкладинки, графіка, елементи бренду.",
+        r_dev_t: "Розробник",
+        r_dev_d: "Боти, інтеграції, автовирви, міні-сайти.",
+
+        join_title: "Вступити в команду",
+        join_rules_t: "Умови",
+        join_rules_1: "Нам важливі: відповідальність, регулярність, вміння доводити до результату.",
+        join_rules_2: "Формат: тест → перші задачі → ріст і розподіл за результатом.",
+        join_badge_1: "Регулярність",
+        join_badge_2: "Чіткі правила",
+        join_badge_3: "Ріст",
+
+        f_name_label: "Ім’я / Нік",
+        f_tg_label: "Telegram",
+        f_role_label: "Роль",
+        f_role_choose: "Обери роль",
+        role_editor: "Монтажер",
+        role_designer: "Дизайнер",
+        role_dev: "Розробник",
+        role_content: "Контент-менеджер",
+        role_other: "Інше",
+
+        f_exp_label: "Досвід",
+        exp_na: "Не вказано",
+        exp_junior: "Новачок",
+        exp_mid: "Середній",
+        exp_senior: "Досвідчений",
+
+        f_port_label: "Портфоліо / приклади (посилання)",
+        f_time_label: "Скільки часу готовий(а) приділяти?",
+        f_about_label: "Про себе (коротко)",
+        f_test_label: "Готовий(а) виконати тестове завдання",
+        f_send: "Надіслати заявку",
+        to_top: "Вгору",
+
+        faq_title: "FAQ",
+        faq_q1: "Це оплачується?",
+        faq_a1: "На старті — тест і перші задачі. Далі — за результатом: фікс/відсоток/частка.",
+        faq_q2: "Скільки часу потрібно?",
+        faq_a2: "Навіть 1–2 години на день, але регулярно.",
+        faq_q3: "Який формат роботи?",
+        faq_a3: "Задачі, дедлайни, швидкі правки. Управління по темах у Telegram.",
+
+        footer_note: "Заявки приходять прямо в Telegram",
+
+        introTitle: "Привіт. Я NeroviX AI Assistant",
+        introSub: "Коротко покажу, що це за сайт і хто ми.",
+        dontShowText: "Більше не показувати це інтро",
+        skipBtn: "Пропустити",
+        joinBtn: "Вступити",
+        okBtn: "Зрозуміло",
+        langLabel: "Мова",
+
+        chat: [
+          { title: "Повідомлення", text: "Ласкаво просимо на сайт NeroviX." },
+          { title: "Хто ми", text: "Ми створюємо цифрові проєкти й доводимо їх до результату." },
+          { title: "Що робимо", text: "• автоматизація та боти\n• контент-системи і воронки\n• сайти та інтеграції" },
+          { title: "Далі", text: "Якщо хочеш у команду — натисни «Вступити». Заявка одразу піде в наш Telegram." }
+        ],
+
+        msg_fill: "Заповни: ім’я, Telegram і роль.",
+        msg_tg: "Telegram має бути у форматі @username (без пробілів).",
+        msg_sending: "Надсилаю...",
+        msg_ok: "Заявку надіслано ✅",
+        msg_bad: "Помилка надсилання ❌ Спробуй ще раз."
+      },
+
+      en: {
+        nav_projects: "Projects",
+        nav_roles: "Roles",
+        nav_faq: "FAQ",
+        nav_lang: "Language",
+        nav_join_btn: "Join",
+
+        hero_sub: "A digital projects team. We build bots, systems, sites and content mechanics. We recruit people for tasks and growth — no fluff, results-driven.",
+        hero_join: "Join the team",
+        hero_projects: "View projects",
+
+        work_title: "How we work",
+        work_sub: "We test hypotheses fast, set rules, and repeat what drives growth.",
+        work_speed_t: "Speed",
+        work_speed_d: "Fewer calls — more output.",
+        work_tasks_t: "Clear tasks",
+        work_tasks_d: "Everyone knows what and why.",
+        work_growth_t: "Growth",
+        work_growth_d: "Tests first — scale next.",
+
+        projects_title: "Projects",
+        p1_title: "Project #1",
+        p1_desc: "A tech product focused on automation and growth.",
+        p2_title: "Project #2",
+        p2_desc: "Content + funnel system: fast production and hypothesis testing.",
+        p3_title: "Project #3",
+        p3_desc: "Future directions: products, services, experiments.",
+
+        roles_title: "We’re recruiting",
+        r_editor_t: "Video Editor",
+        r_editor_d: "Short-form edits: pacing, retention, captions, punch.",
+        r_designer_t: "Designer",
+        r_designer_d: "Covers, simple graphics, brand elements.",
+        r_dev_t: "Developer",
+        r_dev_d: "Bots, integrations, automations, mini-sites.",
+
+        join_title: "Join the team",
+        join_rules_t: "How it works",
+        join_rules_1: "We value: responsibility, consistency, and finishing what you start.",
+        join_rules_2: "Flow: test task → first work → growth based on results.",
+        join_badge_1: "Consistency",
+        join_badge_2: "Clear rules",
+        join_badge_3: "Growth",
+
+        f_name_label: "Name / Nick",
+        f_tg_label: "Telegram",
+        f_role_label: "Role",
+        f_role_choose: "Choose a role",
+        role_editor: "Video Editor",
+        role_designer: "Designer",
+        role_dev: "Developer",
+        role_content: "Content manager",
+        role_other: "Other",
+
+        f_exp_label: "Experience",
+        exp_na: "Not specified",
+        exp_junior: "Beginner",
+        exp_mid: "Intermediate",
+        exp_senior: "Advanced",
+
+        f_port_label: "Portfolio / samples (link)",
+        f_time_label: "How much time can you commit?",
+        f_about_label: "About you (short)",
+        f_test_label: "I’m ready for a test task",
+        f_send: "Send application",
+        to_top: "Top",
+
+        faq_title: "FAQ",
+        faq_q1: "Is it paid?",
+        faq_a1: "Start with a test and first tasks. Then — based on results: fixed / revenue share / equity.",
+        faq_q2: "How much time is needed?",
+        faq_a2: "Even 1–2 hours/day, but consistently.",
+        faq_q3: "What’s the format?",
+        faq_a3: "Tasks, deadlines, fast iterations. Managed via Telegram topics.",
+
+        footer_note: "Applications go straight to Telegram",
+
+        introTitle: "Hi. I’m NeroviX AI Assistant",
+        introSub: "Quick intro: what this site is and who we are.",
+        dontShowText: "Don’t show this intro again",
+        skipBtn: "Skip",
+        joinBtn: "Join",
+        okBtn: "Got it",
+        langLabel: "Language",
+
+        chat: [
+          { title: "Message", text: "Welcome to NeroviX." },
+          { title: "Who we are", text: "We build digital products and ship results." },
+          { title: "What we do", text: "• automation & bots\n• content systems & funnels\n• websites & integrations" },
+          { title: "Next", text: "If you want to join — click “Join”. Your application will be sent to our Telegram instantly." }
+        ],
+
+        msg_fill: "Fill in: name, Telegram and role.",
+        msg_tg: "Telegram must look like @username (no spaces).",
+        msg_sending: "Sending...",
+        msg_ok: "Application sent ✅",
+        msg_bad: "Sending failed ❌ Try again."
+      }
+    };
+
+    // ======== Language handling ========
+    const langSelect = document.getElementById("langSelect");
+    const langSelectIntro = document.getElementById("langSelectIntro");
+    const langLabel = document.getElementById("langLabel");
+
+    function getInitialLang(){
+      const saved = localStorage.getItem(LANG_KEY);
+      if (saved && i18n[saved]) return saved;
+      const nav = (navigator.language || "ru").toLowerCase();
+      if (nav.startsWith("uk")) return "uk";
+      if (nav.startsWith("en")) return "en";
+      return "ru";
+    }
+
+    let currentLang = getInitialLang();
+    langSelect.value = currentLang;
+    langSelectIntro.value = currentLang;
+
+    function applyLang(lang){
+      if (!i18n[lang]) return;
+      currentLang = lang;
+      localStorage.setItem(LANG_KEY, lang);
+
+      langSelect.value = lang;
+      langSelectIntro.value = lang;
+
+      document.querySelectorAll("[data-i18n]").forEach(el=>{
+        const key = el.getAttribute("data-i18n");
+        const v = i18n[lang][key];
+        if (typeof v === "string") el.textContent = v;
+      });
+
+      document.getElementById("introTitle").textContent = i18n[lang].introTitle;
+      document.getElementById("introSub").textContent = i18n[lang].introSub;
+      document.getElementById("dontShowText").textContent = i18n[lang].dontShowText;
+      document.getElementById("skipBtn").textContent = i18n[lang].skipBtn;
+      document.getElementById("goJoinBtn").textContent = i18n[lang].joinBtn;
+      document.getElementById("closeBtn").textContent = i18n[lang].okBtn;
+      langLabel.textContent = i18n[lang].langLabel;
+
+      buildChat();
+    }
+
+    langSelect.addEventListener("change", e => applyLang(e.target.value));
+    langSelectIntro.addEventListener("change", e => applyLang(e.target.value));
+
+    // ======== Form ========
     const statusEl = document.getElementById("status");
     const sendBtn = document.getElementById("sendBtn");
 
@@ -898,21 +1356,15 @@
       const name = document.getElementById("name").value.trim();
       const tg = normalizeTg(document.getElementById("tg").value);
       const role = document.getElementById("role").value;
-      const exp = document.getElementById("exp").value;
-      const portfolio = document.getElementById("portfolio").value.trim();
-      const time = document.getElementById("time").value.trim();
-      const about = document.getElementById("about").value.trim();
-      const test = document.getElementById("test").checked ? "yes" : "no";
 
-      if (!name || !tg || !role) { setStatus("Заполни: имя, Telegram и роль.", "bad"); return; }
-      if (!/^@[A-Za-z0-9_]{3,32}$/.test(tg)) { setStatus("Telegram должен быть вида @username (без пробелов).", "bad"); return; }
+      if (!name || !tg || !role) { setStatus(i18n[currentLang].msg_fill, "bad"); return; }
+      if (!/^@[A-Za-z0-9_]{3,32}$/.test(tg)) { setStatus(i18n[currentLang].msg_tg, "bad"); return; }
 
-      const data = { name, tg, role, exp, portfolio, time, about, test };
+      const data = { name, tg, role };
 
       sendBtn.disabled = true;
       sendBtn.style.opacity = ".7";
-      sendBtn.style.cursor = "not-allowed";
-      setStatus("Отправляю...", "");
+      setStatus(i18n[currentLang].msg_sending, "");
 
       try {
         const res = await fetch(ENDPOINT_URL, {
@@ -922,113 +1374,172 @@
         });
         if (!res.ok) throw new Error("bad_response");
 
-        setStatus("Заявка отправлена ✅", "ok");
+        setStatus(i18n[currentLang].msg_ok, "ok");
         document.getElementById("name").value = "";
         document.getElementById("tg").value = "";
-        document.getElementById("portfolio").value = "";
-        document.getElementById("time").value = "";
-        document.getElementById("about").value = "";
-        document.getElementById("test").checked = false;
+        document.getElementById("role").selectedIndex = 0;
+
       } catch (e) {
-        setStatus("Ошибка отправки ❌ Попробуй ещё раз.", "bad");
+        setStatus(i18n[currentLang].msg_bad, "bad");
       } finally {
         sendBtn.disabled = false;
         sendBtn.style.opacity = "1";
-        sendBtn.style.cursor = "pointer";
       }
     }
 
-    // ---------- 3D Intro ----------
+    // ======== Intro assistant: chat + typing + talking reaction (1,5) ========
     const intro = document.getElementById("intro");
-    const typedEl = document.getElementById("typed");
     const dontShow = document.getElementById("dontShow");
     const closeBtn = document.getElementById("closeBtn");
     const skipBtn = document.getElementById("skipBtn");
     const goJoinBtn = document.getElementById("goJoinBtn");
+    const chatEl = document.getElementById("chat");
     const stage = document.getElementById("stage");
-    const bot3d = document.getElementById("bot3d");
-
-    const INTRO_KEY = "nerovix_intro_hidden_v2";
-
-    const scriptText =
-`Добро пожаловать на сайт NeroviX.
-
-Мы — команда, которая строит цифровые проекты:
-• боты и автоматизацию
-• контент-системы и воронки
-• сайты и интеграции
-
-Если хочешь попасть в команду — нажми «Вступить».
-Заявка сразу улетит в наш Telegram.`;
+    const head3d = document.getElementById("head3d");
 
     let typingTimer = null;
+    let isTyping = false;
+    let introDone = false;
+
+    function setTalking(on){
+      if (on) head3d.classList.add("talking");
+      else head3d.classList.remove("talking");
+    }
+
+    function buildChat(){
+      chatEl.innerHTML = "";
+      const msgs = i18n[currentLang].chat;
+      msgs.forEach((m, idx)=>{
+        const b = document.createElement("div");
+        b.className = "bubble ai";
+        b.dataset.idx = idx;
+
+        const t = document.createElement("strong");
+        t.textContent = m.title;
+
+        const text = document.createElement("div");
+        text.className = "text";
+        text.textContent = "";
+
+        b.appendChild(t);
+        b.appendChild(text);
+        chatEl.appendChild(b);
+      });
+    }
+
+    function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
+
+    async function typeInto(el, fullText, speed=12){
+      clearTimeout(typingTimer);
+      isTyping = true;
+      setTalking(true);
+
+      el.textContent = "";
+      const caret = document.createElement("span");
+      caret.className = "typing-caret";
+      caret.textContent = "▋";
+      el.appendChild(caret);
+
+      let i = 0;
+      return new Promise(resolve=>{
+        const step = () => {
+          if (!isTyping) { resolve(); return; }
+
+          caret.remove();
+          el.textContent += fullText[i] || "";
+          el.appendChild(caret);
+
+          i++;
+          if (i <= fullText.length) {
+            typingTimer = setTimeout(step, speed);
+          } else {
+            isTyping = false;
+            setTalking(false);
+            resolve();
+          }
+        };
+        step();
+      });
+    }
+
+    async function playIntroChat(){
+      introDone = false;
+      const msgs = i18n[currentLang].chat;
+      for (let k=0; k<msgs.length; k++){
+        const bubble = chatEl.querySelector(`.bubble[data-idx="${k}"] .text`);
+        await typeInto(bubble, msgs[k].text, 12);
+        await sleep(160);
+      }
+      introDone = true;
+      setTalking(false);
+    }
 
     function showIntro(){
       intro.style.display = "flex";
       document.body.style.overflow = "hidden";
-      startTyping(scriptText);
+      buildChat();
+      playIntroChat();
     }
+
     function hideIntro(){
       intro.style.display = "none";
       document.body.style.overflow = "";
+      stopTyping();
       if (dontShow.checked) localStorage.setItem(INTRO_KEY, "1");
     }
 
-    function startTyping(text){
+    function stopTyping(){
       clearTimeout(typingTimer);
-      typedEl.textContent = "";
-      const caret = document.createElement("span");
-      caret.className = "typing-caret";
-      caret.textContent = "▋";
-      typedEl.appendChild(caret);
-
-      let i = 0;
-      const speed = 16;
-
-      const step = () => {
-        caret.remove();
-        typedEl.textContent += text[i] || "";
-        typedEl.appendChild(caret);
-        i++;
-        if (i <= text.length) typingTimer = setTimeout(step, speed);
-      };
-      step();
-    }
-    function skipTyping(){
-      clearTimeout(typingTimer);
-      typedEl.textContent = scriptText;
+      isTyping = false;
+      setTalking(false);
     }
 
-    // Поворот "3D" от мышки (даёт ощущение настоящей модели)
+    function fillAllChatInstant(){
+      stopTyping();
+      const msgs = i18n[currentLang].chat;
+      msgs.forEach((m, idx)=>{
+        const bubble = chatEl.querySelector(`.bubble[data-idx="${idx}"] .text`);
+        if (bubble) bubble.textContent = m.text;
+      });
+      introDone = true;
+    }
+
+    // mouse parallax
     function bind3D(){
       const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
       stage.addEventListener("mousemove", (e) => {
         const r = stage.getBoundingClientRect();
-        const x = (e.clientX - r.left) / r.width;   // 0..1
-        const y = (e.clientY - r.top) / r.height;   // 0..1
+        const x = (e.clientX - r.left) / r.width;
+        const y = (e.clientY - r.top) / r.height;
         const ry = clamp((x - 0.5) * 22, -18, 18);
         const rx = clamp(-(y - 0.5) * 18, -14, 14);
-        bot3d.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg) translateY(-6px)`;
-        bot3d.style.transition = "transform 60ms linear";
+        head3d.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg) translateY(-6px)`;
+        head3d.style.transition = "transform 60ms linear";
       });
       stage.addEventListener("mouseleave", () => {
-        bot3d.style.transition = "transform 350ms ease";
-        bot3d.style.transform = "";
+        head3d.style.transition = "transform 350ms ease";
+        head3d.style.transform = "";
       });
     }
     bind3D();
 
-    const hidden = localStorage.getItem(INTRO_KEY) === "1";
-    if (!hidden) setTimeout(showIntro, 350);
-
+    // Skip: 1-й клик = показать весь текст, 2-й клик = закрыть
+    skipBtn.addEventListener("click", () => {
+      if (!introDone) fillAllChatInstant();
+      else hideIntro();
+    });
     closeBtn.addEventListener("click", hideIntro);
-    skipBtn.addEventListener("click", skipTyping);
     goJoinBtn.addEventListener("click", () => { hideIntro(); location.hash = "#join"; });
 
     window.addEventListener("keydown", (e) => {
       if (e.key === "Escape" && intro.style.display === "flex") hideIntro();
     });
-    intro.addEventListener("click", (e) => { if (e.target === intro) hideIntro(); });
+
+    // ======== init ========
+    applyLang(currentLang);
+
+    const hidden = localStorage.getItem(INTRO_KEY) === "1";
+    if (!hidden) setTimeout(showIntro, 420);
   </script>
 </body>
 </html>
