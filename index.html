@@ -1,119 +1,637 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>NeroviX</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
-    body {
-      margin: 0;
-      font-family: Arial;
-      background: #0a0f1f;
-      color: white;
-      text-align: center;
+    :root{
+      --bg:#070A12;
+      --bg2:#0A0F1F;
+      --card: rgba(255,255,255,.04);
+      --border: rgba(255,255,255,.09);
+      --text:#EAF0FF;
+      --muted:#98A6C7;
+      --acc:#00aaff;
+      --acc2:#6af0ff;
+      --ok:#2dd4bf;
+      --bad:#ff4d6d;
+      --shadow: 0 18px 50px rgba(0,0,0,.35);
+      --radius: 18px;
     }
 
-    .container {
-      padding: 50px 20px;
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: Arial, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1200px 600px at 50% -10%, rgba(0,170,255,.22), transparent 60%),
+        radial-gradient(900px 500px at 90% 10%, rgba(106,240,255,.10), transparent 55%),
+        var(--bg);
+      overflow-x:hidden;
     }
 
-    h1 {
-      font-size: 40px;
-      margin-bottom: 10px;
+    a{ color:inherit; text-decoration:none; }
+    .wrap{ max-width:1100px; margin:0 auto; padding:0 18px; }
+
+    /* NAV */
+    .nav{
+      position:sticky; top:0; z-index:50;
+      background: rgba(7,10,18,.65);
+      backdrop-filter: blur(10px);
+      border-bottom:1px solid var(--border);
+    }
+    .nav-inner{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:14px 0;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      font-weight:800; letter-spacing:.4px;
+    }
+    .dot{
+      width:10px; height:10px; border-radius:99px;
+      background: linear-gradient(180deg, var(--acc2), var(--acc));
+      box-shadow: 0 0 18px rgba(0,170,255,.6);
+    }
+    .menu{ display:flex; gap:16px; align-items:center; }
+    .menu a{
+      color:var(--muted);
+      font-size:14px;
+      padding:8px 10px;
+      border-radius:12px;
+      transition:.15s;
+    }
+    .menu a:hover{ color:var(--text); background: rgba(255,255,255,.03); }
+
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      gap:8px;
+      padding:10px 14px;
+      border-radius:14px;
+      border:1px solid rgba(0,170,255,.35);
+      background: linear-gradient(180deg, rgba(0,170,255,.18), rgba(0,170,255,.06));
+      color:var(--text);
+      cursor:pointer;
+      transition:.15s;
+      user-select:none;
+    }
+    .btn:hover{ transform: translateY(-1px); box-shadow: 0 10px 28px rgba(0,170,255,.12); }
+    .btn:active{ transform: translateY(0px); }
+    .btn.primary{
+      border:1px solid rgba(0,170,255,.55);
+      background: linear-gradient(180deg, rgba(0,170,255,.28), rgba(0,170,255,.10));
+    }
+    .btn.big{ padding:12px 18px; border-radius:16px; font-size:15px; }
+
+    /* HERO */
+    .hero{ padding:70px 0 32px; }
+    .hero-grid{
+      display:grid; gap:18px;
+      grid-template-columns: 1.1fr .9fr;
+      align-items:stretch;
+    }
+    .hero-left{
+      padding:30px 18px;
+    }
+    h1{
+      margin:0 0 12px;
+      font-size:44px; line-height:1.05;
+      letter-spacing:-.5px;
+    }
+    .subtitle{
+      margin:0 0 20px;
+      color:var(--muted);
+      max-width:720px;
+      font-size:16px;
+      line-height:1.6;
+    }
+    .hero-actions{ display:flex; gap:12px; flex-wrap:wrap; }
+    .badge-row{ margin-top:16px; display:flex; gap:10px; flex-wrap:wrap; }
+    .badge{
+      font-size:12px;
+      color:var(--muted);
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.02);
+      padding:6px 10px;
+      border-radius:999px;
     }
 
-    p {
-      color: #aaa;
-      max-width: 500px;
-      margin: 0 auto 30px;
+    /* PANEL */
+    .panel{
+      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    .hero-right{
+      padding:18px;
+      position:relative;
+      overflow:hidden;
+    }
+    .glow{
+      position:absolute; inset:-50px -80px auto auto;
+      width:220px; height:220px; border-radius:50%;
+      background: radial-gradient(circle at 40% 40%, rgba(0,170,255,.35), transparent 60%);
+      filter: blur(2px);
+      pointer-events:none;
+    }
+    .card-title{
+      font-weight:700;
+      margin:4px 0 4px;
+      font-size:14px;
+    }
+    .card-sub{
+      margin:0 0 12px;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.45;
+    }
+    .mini-list{
+      display:grid; gap:10px;
+      margin-top:12px;
+    }
+    .mini-item{
+      display:flex; gap:10px; align-items:flex-start;
+      padding:10px 10px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.06);
+      background: rgba(0,0,0,.12);
+    }
+    .mini-ico{
+      width:28px; height:28px; border-radius:10px;
+      background: linear-gradient(180deg, rgba(106,240,255,.22), rgba(0,170,255,.12));
+      border:1px solid rgba(0,170,255,.25);
+      display:flex; align-items:center; justify-content:center;
+      flex: 0 0 auto;
+    }
+    .mini-ico span{ font-size:14px; }
+    .mini-text b{ display:block; font-size:13px; margin-bottom:2px; }
+    .mini-text p{ margin:0; color:var(--muted); font-size:12px; line-height:1.45; }
+
+    /* SECTIONS */
+    .section{ padding:38px 0; }
+    .section h2{
+      margin:0 0 14px;
+      font-size:22px;
+      letter-spacing:.2px;
+    }
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:14px;
+    }
+    .card{
+      padding:16px;
+      border-radius: var(--radius);
+      border:1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.015));
+      box-shadow: 0 10px 30px rgba(0,0,0,.18);
+      min-height:120px;
+    }
+    .card h3{ margin:0 0 6px; font-size:16px; }
+    .card p{ margin:0; color:var(--muted); line-height:1.5; font-size:14px; }
+    .tags{ margin-top:10px; display:flex; gap:8px; flex-wrap:wrap; }
+    .tag{
+      font-size:12px;
+      color:var(--muted);
+      padding:5px 9px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.09);
+      background: rgba(255,255,255,.02);
     }
 
-    button {
-      background: #00aaff;
-      border: none;
-      padding: 12px 20px;
-      color: white;
-      border-radius: 10px;
-      cursor: pointer;
-      font-size: 16px;
+    /* JOIN */
+    .join{
+      display:grid; gap:14px;
+      grid-template-columns: 1fr 1fr;
+      align-items:stretch;
+    }
+    .join-left{ padding:18px; }
+    .join-left p{ color:var(--muted); margin:0 0 10px; line-height:1.6; }
+    .join-right{ padding:18px; }
+
+    form{
+      display:grid;
+      gap:12px;
+    }
+    .row{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+    }
+    label{
+      display:flex;
+      flex-direction:column;
+      gap:7px;
+      font-size:13px;
+      color:var(--muted);
+      text-align:left;
+    }
+    input, select, textarea{
+      padding:12px 12px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.18);
+      color: var(--text);
+      outline:none;
+      font-size:14px;
+    }
+    input:focus, select:focus, textarea:focus{
+      border-color: rgba(0,170,255,.55);
+      box-shadow: 0 0 0 3px rgba(0,170,255,.10);
+    }
+    textarea{ resize: vertical; min-height: 92px; }
+
+    .check{
+      display:flex; align-items:center; gap:10px;
+      border:1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.02);
+      padding:12px;
+      border-radius:14px;
+      color:var(--text);
+      font-size:14px;
+    }
+    .check input{ width:18px; height:18px; }
+
+    .status{
+      margin-top:6px;
+      text-align:left;
+      font-size:14px;
+      min-height:18px;
+      color: var(--muted);
+    }
+    .status.ok{ color: var(--ok); }
+    .status.bad{ color: var(--bad); }
+
+    .btn-row{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:flex-start;
     }
 
-    form {
-      margin-top: 40px;
-      display: none;
-      flex-direction: column;
-      gap: 10px;
-      max-width: 300px;
-      margin-left: auto;
-      margin-right: auto;
+    /* FAQ */
+    details{
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.02);
+      border-radius: var(--radius);
+      padding:12px 14px;
+    }
+    summary{
+      cursor:pointer;
+      font-weight:700;
+      color:var(--text);
+      outline:none;
+    }
+    details p{
+      margin:10px 0 0;
+      color:var(--muted);
+      line-height:1.6;
+      font-size:14px;
     }
 
-    input {
-      padding: 10px;
-      border-radius: 8px;
-      border: none;
+    /* FOOTER */
+    .footer{
+      padding:26px 0 36px;
+      border-top:1px solid var(--border);
+      color:var(--muted);
+      font-size:13px;
+    }
+    .footer-inner{
+      display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;
+    }
+
+    /* responsive */
+    @media (max-width: 900px){
+      .hero-grid{ grid-template-columns:1fr; }
+      .grid{ grid-template-columns:1fr; }
+      .join{ grid-template-columns:1fr; }
+      .row{ grid-template-columns:1fr; }
+      h1{ font-size:38px; }
     }
   </style>
 </head>
 
 <body>
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <div class="brand">
+        <div class="dot"></div>
+        <div>NeroviX</div>
+      </div>
+      <nav class="menu">
+        <a href="#projects">Проекты</a>
+        <a href="#roles">Роли</a>
+        <a href="#faq">FAQ</a>
+        <a class="btn primary" href="#join">Вступить</a>
+      </nav>
+    </div>
+  </header>
 
-<div class="container">
-  <h1>NeroviX</h1>
-  <p>Команда цифровых проектов. Создаём ботов, системы и контент.</p>
+  <main class="wrap">
+    <!-- HERO -->
+    <section class="hero" id="top">
+      <div class="hero-grid">
+        <div class="hero-left">
+          <h1>NeroviX</h1>
+          <p class="subtitle">
+            Команда цифровых проектов. Создаём ботов, системы, сайты и контент-механики.
+            Набираем людей под задачи и рост — без воды, по результату.
+          </p>
 
-  <button onclick="openForm()">Вступить в команду</button>
+          <div class="hero-actions">
+            <a class="btn primary big" href="#join">Вступить в команду</a>
+            <a class="btn big" href="#projects">Посмотреть проекты</a>
+          </div>
 
-  <form id="form">
-    <input type="text" id="name" placeholder="Имя">
-    <input type="text" id="tg" placeholder="Telegram (@username)">
-    <input type="text" id="role" placeholder="Роль (монтажёр, кодер и т.д)">
-    <button type="button" onclick="send()">Отправить</button>
-  </form>
-</div>
+          <div class="badge-row">
+            <span class="badge">Automation</span>
+            <span class="badge">AI</span>
+            <span class="badge">Bots</span>
+            <span class="badge">Content systems</span>
+          </div>
+        </div>
 
-<script>
-const ENDPOINT_URL = "https://super-voice-25ca.slavatop212.workers.dev/";
+        <div class="hero-right panel">
+          <div class="glow"></div>
+          <div class="card-title">Как мы работаем</div>
+          <div class="card-sub">
+            Быстро тестируем гипотезы, фиксируем правила, повторяем то, что даёт рост.
+          </div>
 
-function openForm() {
-  document.getElementById("form").style.display = "flex";
-}
+          <div class="mini-list">
+            <div class="mini-item">
+              <div class="mini-ico"><span>⚡</span></div>
+              <div class="mini-text">
+                <b>Скорость</b>
+                <p>Меньше созвонов — больше результата.</p>
+              </div>
+            </div>
+            <div class="mini-item">
+              <div class="mini-ico"><span>🎯</span></div>
+              <div class="mini-text">
+                <b>Чёткие задачи</b>
+                <p>Понятно кто что делает и зачем.</p>
+              </div>
+            </div>
+            <div class="mini-item">
+              <div class="mini-ico"><span>📈</span></div>
+              <div class="mini-text">
+                <b>Рост</b>
+                <p>Сначала тесты → потом масштаб.</p>
+              </div>
+            </div>
+          </div>
 
-async function send() {
-  const data = {
-    name: document.getElementById("name").value.trim(),
-    tg: document.getElementById("tg").value.trim(),
-    role: document.getElementById("role").value.trim()
-  };
+        </div>
+      </div>
+    </section>
 
-  if (!data.name || !data.tg || !data.role) {
-    alert("Заполни все поля");
-    return;
-  }
+    <!-- PROJECTS -->
+    <section class="section" id="projects">
+      <h2>Проекты</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Проект #1</h3>
+          <p>Коротко: что делаете, для кого, какая цель (можешь потом заменить текст).</p>
+          <div class="tags">
+            <span class="tag">Telegram</span>
+            <span class="tag">Growth</span>
+            <span class="tag">Automation</span>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Проект #2</h3>
+          <p>Следующий продукт/система. Пишем MVP и проверяем гипотезы.</p>
+          <div class="tags">
+            <span class="tag">Web</span>
+            <span class="tag">AI</span>
+            <span class="tag">Content</span>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Проект #3</h3>
+          <p>Ещё один слот под будущие направления. NeroviX не ограничен одной нишей.</p>
+          <div class="tags">
+            <span class="tag">Systems</span>
+            <span class="tag">Ops</span>
+            <span class="tag">Experiments</span>
+          </div>
+        </div>
+      </div>
+    </section>
 
-  try {
-    const res = await fetch(ENDPOINT_URL, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(data)
-    });
+    <!-- ROLES -->
+    <section class="section" id="roles">
+      <h2>Кого набираем</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Монтажёр</h3>
+          <p>Монтаж коротких роликов, динамика, удержание, титры, темп.</p>
+          <div class="tags"><span class="tag">CapCut / AE</span><span class="tag">Shorts</span></div>
+        </div>
+        <div class="card">
+          <h3>Дизайнер</h3>
+          <p>Обложки, простая графика, элементы бренда, оформление.</p>
+          <div class="tags"><span class="tag">Figma</span><span class="tag">Brand</span></div>
+        </div>
+        <div class="card">
+          <h3>Разработчик</h3>
+          <p>Боты, автоворонки, интеграции, мини-сайты.</p>
+          <div class="tags"><span class="tag">Telegram</span><span class="tag">JS/Python</span></div>
+        </div>
+      </div>
+    </section>
 
-    if (!res.ok) throw new Error();
+    <!-- JOIN -->
+    <section class="section" id="join">
+      <h2>Вступить в команду</h2>
 
-    alert("Заявка отправлена 🚀");
+      <div class="join">
+        <div class="join-left panel">
+          <div class="card-title">Перед подачей заявки</div>
+          <p>Мы не обещаем “быстрые деньги”. Сначала — тест/вклад, дальше — рост и распределение задач/профита по результатам.</p>
+          <p><b>Нам нужны:</b> ответственность, стабильность, умение делать без “пропал на неделю”.</p>
+          <div class="badge-row">
+            <span class="badge">Каждый день контент</span>
+            <span class="badge">Повторяем то, что работает</span>
+            <span class="badge">Без хаоса</span>
+          </div>
+        </div>
 
-    // очистка формы
-    document.getElementById("name").value = "";
-    document.getElementById("tg").value = "";
-    document.getElementById("role").value = "";
+        <div class="join-right panel">
+          <form id="form">
+            <div class="row">
+              <label>Имя / Ник
+                <input type="text" id="name" placeholder="Например: Ваня" required />
+              </label>
 
-  } catch (e) {
-    alert("Ошибка отправки ❌");
-  }
-}
-</script>
+              <label>Telegram
+                <input type="text" id="tg" placeholder="@username" required />
+              </label>
+            </div>
 
+            <div class="row">
+              <label>Роль
+                <select id="role" required>
+                  <option value="" disabled selected>Выбери роль</option>
+                  <option>Монтажёр</option>
+                  <option>Дизайнер</option>
+                  <option>Разработчик</option>
+                  <option>Контент-менеджер</option>
+                  <option>Другое</option>
+                </select>
+              </label>
+
+              <label>Опыт
+                <select id="exp">
+                  <option value="" selected>Не указано</option>
+                  <option>Новичок</option>
+                  <option>Средний</option>
+                  <option>Опытный</option>
+                </select>
+              </label>
+            </div>
+
+            <label>Портфолио / примеры (ссылка)
+              <input type="text" id="portfolio" placeholder="YouTube / TikTok / Drive / Behance" />
+            </label>
+
+            <label>Сколько времени готов уделять?
+              <input type="text" id="time" placeholder="Например: 1-2 часа в день" />
+            </label>
+
+            <label>О себе (коротко)
+              <textarea id="about" placeholder="2-5 предложений: чем полезен, почему именно ты"></textarea>
+            </label>
+
+            <label class="check">
+              <input type="checkbox" id="test" />
+              Готов(а) сделать тестовое задание
+            </label>
+
+            <div class="btn-row">
+              <button class="btn primary big" type="button" id="sendBtn" onclick="send()">Отправить заявку</button>
+              <a class="btn big" href="#top">Наверх</a>
+            </div>
+
+            <div id="status" class="status"></div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section" id="faq">
+      <h2>FAQ</h2>
+      <div style="display:grid; gap:12px;">
+        <details>
+          <summary>Это оплачивается?</summary>
+          <p>На старте обычно тест и первые задачи. Дальше — по результату: фикс/процент/доля (как решите внутри команды). Можно переписать под вашу модель.</p>
+        </details>
+        <details>
+          <summary>Сколько времени нужно?</summary>
+          <p>Минимум — стабильность. Даже 1–2 часа в день, но регулярно, лучше чем “марафон на 1 день и пропал”.</p>
+        </details>
+        <details>
+          <summary>Какой формат работы?</summary>
+          <p>Задачи, дедлайны, быстрые правки. Общение в Telegram, всё по темам.</p>
+        </details>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        <div>© NeroviX</div>
+        <div>Сбор заявок идёт прямо в Telegram</div>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    // ТВОЙ воркер (оставляем как есть)
+    const ENDPOINT_URL = "https://super-voice-25ca.slavatop212.workers.dev/";
+
+    const statusEl = document.getElementById("status");
+    const sendBtn = document.getElementById("sendBtn");
+
+    function setStatus(msg, type){
+      statusEl.textContent = msg;
+      statusEl.className = "status" + (type ? (" " + type) : "");
+    }
+
+    function normalizeTg(v){
+      let s = (v || "").trim();
+      if (!s) return s;
+      // если человек вставил ссылку
+      s = s.replace("https://t.me/", "@").replace("http://t.me/", "@").replace("t.me/", "@");
+      // если без @ — добавим
+      if (!s.startsWith("@")) s = "@" + s;
+      // убрать пробелы
+      s = s.replace(/\s+/g, "");
+      return s;
+    }
+
+    async function send() {
+      const name = document.getElementById("name").value.trim();
+      const tgRaw = document.getElementById("tg").value;
+      const tg = normalizeTg(tgRaw);
+      const role = document.getElementById("role").value;
+      const exp = document.getElementById("exp").value;
+      const portfolio = document.getElementById("portfolio").value.trim();
+      const time = document.getElementById("time").value.trim();
+      const about = document.getElementById("about").value.trim();
+      const test = document.getElementById("test").checked ? "yes" : "no";
+
+      // валидация
+      if (!name || !tg || !role) {
+        setStatus("Заполни: имя, Telegram и роль.", "bad");
+        return;
+      }
+      if (!/^@[A-Za-z0-9_]{3,32}$/.test(tg)) {
+        setStatus("Telegram должен быть вида @username (без пробелов).", "bad");
+        return;
+      }
+
+      const data = { name, tg, role, exp, portfolio, time, about, test };
+
+      // UI: блокируем кнопку
+      sendBtn.disabled = true;
+      sendBtn.style.opacity = ".7";
+      sendBtn.style.cursor = "not-allowed";
+      setStatus("Отправляю...", "");
+
+      try {
+        const res = await fetch(ENDPOINT_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+
+        if (!res.ok) throw new Error("bad_response");
+
+        setStatus("Заявка отправлена ✅", "ok");
+
+        // очистка (оставим роль/опыт как есть или сбросим — как хочешь)
+        document.getElementById("name").value = "";
+        document.getElementById("tg").value = "";
+        document.getElementById("portfolio").value = "";
+        document.getElementById("time").value = "";
+        document.getElementById("about").value = "";
+        document.getElementById("test").checked = false;
+
+      } catch (e) {
+        setStatus("Ошибка отправки ❌ Попробуй ещё раз.", "bad");
+      } finally {
+        // разблок
+        sendBtn.disabled = false;
+        sendBtn.style.opacity = "1";
+        sendBtn.style.cursor = "pointer";
+      }
+    }
+  </script>
 </body>
 </html>
