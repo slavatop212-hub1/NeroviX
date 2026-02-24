@@ -29,27 +29,85 @@
       overflow-x:hidden;
     }
 
-    /* Фон сайта */
+    /* ===================== TECH FUTURE BACKGROUND (ANIMATED) ===================== */
     .bg{
-      position:fixed; inset:0; z-index:-3;
+      position:fixed; inset:0; z-index:-5;
       background:
-        radial-gradient(1100px 700px at 18% -5%, rgba(0,170,255,.25), transparent 60%),
-        radial-gradient(900px 600px at 88% 10%, rgba(106,240,255,.12), transparent 55%),
-        radial-gradient(900px 500px at 60% 90%, rgba(255,77,109,.08), transparent 60%),
+        radial-gradient(1100px 700px at 18% -5%, rgba(0,170,255,.26), transparent 60%),
+        radial-gradient(900px 600px at 88% 10%, rgba(106,240,255,.14), transparent 55%),
+        radial-gradient(900px 500px at 60% 92%, rgba(255,77,109,.08), transparent 60%),
         linear-gradient(180deg, #040614 0%, #070A12 45%, #040614 100%);
     }
+
+    /* animated aurora sheen */
+    .aurora{
+      position:fixed; inset:-120px; z-index:-4; pointer-events:none;
+      background:
+        radial-gradient(700px 420px at 20% 25%, rgba(0,170,255,.18), transparent 60%),
+        radial-gradient(680px 420px at 80% 35%, rgba(106,240,255,.14), transparent 62%),
+        radial-gradient(620px 420px at 55% 85%, rgba(0,170,255,.10), transparent 62%);
+      filter: blur(18px) saturate(1.1);
+      opacity:.9;
+      animation: auroraMove 10s ease-in-out infinite;
+      transform: translate3d(0,0,0);
+    }
+    @keyframes auroraMove{
+      0%,100%{ transform: translate3d(-2%, -1%, 0) scale(1.02); opacity:.78; }
+      50%{ transform: translate3d(2%, 1%, 0) scale(1.06); opacity:1; }
+    }
+
+    /* moving grid (parallax) */
     .grid-overlay{
-      position:fixed; inset:0; z-index:-2; opacity:.18;
+      position:fixed; inset:0; z-index:-3; opacity:.18;
       background-image:
         linear-gradient(to right, rgba(255,255,255,.07) 1px, transparent 1px),
         linear-gradient(to bottom, rgba(255,255,255,.07) 1px, transparent 1px);
       background-size: 64px 64px;
-      mask-image: radial-gradient(700px 450px at 50% 15%, rgba(0,0,0,1), transparent 70%);
+      mask-image: radial-gradient(760px 460px at 50% 18%, rgba(0,0,0,1), transparent 72%);
       pointer-events:none;
+      animation: gridDrift 22s linear infinite;
     }
+    @keyframes gridDrift{
+      0%{ background-position: 0 0, 0 0; transform: translate3d(0,0,0); }
+      100%{ background-position: 260px 220px, 260px 220px; transform: translate3d(0,0,0); }
+    }
+
+    /* subtle scanlines */
+    .scanlines{
+      position:fixed; inset:0; z-index:-2; pointer-events:none;
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(255,255,255,.04) 0px,
+        rgba(255,255,255,.04) 1px,
+        transparent 3px,
+        transparent 6px
+      );
+      opacity:.05;
+      mix-blend-mode: overlay;
+      animation: scanMove 8s linear infinite;
+    }
+    @keyframes scanMove{
+      0%{ background-position: 0 0; }
+      100%{ background-position: 0 120px; }
+    }
+
+    /* noise */
     .noise{
       position:fixed; inset:0; z-index:-1; opacity:.07; pointer-events:none;
       background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E");
+    }
+
+    /* canvas particles (tech dots + links) */
+    #fx{
+      position:fixed; inset:0; z-index:-2;
+      width:100%; height:100%;
+      pointer-events:none;
+      opacity:.9;
+    }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce){
+      .aurora, .grid-overlay, .scanlines{ animation:none !important; }
     }
 
     a{ color:inherit; text-decoration:none; }
@@ -330,7 +388,7 @@
       display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;
     }
 
-    /* ================= INTRO OVERLAY (3) blur + vignette ================= */
+    /* ================= INTRO OVERLAY blur + vignette ================= */
     .intro{
       position:fixed; inset:0; z-index:999;
       display:none;
@@ -352,7 +410,7 @@
       opacity:.9;
     }
 
-    /* ================= INTRO CARD (4) premium light ================= */
+    /* ================= INTRO CARD premium light ================= */
     .intro-card{
       position:relative;
       width:min(1080px, 100%);
@@ -402,7 +460,7 @@
       font-size:15px;
     }
 
-    /* ================= (5) chat bubbles ================= */
+    /* chat bubbles */
     .chat{
       margin-top:14px;
       display:flex;
@@ -467,7 +525,7 @@
       justify-content:flex-end;
     }
 
-    /* ================= “гуманоидная” маска/визор (не коробка) ================= */
+    /* ================= NEW: HUMANOID ROUND FACE + PIXEL EYES ================= */
     .stage{
       height:100%;
       display:flex;
@@ -477,6 +535,7 @@
       position:relative;
       padding-top: 10px;
     }
+
     .halo{
       position:absolute;
       width:520px; height:520px;
@@ -488,133 +547,15 @@
       pointer-events:none;
     }
     @keyframes halo{
-      0%,100%{ transform: translateY(0) scale(1); opacity:.75; }
-      50%{ transform: translateY(-10px) scale(1.04); opacity:1; }
-    }
-
-    .head3d{
-      width: 360px; height: 380px;
-      position:relative;
-      transform-style: preserve-3d;
-      animation: float 3.8s ease-in-out infinite;
-      filter: drop-shadow(0 30px 55px rgba(0,0,0,.48));
-    }
-    @keyframes float{
-      0%,100%{ transform: rotateX(8deg) rotateY(-14deg) translateY(0); }
-      50%{ transform: rotateX(10deg) rotateY(-6deg) translateY(-10px); }
-    }
-
-    .mask{
-      position:absolute; inset:0;
-      border-radius: 46px 46px 58px 58px;
-      background:
-        radial-gradient(circle at 40% 30%, rgba(255,255,255,.14), transparent 55%),
-        radial-gradient(circle at 70% 70%, rgba(0,170,255,.16), transparent 55%),
-        linear-gradient(180deg, rgba(255,255,255,.10), rgba(0,0,0,.18));
-      border: 1px solid rgba(255,255,255,.16);
-      box-shadow:
-        inset 0 0 0 1px rgba(255,255,255,.06),
-        inset 0 24px 80px rgba(0,170,255,.08);
-      transform: translateZ(28px);
-      overflow:hidden;
-    }
-    .mask::before{
-      content:"";
-      position:absolute;
-      inset:20px 18px 26px 18px;
-      border-radius: 38px 38px 48px 48px;
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.18);
-      box-shadow: inset 0 0 0 1px rgba(0,170,255,.06);
-    }
-
-    .visor{
-      position:absolute;
-      left:52px; right:52px;
-      top:88px;
-      height:132px;
-      border-radius: 34px;
-      background:
-        radial-gradient(circle at 50% 40%, rgba(106,240,255,.18), transparent 60%),
-        linear-gradient(180deg, rgba(255,255,255,.08), rgba(0,0,0,.34));
-      border:1px solid rgba(106,240,255,.18);
-      transform: translateZ(70px);
-      overflow:hidden;
-    }
-    .scan{
-      position:absolute;
-      left:-60px; right:-60px;
-      top:-70px;
-      height: 52px;
-      background: linear-gradient(90deg, transparent, rgba(106,240,255,.28), transparent);
-      transform: rotate(10deg);
-      opacity:0;
-      pointer-events:none;
-    }
-
-    .eye{
-      position:absolute;
-      top: 46px;
-      width: 52px; height:52px;
-      border-radius: 18px;
-      background: rgba(0,170,255,.12);
-      border:1px solid rgba(106,240,255,.18);
-      box-shadow: 0 0 26px rgba(0,170,255,.10);
-      display:flex; align-items:center; justify-content:center;
-      overflow:hidden;
-    }
-    .eye::after{
-      content:"";
-      width: 14px; height:14px;
-      border-radius: 999px;
-      background: rgba(106,240,255,.85);
-      box-shadow: 0 0 20px rgba(106,240,255,.55);
-      transform-origin:center;
-      animation: blink 3.4s infinite;
-    }
-    @keyframes blink{
-      0%,92%,100%{ transform: scaleY(1); }
-      94%{ transform: scaleY(.10); }
-      96%{ transform: scaleY(1); }
-    }
-    .eye.left{ left: 58px; }
-    .eye.right{ right: 58px; }
-
-    .nose{
-      position:absolute;
-      left:50%; transform: translateX(-50%);
-      top: 148px;
-      width: 18px; height: 44px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.12);
-      background: rgba(255,255,255,.04);
-      opacity:.65;
-    }
-    .mouth{
-      position:absolute;
-      left: 84px; right:84px;
-      top: 208px;
-      height: 18px;
-      border-radius: 999px;
-      border:1px solid rgba(255,255,255,.14);
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.06), rgba(0,0,0,.22));
-      opacity:.9;
-    }
-
-    .back{
-      position:absolute; inset:0;
-      border-radius: 46px 46px 58px 58px;
-      background: rgba(0,0,0,.25);
-      border:1px solid rgba(255,255,255,.08);
-      transform: translateZ(-22px);
+      0%,100%{ transform: translateY(0) scale(1); opacity:.72; }
+      50%{ transform: translateY(-10px) scale(1.05); opacity:1; }
     }
 
     .ring{
       position:absolute;
       left: 50%; top: 50%;
       width: 430px; height: 430px;
-      transform: translate(-50%,-50%) translateZ(0);
+      transform: translate(-50%,-50%);
       border-radius: 999px;
       border: 1px solid rgba(0,170,255,.20);
       box-shadow: 0 0 70px rgba(0,170,255,.10);
@@ -631,25 +572,207 @@
     }
     @keyframes spin{ from{ transform: rotate(0);} to{ transform: rotate(360deg);} }
 
-    /* ================= (1) реакция на печать ================= */
-    .head3d.talking .eye{
+    .bot{
+      width: 360px; height: 380px;
+      position:relative;
+      transform-style: preserve-3d;
+      animation: float 3.8s ease-in-out infinite;
+      filter: drop-shadow(0 30px 55px rgba(0,0,0,.48));
+    }
+    @keyframes float{
+      0%,100%{ transform: rotateX(10deg) rotateY(-14deg) translateY(0); }
+      50%{ transform: rotateX(12deg) rotateY(-6deg) translateY(-10px); }
+    }
+
+    /* round head shell */
+    .head{
+      position:absolute; inset:18px 34px 26px 34px;
+      border-radius: 999px;
+      background:
+        radial-gradient(circle at 35% 28%, rgba(255,255,255,.16), transparent 55%),
+        radial-gradient(circle at 70% 78%, rgba(0,170,255,.18), transparent 55%),
+        linear-gradient(180deg, rgba(255,255,255,.10), rgba(0,0,0,.20));
+      border: 1px solid rgba(255,255,255,.18);
+      box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,.06),
+        inset 0 26px 90px rgba(0,170,255,.10);
+      transform: translateZ(26px);
+      overflow:hidden;
+    }
+    .head::after{
+      content:"";
+      position:absolute; inset:12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.10);
+      opacity:.75;
+      pointer-events:none;
+    }
+
+    /* inner face plate */
+    .faceplate{
+      position:absolute;
+      inset: 56px 46px 74px 46px;
+      border-radius: 42px;
+      background:
+        radial-gradient(circle at 50% 35%, rgba(106,240,255,.18), transparent 60%),
+        linear-gradient(180deg, rgba(255,255,255,.08), rgba(0,0,0,.36));
+      border:1px solid rgba(106,240,255,.20);
+      box-shadow:
+        inset 0 0 0 1px rgba(0,170,255,.06),
+        0 16px 45px rgba(0,0,0,.25);
+      transform: translateZ(70px);
+      overflow:hidden;
+    }
+
+    /* subtle circuit texture inside plate */
+    .faceplate::before{
+      content:"";
+      position:absolute; inset:0;
+      background:
+        linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
+      background-size: 26px 26px;
+      opacity:.22;
+      mask-image: radial-gradient(260px 160px at 50% 40%, rgba(0,0,0,1), transparent 75%);
+      pointer-events:none;
+      animation: plateDrift 16s linear infinite;
+    }
+    @keyframes plateDrift{
+      0%{ background-position: 0 0, 0 0; }
+      100%{ background-position: 160px 120px, 160px 120px; }
+    }
+
+    /* scanning beam */
+    .beam{
+      position:absolute;
+      left:-50px; right:-50px;
+      top:-120px;
+      height: 70px;
+      background: linear-gradient(90deg, transparent, rgba(106,240,255,.30), transparent);
+      transform: rotate(10deg);
+      opacity:0;
+      pointer-events:none;
+    }
+
+    /* PIXEL EYES */
+    .eyes{
+      position:absolute;
+      left:0; right:0;
+      top: 54px;
+      height: 74px;
+      display:flex;
+      justify-content:space-between;
+      padding: 0 58px;
+      align-items:center;
+      pointer-events:none;
+    }
+
+    .pixel-eye{
+      width: 64px; height: 64px;
+      border-radius: 18px;
+      background: rgba(0,170,255,.10);
+      border:1px solid rgba(106,240,255,.18);
+      box-shadow: 0 0 26px rgba(0,170,255,.10);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position:relative;
+      overflow:hidden;
+      transform-origin:center;
+      animation: blink 3.6s infinite;
+    }
+    @keyframes blink{
+      0%,92%,100%{ transform: scaleY(1); }
+      94%{ transform: scaleY(.12); }
+      96%{ transform: scaleY(1); }
+    }
+
+    /* pixel matrix drawn via box-shadow */
+    .pixel-eye .px{
+      width: 7px; height: 7px;
+      background: rgba(106,240,255,.95);
+      box-shadow:
+        /* 5x5 pattern */
+        10px 0 0 rgba(106,240,255,.95),
+        20px 0 0 rgba(106,240,255,.95),
+        30px 0 0 rgba(106,240,255,.95),
+
+        0 10px 0 rgba(106,240,255,.95),
+        10px 10px 0 rgba(0,170,255,.20),
+        20px 10px 0 rgba(0,170,255,.20),
+        30px 10px 0 rgba(106,240,255,.95),
+
+        0 20px 0 rgba(106,240,255,.95),
+        10px 20px 0 rgba(0,170,255,.20),
+        20px 20px 0 rgba(0,170,255,.20),
+        30px 20px 0 rgba(106,240,255,.95),
+
+        0 30px 0 rgba(106,240,255,.95),
+        10px 30px 0 rgba(106,240,255,.95),
+        20px 30px 0 rgba(106,240,255,.95),
+        30px 30px 0 rgba(106,240,255,.95);
+      filter: drop-shadow(0 0 12px rgba(106,240,255,.35));
+      border-radius:2px;
+    }
+
+    .mouth{
+      position:absolute;
+      left: 72px; right:72px;
+      bottom: 34px;
+      height: 16px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(0,0,0,.22));
+      opacity:.92;
+      overflow:hidden;
+    }
+    .mouth::after{
+      content:"";
+      position:absolute; left:10px; right:10px; top:50%;
+      height:2px; transform: translateY(-50%);
+      background: linear-gradient(90deg, transparent, rgba(106,240,255,.55), transparent);
+      opacity:.6;
+    }
+
+    /* back shell */
+    .back{
+      position:absolute; inset:18px 34px 26px 34px;
+      border-radius: 999px;
+      background: rgba(0,0,0,.25);
+      border:1px solid rgba(255,255,255,.08);
+      transform: translateZ(-22px);
+    }
+
+    /* talking reaction */
+    .bot.talking .pixel-eye{
       box-shadow: 0 0 34px rgba(0,170,255,.22);
       border-color: rgba(106,240,255,.30);
-      background: rgba(0,170,255,.16);
+      background: rgba(0,170,255,.14);
     }
-    .head3d.talking .eye::after{
-      box-shadow: 0 0 28px rgba(106,240,255,.70);
+    .bot.talking .pixel-eye .px{
+      filter: drop-shadow(0 0 18px rgba(106,240,255,.55));
     }
-    .head3d.talking .scan{
+    .bot.talking .beam{
       opacity:1;
-      animation: scan 1.9s ease-in-out infinite;
+      animation: beamScan 1.7s ease-in-out infinite;
     }
-    @keyframes scan{
-      0%{ top:-80px; opacity:0; }
+    .bot.talking .mouth{
+      box-shadow: 0 0 18px rgba(0,170,255,.14);
+    }
+    .bot.talking .mouth::after{
+      opacity: 1;
+      animation: mouthPulse 900ms ease-in-out infinite;
+    }
+    @keyframes mouthPulse{
+      0%,100%{ transform: translateY(-50%) scaleX(.85); opacity:.45; }
+      50%{ transform: translateY(-50%) scaleX(1.05); opacity:.9; }
+    }
+    @keyframes beamScan{
+      0%{ top:-130px; opacity:0; }
       20%{ opacity:1; }
-      55%{ top:140px; opacity:1; }
-      80%{ opacity:.3; }
-      100%{ top:240px; opacity:0; }
+      55%{ top:160px; opacity:1; }
+      80%{ top:240px; opacity:.35; }
+      100%{ top:300px; opacity:0; }
     }
 
     /* Responsive */
@@ -662,19 +785,25 @@
       .intro-card{ grid-template-columns:1fr; min-height:auto; }
       .intro-left{ border-right:none; border-bottom:1px solid rgba(255,255,255,.10); }
       .intro-actions{ justify-content:flex-start; }
-      .head3d{ width:300px; height:320px; }
+      .bot{ width:300px; height:320px; }
       .ring{ width:360px; height:360px; }
       .halo{ width:380px; height:380px; }
-      .visor{ left:42px; right:42px; }
-      .eye.left{ left: 48px; }
-      .eye.right{ right: 48px; }
+      .head{ inset:16px 28px 22px 28px; }
+      .back{ inset:16px 28px 22px 28px; }
+      .faceplate{ inset: 48px 38px 62px 38px; }
+      .eyes{ padding: 0 44px; }
+      .pixel-eye{ width:56px; height:56px; }
+      .mouth{ left:62px; right:62px; bottom:30px; }
     }
   </style>
 </head>
 
 <body>
   <div class="bg"></div>
+  <div class="aurora"></div>
+  <canvas id="fx"></canvas>
   <div class="grid-overlay"></div>
+  <div class="scanlines"></div>
   <div class="noise"></div>
 
   <!-- INTRO AI ASSISTANT -->
@@ -693,14 +822,23 @@
           <div class="halo"></div>
           <div class="ring"></div>
 
-          <div class="head3d" id="head3d" aria-hidden="true">
+          <!-- NEW ROUND HUMANOID FACE -->
+          <div class="bot" id="bot" aria-hidden="true">
             <div class="back"></div>
-            <div class="mask">
-              <div class="visor">
-                <div class="scan"></div>
-                <div class="eye left"></div>
-                <div class="eye right"></div>
-                <div class="nose"></div>
+
+            <div class="head">
+              <div class="faceplate">
+                <div class="beam"></div>
+
+                <div class="eyes">
+                  <div class="pixel-eye">
+                    <div class="px"></div>
+                  </div>
+                  <div class="pixel-eye">
+                    <div class="px"></div>
+                  </div>
+                </div>
+
                 <div class="mouth"></div>
               </div>
             </div>
@@ -1387,7 +1525,7 @@
       }
     }
 
-    // ======== Intro assistant: chat + typing + talking reaction (1,5) ========
+    // ======== Intro assistant: chat + typing + talking reaction ========
     const intro = document.getElementById("intro");
     const dontShow = document.getElementById("dontShow");
     const closeBtn = document.getElementById("closeBtn");
@@ -1395,15 +1533,15 @@
     const goJoinBtn = document.getElementById("goJoinBtn");
     const chatEl = document.getElementById("chat");
     const stage = document.getElementById("stage");
-    const head3d = document.getElementById("head3d");
+    const bot = document.getElementById("bot");
 
     let typingTimer = null;
     let isTyping = false;
     let introDone = false;
 
     function setTalking(on){
-      if (on) head3d.classList.add("talking");
-      else head3d.classList.remove("talking");
+      if (on) bot.classList.add("talking");
+      else bot.classList.remove("talking");
     }
 
     function buildChat(){
@@ -1513,12 +1651,12 @@
         const y = (e.clientY - r.top) / r.height;
         const ry = clamp((x - 0.5) * 22, -18, 18);
         const rx = clamp(-(y - 0.5) * 18, -14, 14);
-        head3d.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg) translateY(-6px)`;
-        head3d.style.transition = "transform 60ms linear";
+        bot.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg) translateY(-6px)`;
+        bot.style.transition = "transform 60ms linear";
       });
       stage.addEventListener("mouseleave", () => {
-        head3d.style.transition = "transform 350ms ease";
-        head3d.style.transform = "";
+        bot.style.transition = "transform 350ms ease";
+        bot.style.transform = "";
       });
     }
     bind3D();
@@ -1534,6 +1672,108 @@
     window.addEventListener("keydown", (e) => {
       if (e.key === "Escape" && intro.style.display === "flex") hideIntro();
     });
+
+    // ======== TECH BACKGROUND CANVAS (dots + links) ========
+    (function techFx(){
+      const canvas = document.getElementById("fx");
+      const ctx = canvas.getContext("2d", { alpha: true });
+      let w=0, h=0, dpr=1;
+
+      const prefersReduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const POINTS = prefersReduce ? 36 : 70;
+      const LINK_DIST = prefersReduce ? 120 : 150;
+
+      const pts = [];
+
+      function resize(){
+        dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+        w = canvas.width = Math.floor(window.innerWidth * dpr);
+        h = canvas.height = Math.floor(window.innerHeight * dpr);
+        canvas.style.width = window.innerWidth + "px";
+        canvas.style.height = window.innerHeight + "px";
+      }
+
+      function rand(min, max){ return min + Math.random()*(max-min); }
+
+      function init(){
+        pts.length = 0;
+        for(let i=0;i<POINTS;i++){
+          pts.push({
+            x: rand(0,w),
+            y: rand(0,h),
+            vx: rand(-0.22,0.22) * dpr,
+            vy: rand(-0.18,0.18) * dpr,
+            r: rand(1.0, 2.0) * dpr,
+            a: rand(0.25, 0.7)
+          });
+        }
+      }
+
+      function step(){
+        ctx.clearRect(0,0,w,h);
+
+        // slight vignette to integrate
+        const vg = ctx.createRadialGradient(w*0.5, h*0.2, 0, w*0.5, h*0.5, Math.max(w,h)*0.7);
+        vg.addColorStop(0, "rgba(0,170,255,0.05)");
+        vg.addColorStop(1, "rgba(0,0,0,0)");
+        ctx.fillStyle = vg;
+        ctx.fillRect(0,0,w,h);
+
+        // move points
+        for(const p of pts){
+          p.x += p.vx;
+          p.y += p.vy;
+          if(p.x < -40*dpr) p.x = w + 40*dpr;
+          if(p.x > w + 40*dpr) p.x = -40*dpr;
+          if(p.y < -40*dpr) p.y = h + 40*dpr;
+          if(p.y > h + 40*dpr) p.y = -40*dpr;
+        }
+
+        // links
+        for(let i=0;i<pts.length;i++){
+          for(let j=i+1;j<pts.length;j++){
+            const a = pts[i], b = pts[j];
+            const dx = a.x - b.x, dy = a.y - b.y;
+            const dist = Math.sqrt(dx*dx + dy*dy);
+            if(dist < LINK_DIST*dpr){
+              const t = 1 - dist/(LINK_DIST*dpr);
+              ctx.strokeStyle = `rgba(106,240,255,${0.10*t})`;
+              ctx.lineWidth = 1*dpr;
+              ctx.beginPath();
+              ctx.moveTo(a.x, a.y);
+              ctx.lineTo(b.x, b.y);
+              ctx.stroke();
+            }
+          }
+        }
+
+        // dots
+        for(const p of pts){
+          ctx.fillStyle = `rgba(106,240,255,${p.a})`;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+          ctx.fill();
+
+          // tiny glow
+          ctx.fillStyle = `rgba(0,170,255,${p.a*0.20})`;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r*3.2, 0, Math.PI*2);
+          ctx.fill();
+        }
+
+        if(!prefersReduce) requestAnimationFrame(step);
+      }
+
+      resize();
+      init();
+      if(prefersReduce){
+        // draw once
+        step();
+      } else {
+        requestAnimationFrame(step);
+      }
+      window.addEventListener("resize", () => { resize(); init(); });
+    })();
 
     // ======== init ========
     applyLang(currentLang);
