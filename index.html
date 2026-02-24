@@ -66,19 +66,52 @@
 
   <form id="form">
     <input type="text" id="name" placeholder="Имя">
-    <input type="text" id="tg" placeholder="Telegram">
-    <input type="text" id="role" placeholder="Роль">
+    <input type="text" id="tg" placeholder="Telegram (@username)">
+    <input type="text" id="role" placeholder="Роль (монтажёр, кодер и т.д)">
     <button type="button" onclick="send()">Отправить</button>
   </form>
 </div>
 
 <script>
+const ENDPOINT_URL = "https://super-voice-25ca.slavaptop212.workers.dev";
+
 function openForm() {
   document.getElementById("form").style.display = "flex";
 }
 
-function send() {
-  alert("Заявка отправлена (пока без ТГ)");
+async function send() {
+  const data = {
+    name: document.getElementById("name").value.trim(),
+    tg: document.getElementById("tg").value.trim(),
+    role: document.getElementById("role").value.trim()
+  };
+
+  if (!data.name || !data.tg || !data.role) {
+    alert("Заполни все поля");
+    return;
+  }
+
+  try {
+    const res = await fetch(ENDPOINT_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    });
+
+    if (!res.ok) throw new Error();
+
+    alert("Заявка отправлена 🚀");
+
+    // очистка формы
+    document.getElementById("name").value = "";
+    document.getElementById("tg").value = "";
+    document.getElementById("role").value = "";
+
+  } catch (e) {
+    alert("Ошибка отправки ❌");
+  }
 }
 </script>
 
