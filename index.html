@@ -36,6 +36,7 @@
         radial-gradient(900px 600px at 88% 10%, rgba(106,240,255,.14), transparent 55%),
         radial-gradient(900px 500px at 60% 92%, rgba(255,77,109,.08), transparent 60%),
         linear-gradient(180deg, #040614 0%, #070A12 45%, #040614 100%);
+      pointer-events:none;
     }
 
     .aurora{
@@ -105,6 +106,9 @@
 
     a{ color:inherit; text-decoration:none; }
     .wrap{ max-width:1100px; margin:0 auto; padding:0 18px; }
+
+    /* FIX: контент выше фоновых слоёв */
+    header.nav, main.wrap{ position:relative; z-index:5; }
 
     /* NAV */
     .nav{
@@ -301,6 +305,7 @@
     .join-left p{ color:var(--muted); margin:0 0 10px; line-height:1.65; }
     .join-right{ padding:18px; }
 
+    /* IMPORTANT: форма на странице остаётся, но теперь мы открываем её в модальном окне */
     form{ display:grid; gap:12px; }
     .row{
       display:grid;
@@ -326,15 +331,15 @@
     }
     textarea{ resize: vertical; min-height: 92px; }
 
-    .status{
-      margin-top:6px;
-      text-align:left;
-      font-size:14px;
-      min-height:18px;
-      color: var(--muted);
+    /* Telegram live validation */
+    .tg-good{
+      border-color: rgba(45,212,191,.55) !important;
+      box-shadow: 0 0 0 3px rgba(45,212,191,.10) !important;
     }
-    .status.ok{ color: var(--ok); }
-    .status.bad{ color: var(--bad); }
+    .tg-bad{
+      border-color: rgba(255,77,109,.55) !important;
+      box-shadow: 0 0 0 3px rgba(255,77,109,.10) !important;
+    }
 
     .btn-row{
       display:flex;
@@ -344,7 +349,7 @@
       justify-content:flex-start;
     }
 
-    /* ===================== NEW: BEAUTIFUL CHECKBOX (ANIMATED) ===================== */
+    /* ===================== BEAUTIFUL CHECKBOX (ANIMATED) ===================== */
     .chk{
       display:flex;
       align-items:center;
@@ -424,9 +429,7 @@
       transform: rotate(45deg) scale(1);
       transition-delay: .02s;
     }
-    .chk.pop{
-      animation: pop .28s ease;
-    }
+    .chk.pop{ animation: pop .28s ease; }
     @keyframes pop{
       0%{ transform: scale(1); }
       50%{ transform: scale(1.01); }
@@ -584,7 +587,7 @@
       justify-content:flex-end;
     }
 
-    /* =================== ROBOT (HUMANOID SHAPE LIKE PHOTO) =================== */
+    /* =================== ROBOT (HUMANOID SHAPE) =================== */
     .stage{
       height:100%;
       display:flex;
@@ -643,7 +646,6 @@
       50%{ transform: rotateX(12deg) rotateY(-6deg) translateY(-10px); }
     }
 
-    /* neck / shoulders */
     .bot .neck{
       position:absolute;
       left:50%; bottom: 12px;
@@ -651,14 +653,12 @@
       transform: translateX(-50%) translateZ(10px);
       border-radius: 60px 60px 80px 80px;
       background:
-        radial-gradient(circle at 30% 30%, rgba(255,255,255,.10), transparent 55%),
-        linear-gradient(180deg, rgba(255,255,255,.06), rgba(0,0,0,.30));
+        radial-gradient(circle at 30% 30%, rgba(255,255,255,.08), transparent 55%),
+        linear-gradient(180deg, rgba(255,255,255,.05), rgba(0,0,0,.34));
       border: 1px solid rgba(255,255,255,.10);
-      opacity:.65;
-      filter: blur(.0px);
+      opacity:.7;
     }
 
-    /* head silhouette (oval, not square) */
     .bot .head{
       position:absolute;
       left:50%; top: 26px;
@@ -666,8 +666,8 @@
       transform: translateX(-50%) translateZ(26px);
       border-radius: 140px;
       background:
-        radial-gradient(circle at 30% 18%, rgba(255,255,255,.10), transparent 58%),
-        linear-gradient(180deg, rgba(255,255,255,.06), rgba(0,0,0,.38));
+        radial-gradient(circle at 30% 18%, rgba(255,255,255,.08), transparent 58%),
+        linear-gradient(180deg, rgba(255,255,255,.05), rgba(0,0,0,.44));
       border: 1px solid rgba(255,255,255,.12);
       box-shadow:
         inset 0 0 0 1px rgba(255,255,255,.05),
@@ -675,7 +675,6 @@
       overflow:hidden;
     }
 
-    /* glossy visor */
     .bot .visor{
       position:absolute;
       left:50%; top: 44px;
@@ -683,9 +682,9 @@
       transform: translateX(-50%) translateZ(60px);
       border-radius: 120px;
       background:
-        radial-gradient(circle at 35% 25%, rgba(255,255,255,.18), transparent 55%),
-        radial-gradient(circle at 55% 60%, rgba(0,170,255,.14), transparent 65%),
-        linear-gradient(180deg, rgba(0,0,0,.72), rgba(0,0,0,.90));
+        radial-gradient(circle at 35% 25%, rgba(255,255,255,.16), transparent 55%),
+        radial-gradient(circle at 55% 60%, rgba(0,170,255,.12), transparent 65%),
+        linear-gradient(180deg, rgba(0,0,0,.74), rgba(0,0,0,.92));
       border: 1px solid rgba(255,255,255,.10);
       box-shadow:
         0 22px 60px rgba(0,0,0,.35),
@@ -693,7 +692,33 @@
       overflow:hidden;
     }
 
-    /* visor shine line */
+    /* NEW: visor outline pulse (AI pulse) */
+    .bot .visor::after{
+      content:"";
+      position:absolute;
+      inset: -2px;
+      border-radius: 120px;
+      border: 1px solid rgba(106,240,255,.14);
+      box-shadow: 0 0 22px rgba(0,170,255,.08);
+      opacity:.55;
+      pointer-events:none;
+    }
+    .bot.pulse .visor::after{
+      animation: visorPulse 1.35s ease-in-out infinite;
+    }
+    @keyframes visorPulse{
+      0%,100%{
+        opacity:.40;
+        box-shadow: 0 0 18px rgba(0,170,255,.10);
+        border-color: rgba(106,240,255,.10);
+      }
+      50%{
+        opacity:.95;
+        box-shadow: 0 0 36px rgba(0,170,255,.22);
+        border-color: rgba(106,240,255,.26);
+      }
+    }
+
     .bot .visor::before{
       content:"";
       position:absolute;
@@ -710,7 +735,6 @@
       50%{ transform: rotate(12deg) translateX(6%); opacity:.65; }
     }
 
-    /* pixel eyes inside visor */
     .bot .eyes{
       position:absolute;
       left:0; right:0;
@@ -754,7 +778,6 @@
       filter: drop-shadow(0 0 14px rgba(106,240,255,.35));
     }
 
-    /* scan beam (when talking) */
     .bot .beam{
       position:absolute;
       left:-60px; right:-60px;
@@ -766,7 +789,6 @@
       pointer-events:none;
     }
 
-    /* talking reaction */
     .bot.talking .eye{
       border-color: rgba(106,240,255,.32);
       box-shadow: 0 0 34px rgba(0,170,255,.18);
@@ -808,6 +830,154 @@
       .bot .eye{ width: 42px; height: 42px; }
       .bot .neck{ width: 190px; height: 120px; }
     }
+
+    /* ===================== APPLY MODAL (APPLICATION WINDOW) ===================== */
+    .apply-modal{
+      position:fixed; inset:0; z-index:1200;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+    }
+    .apply-modal.show{ display:flex; }
+
+    .apply-backdrop{
+      position:absolute; inset:0;
+      background: radial-gradient(900px 520px at 50% 40%, rgba(0,170,255,.09), transparent 60%),
+                  rgba(0,0,0,.72);
+      backdrop-filter: blur(14px) saturate(1.1);
+    }
+
+    .apply-card{
+      position:relative;
+      width: min(900px, 100%);
+      max-height: min(86vh, 860px);
+      overflow:auto;
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,.14);
+      background:
+        radial-gradient(700px 400px at 12% 20%, rgba(0,170,255,.12), transparent 60%),
+        radial-gradient(600px 420px at 88% 10%, rgba(106,240,255,.08), transparent 55%),
+        linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.03));
+      box-shadow: 0 30px 90px rgba(0,0,0,.62);
+      padding: 16px 16px 18px;
+    }
+
+    .apply-top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      padding: 6px 6px 10px;
+      border-bottom: 1px solid rgba(255,255,255,.10);
+      margin-bottom: 12px;
+      position:sticky;
+      top:0;
+      background: linear-gradient(180deg, rgba(0,0,0,.22), rgba(0,0,0,.05));
+      backdrop-filter: blur(10px);
+      z-index:2;
+      border-radius: 18px;
+    }
+    .apply-top h3{
+      margin:0;
+      font-size:16px;
+      font-weight:900;
+      letter-spacing:.2px;
+    }
+    .apply-actions{
+      display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+    }
+
+    .icon-btn{
+      width:38px; height:38px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.03);
+      color: var(--text);
+      cursor:pointer;
+      display:flex; align-items:center; justify-content:center;
+      transition:.15s;
+      user-select:none;
+    }
+    .icon-btn:hover{ transform: translateY(-1px); }
+
+    /* sound toggle */
+    .sound-toggle{
+      display:flex; align-items:center; gap:10px;
+      padding:8px 10px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.03);
+      color: var(--muted);
+      font-size:13px;
+      user-select:none;
+      cursor:pointer;
+    }
+    .sound-toggle b{ color: var(--text); font-size:13px; }
+    .sound-dot{
+      width:10px; height:10px; border-radius:999px;
+      background: rgba(255,77,109,.9);
+      box-shadow: 0 0 12px rgba(255,77,109,.35);
+      transition:.15s;
+    }
+    .sound-toggle.on .sound-dot{
+      background: rgba(45,212,191,.95);
+      box-shadow: 0 0 12px rgba(45,212,191,.35);
+    }
+
+    /* ===================== TOASTS ===================== */
+    .toasts{
+      position:fixed;
+      right: 14px;
+      top: 14px;
+      z-index: 2000;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      pointer-events:none;
+    }
+    .toast{
+      pointer-events:none;
+      min-width: 220px;
+      max-width: 340px;
+      padding: 12px 12px;
+      border-radius: 16px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.58);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 18px 50px rgba(0,0,0,.35);
+      transform: translateY(-8px);
+      opacity:0;
+      animation: toastIn .22s ease forwards;
+    }
+    @keyframes toastIn{
+      to { transform: translateY(0); opacity:1; }
+    }
+    .toast .t{
+      display:flex; align-items:center; gap:10px;
+      font-weight:900;
+      font-size:14px;
+    }
+    .toast .d{
+      margin-top:6px;
+      color: var(--muted);
+      font-size:13px;
+      line-height:1.45;
+    }
+    .pill{
+      width:10px; height:10px; border-radius:999px;
+      background: rgba(0,170,255,.9);
+      box-shadow: 0 0 14px rgba(0,170,255,.35);
+      flex: 0 0 auto;
+    }
+    .toast.ok .pill{ background: rgba(45,212,191,.95); box-shadow: 0 0 14px rgba(45,212,191,.35); }
+    .toast.bad .pill{ background: rgba(255,77,109,.95); box-shadow: 0 0 14px rgba(255,77,109,.35); }
+    .toast.hide{
+      animation: toastOut .18s ease forwards;
+    }
+    @keyframes toastOut{
+      to { transform: translateY(-6px); opacity:0; }
+    }
   </style>
 </head>
 
@@ -818,6 +988,9 @@
   <div class="grid-overlay"></div>
   <div class="scanlines"></div>
   <div class="noise"></div>
+
+  <!-- TOAST CONTAINER -->
+  <div class="toasts" id="toasts"></div>
 
   <!-- INTRO AI ASSISTANT -->
   <div class="intro" id="intro">
@@ -835,7 +1008,6 @@
           <div class="halo"></div>
           <div class="ring"></div>
 
-          <!-- HUMANOID ROBOT -->
           <div class="bot" id="bot" aria-hidden="true">
             <div class="head">
               <div class="visor">
@@ -869,7 +1041,6 @@
 
           <div class="chat" id="chat"></div>
 
-          <!-- animated checkbox -->
           <label class="chk" id="dontShowWrap">
             <input type="checkbox" id="dontShow" />
             <span class="box"></span>
@@ -883,6 +1054,84 @@
           <button class="btn" id="closeBtn" type="button">Понятно</button>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- APPLICATION MODAL -->
+  <div class="apply-modal" id="applyModal" aria-hidden="true">
+    <div class="apply-backdrop" id="applyBackdrop"></div>
+
+    <div class="apply-card" role="dialog" aria-modal="true" aria-label="Application form">
+      <div class="apply-top">
+        <h3 id="applyTitle">Заявка в NeroviX</h3>
+        <div class="apply-actions">
+          <label class="sound-toggle" id="soundToggle" title="Sound">
+            <span class="sound-dot"></span>
+            <b id="soundText">Звук</b>
+          </label>
+          <button class="icon-btn" id="applyClose" type="button" aria-label="Close">✕</button>
+        </div>
+      </div>
+
+      <!-- same form -->
+      <form id="formModal">
+        <div class="row">
+          <label data-i18n="f_name_label">Имя / Ник
+            <input type="text" id="m_name" placeholder="Например: Ваня" autocomplete="name" />
+          </label>
+
+          <label data-i18n="f_tg_label">Telegram
+            <input type="text" id="m_tg" placeholder="@username" autocomplete="off" inputmode="text" />
+          </label>
+        </div>
+
+        <div class="row">
+          <label data-i18n="f_role_label">Роль
+            <select id="m_role">
+              <option value="" disabled selected data-i18n="f_role_choose">Выбери роль</option>
+              <option value="editor" data-i18n="role_editor">Монтажёр</option>
+              <option value="designer" data-i18n="role_designer">Дизайнер</option>
+              <option value="dev" data-i18n="role_dev">Разработчик</option>
+              <option value="content" data-i18n="role_content">Контент-менеджер</option>
+              <option value="other" data-i18n="role_other">Другое</option>
+            </select>
+          </label>
+
+          <label data-i18n="f_exp_label">Опыт
+            <select id="m_exp">
+              <option value="" selected data-i18n="exp_na">Не указано</option>
+              <option value="junior" data-i18n="exp_junior">Новичок</option>
+              <option value="mid" data-i18n="exp_mid">Средний</option>
+              <option value="senior" data-i18n="exp_senior">Опытный</option>
+            </select>
+          </label>
+        </div>
+
+        <label data-i18n="f_port_label">Портфолио / примеры (ссылка)
+          <input type="text" id="m_portfolio" placeholder="YouTube / TikTok / Drive / Behance" />
+        </label>
+
+        <label data-i18n="f_time_label">Сколько времени готов уделять?
+          <input type="text" id="m_time" placeholder="Например: 1-2 часа в день" />
+        </label>
+
+        <label data-i18n="f_about_label">О себе (коротко)
+          <textarea id="m_about" placeholder="2-5 предложений"></textarea>
+        </label>
+
+        <label class="chk" id="m_testWrap">
+          <input type="checkbox" id="m_test" />
+          <span class="box"></span>
+          <span class="lbl" data-i18n="f_test_label">Готов(а) сделать тестовое задание</span>
+        </label>
+
+        <div class="btn-row">
+          <button class="btn primary big" type="button" id="m_sendBtn" data-i18n="f_send">Отправить заявку</button>
+          <button class="btn big" type="button" id="m_clearBtn">Очистить</button>
+        </div>
+
+        <!-- (строка статуса убрана, вместо неё Toast) -->
+      </form>
     </div>
   </div>
 
@@ -907,7 +1156,7 @@
           </select>
         </div>
 
-        <a class="btn primary" href="#join" data-i18n="nav_join_btn">Вступить</a>
+        <a class="btn primary" href="#join" data-i18n="nav_join_btn" id="navJoinBtn">Вступить</a>
       </nav>
     </div>
   </header>
@@ -923,7 +1172,7 @@
           </p>
 
           <div class="hero-actions">
-            <a class="btn primary big" href="#join" data-i18n="hero_join">Вступить в команду</a>
+            <button class="btn primary big" type="button" id="openApplyHero" data-i18n="hero_join">Вступить в команду</button>
             <a class="btn big" href="#projects" data-i18n="hero_projects">Посмотреть проекты</a>
           </div>
 
@@ -1024,6 +1273,7 @@
       </div>
     </section>
 
+    <!-- Keeping this anchor for navigation, but form moved to modal -->
     <section class="section" id="join">
       <h2 data-i18n="join_title">Вступить в команду</h2>
 
@@ -1040,65 +1290,19 @@
         </div>
 
         <div class="join-right panel">
-          <form id="form">
-            <div class="row">
-              <label data-i18n="f_name_label">Имя / Ник
-                <input type="text" id="name" placeholder="Например: Ваня" required />
-              </label>
+          <div class="card-title">Заявка</div>
+          <div class="card-sub">Откроется в отдельном окне (удобнее и без багов).</div>
 
-              <label data-i18n="f_tg_label">Telegram
-                <input type="text" id="tg" placeholder="@username" required />
-              </label>
-            </div>
+          <div class="btn-row">
+            <button class="btn primary big" type="button" id="openApplyHere">Открыть заявку</button>
+            <a class="btn big" href="#top" data-i18n="to_top">Наверх</a>
+          </div>
 
-            <div class="row">
-              <label data-i18n="f_role_label">Роль
-                <select id="role" required>
-                  <option value="" disabled selected data-i18n="f_role_choose">Выбери роль</option>
-                  <option value="editor" data-i18n="role_editor">Монтажёр</option>
-                  <option value="designer" data-i18n="role_designer">Дизайнер</option>
-                  <option value="dev" data-i18n="role_dev">Разработчик</option>
-                  <option value="content" data-i18n="role_content">Контент-менеджер</option>
-                  <option value="other" data-i18n="role_other">Другое</option>
-                </select>
-              </label>
-
-              <label data-i18n="f_exp_label">Опыт
-                <select id="exp">
-                  <option value="" selected data-i18n="exp_na">Не указано</option>
-                  <option value="junior" data-i18n="exp_junior">Новичок</option>
-                  <option value="mid" data-i18n="exp_mid">Средний</option>
-                  <option value="senior" data-i18n="exp_senior">Опытный</option>
-                </select>
-              </label>
-            </div>
-
-            <label data-i18n="f_port_label">Портфолио / примеры (ссылка)
-              <input type="text" id="portfolio" placeholder="YouTube / TikTok / Drive / Behance" />
-            </label>
-
-            <label data-i18n="f_time_label">Сколько времени готов уделять?
-              <input type="text" id="time" placeholder="Например: 1-2 часа в день" />
-            </label>
-
-            <label data-i18n="f_about_label">О себе (коротко)
-              <textarea id="about" placeholder="2-5 предложений"></textarea>
-            </label>
-
-            <!-- animated checkbox -->
-            <label class="chk" id="testWrap">
-              <input type="checkbox" id="test" />
-              <span class="box"></span>
-              <span class="lbl" data-i18n="f_test_label">Готов(а) сделать тестовое задание</span>
-            </label>
-
-            <div class="btn-row">
-              <button class="btn primary big" type="button" id="sendBtn" onclick="send()" data-i18n="f_send">Отправить заявку</button>
-              <a class="btn big" href="#top" data-i18n="to_top">Наверх</a>
-            </div>
-
-            <div id="status" class="status"></div>
-          </form>
+          <div class="badge-row" style="margin-top:12px;">
+            <span class="badge">Auto-check Telegram</span>
+            <span class="badge">Toasts</span>
+            <span class="badge">Micro clicks</span>
+          </div>
         </div>
       </div>
     </section>
@@ -1134,6 +1338,7 @@
     const ENDPOINT_URL = "https://super-voice-25ca.slavatop212.workers.dev/";
     const INTRO_KEY = "nerovix_intro_hidden_v3";
     const LANG_KEY = "nerovix_lang_v1";
+    const SOUND_KEY = "nerovix_sound_v1";
 
     // ======== i18n ========
     const i18n = {
@@ -1222,16 +1427,19 @@
         okBtn: "Понятно",
         langLabel: "Язык",
 
+        applyTitle: "Заявка в NeroviX",
+        sound: "Звук",
+
         chat: [
           { title: "Сообщение", text: "Добро пожаловать на сайт NeroviX." },
           { title: "Кто мы", text: "Мы строим цифровые проекты и доводим их до результата." },
           { title: "Что делаем", text: "• автоматизация и боты\n• контент-системы и воронки\n• сайты и интеграции" },
-          { title: "Дальше", text: "Если хочешь попасть в команду — нажми «Вступить». Заявка сразу улетит в наш Telegram." }
+          { title: "Дальше", text: "Если хочешь попасть в команду — нажми «Вступить». Откроется заявка в удобном окне." }
         ],
 
         msg_fill: "Заполни: имя, Telegram и роль.",
         msg_tg: "Telegram должен быть вида @username (без пробелов).",
-        msg_sending: "Отправляю...",
+        msg_sending: "Отправляю…",
         msg_ok: "Заявка отправлена ✅",
         msg_bad: "Ошибка отправки ❌ Попробуй ещё раз."
       },
@@ -1321,16 +1529,19 @@
         okBtn: "Зрозуміло",
         langLabel: "Мова",
 
+        applyTitle: "Заявка в NeroviX",
+        sound: "Звук",
+
         chat: [
           { title: "Повідомлення", text: "Ласкаво просимо на сайт NeroviX." },
           { title: "Хто ми", text: "Ми створюємо цифрові проєкти й доводимо їх до результату." },
           { title: "Що робимо", text: "• автоматизація та боти\n• контент-системи і воронки\n• сайти та інтеграції" },
-          { title: "Далі", text: "Якщо хочеш у команду — натисни «Вступити». Заявка одразу піде в наш Telegram." }
+          { title: "Далі", text: "Якщо хочеш у команду — натисни «Вступити». Відкриється заявка в зручному вікні." }
         ],
 
         msg_fill: "Заповни: ім’я, Telegram і роль.",
         msg_tg: "Telegram має бути у форматі @username (без пробілів).",
-        msg_sending: "Надсилаю...",
+        msg_sending: "Надсилаю…",
         msg_ok: "Заявку надіслано ✅",
         msg_bad: "Помилка надсилання ❌ Спробуй ще раз."
       },
@@ -1420,16 +1631,19 @@
         okBtn: "Got it",
         langLabel: "Language",
 
+        applyTitle: "Application to NeroviX",
+        sound: "Sound",
+
         chat: [
           { title: "Message", text: "Welcome to NeroviX." },
           { title: "Who we are", text: "We build digital products and ship results." },
           { title: "What we do", text: "• automation & bots\n• content systems & funnels\n• websites & integrations" },
-          { title: "Next", text: "If you want to join — click “Join”. Your application will be sent to our Telegram instantly." }
+          { title: "Next", text: "If you want to join — click “Join”. The application will open in a clean modal window." }
         ],
 
         msg_fill: "Fill in: name, Telegram and role.",
         msg_tg: "Telegram must look like @username (no spaces).",
-        msg_sending: "Sending...",
+        msg_sending: "Sending…",
         msg_ok: "Application sent ✅",
         msg_bad: "Sending failed ❌ Try again."
       }
@@ -1475,88 +1689,117 @@
       document.getElementById("closeBtn").textContent = i18n[lang].okBtn;
       langLabel.textContent = i18n[lang].langLabel;
 
+      document.getElementById("applyTitle").textContent = i18n[lang].applyTitle;
+      document.getElementById("soundText").textContent = i18n[lang].sound;
+
       buildChat();
     }
 
     langSelect.addEventListener("change", e => applyLang(e.target.value));
     langSelectIntro.addEventListener("change", e => applyLang(e.target.value));
 
-    // ======== Form ========
-    const statusEl = document.getElementById("status");
-    const sendBtn = document.getElementById("sendBtn");
+    // ======== Toasts ========
+    const toastsEl = document.getElementById("toasts");
 
-    function setStatus(msg, type){
-      statusEl.textContent = msg;
-      statusEl.className = "status" + (type ? (" " + type) : "");
+    function toast(type, title, desc, ms=2200){
+      const el = document.createElement("div");
+      el.className = "toast " + (type || "");
+      el.innerHTML = `
+        <div class="t"><span class="pill"></span><span>${escapeHtml(title || "")}</span></div>
+        ${desc ? `<div class="d">${escapeHtml(desc)}</div>` : ""}
+      `;
+      toastsEl.appendChild(el);
+
+      setTimeout(()=> {
+        el.classList.add("hide");
+        setTimeout(()=> el.remove(), 220);
+      }, ms);
     }
 
-    function normalizeTg(v){
-      let s = (v || "").trim();
-      if (!s) return s;
-      s = s.replace("https://t.me/", "@").replace("http://t.me/", "@").replace("t.me/", "@");
-      if (!s.startsWith("@")) s = "@" + s;
-      s = s.replace(/\s+/g, "");
-      return s;
+    function escapeHtml(s){
+      return String(s).replace(/[&<>"']/g, m => ({
+        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+      }[m]));
     }
 
-    // ✅ FIX: отправляем ВСЮ структуру заявки (как в твоём PRO контексте)
-    async function send() {
-      const name = document.getElementById("name").value.trim();
-      const tg = normalizeTg(document.getElementById("tg").value);
-      const role = document.getElementById("role").value;
+    // ======== Micro-click sound (WebAudio) ========
+    let soundEnabled = (localStorage.getItem(SOUND_KEY) !== "0"); // default ON
+    const soundToggle = document.getElementById("soundToggle");
 
-      const exp = document.getElementById("exp").value || "";
-      const portfolio = (document.getElementById("portfolio").value || "").trim();
-      const time = (document.getElementById("time").value || "").trim();
-      const about = (document.getElementById("about").value || "").trim();
-      const test = document.getElementById("test").checked;
+    function renderSoundToggle(){
+      soundToggle.classList.toggle("on", soundEnabled);
+    }
+    renderSoundToggle();
 
-      if (!name || !tg || !role) { setStatus(i18n[currentLang].msg_fill, "bad"); return; }
-      if (!/^@[A-Za-z0-9_]{3,32}$/.test(tg)) { setStatus(i18n[currentLang].msg_tg, "bad"); return; }
+    soundToggle.addEventListener("click", () => {
+      soundEnabled = !soundEnabled;
+      localStorage.setItem(SOUND_KEY, soundEnabled ? "1" : "0");
+      renderSoundToggle();
+      toast("", soundEnabled ? "Звук включён" : "Звук выключен", "Можно включать/выключать в окне заявки.", 1500);
+      // small click
+      playClick(520, 0.02, 0.04);
+    });
 
-      const data = { name, tg, role, exp, portfolio, time, about, test };
-
-      sendBtn.disabled = true;
-      sendBtn.style.opacity = ".7";
-      setStatus(i18n[currentLang].msg_sending, "");
-
-      try {
-        const res = await fetch(ENDPOINT_URL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data)
-        });
-
-        // Если воркер отдаёт текст ошибки — покажем
-        if (!res.ok) {
-          let txt = "";
-          try { txt = await res.text(); } catch(e){}
-          throw new Error(txt || "bad_response");
-        }
-
-        setStatus(i18n[currentLang].msg_ok, "ok");
-
-        // clear
-        document.getElementById("name").value = "";
-        document.getElementById("tg").value = "";
-        document.getElementById("role").selectedIndex = 0;
-        document.getElementById("exp").selectedIndex = 0;
-        document.getElementById("portfolio").value = "";
-        document.getElementById("time").value = "";
-        document.getElementById("about").value = "";
-        document.getElementById("test").checked = false;
-
-      } catch (e) {
-        setStatus(i18n[currentLang].msg_bad, "bad");
-        // console helpful
-        console.error("Send error:", e);
-      } finally {
-        sendBtn.disabled = false;
-        sendBtn.style.opacity = "1";
+    let audioCtx = null;
+    function ensureAudio(){
+      if (!audioCtx){
+        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
       }
+      if (audioCtx.state === "suspended") audioCtx.resume().catch(()=>{});
     }
 
-    // ======== Intro assistant: chat + typing + talking reaction ========
+    function playClick(freq=520, vol=0.02, dur=0.035){
+      if (!soundEnabled) return;
+      try{
+        ensureAudio();
+        const t0 = audioCtx.currentTime;
+
+        const o = audioCtx.createOscillator();
+        const g = audioCtx.createGain();
+        const f = audioCtx.createBiquadFilter();
+        f.type = "highpass";
+        f.frequency.setValueAtTime(300, t0);
+
+        o.type = "triangle";
+        o.frequency.setValueAtTime(freq, t0);
+        o.frequency.exponentialRampToValueAtTime(freq*0.6, t0 + dur);
+
+        g.gain.setValueAtTime(0.0001, t0);
+        g.gain.exponentialRampToValueAtTime(vol, t0 + 0.008);
+        g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+
+        o.connect(f);
+        f.connect(g);
+        g.connect(audioCtx.destination);
+
+        o.start(t0);
+        o.stop(t0 + dur + 0.01);
+      }catch(e){}
+    }
+
+    // Attach click sounds to buttons + checkboxes (delegation)
+    document.addEventListener("click", (e) => {
+      const t = e.target;
+      if (t.closest(".btn")) playClick(520, 0.02, 0.04);
+      if (t.closest(".icon-btn")) playClick(620, 0.018, 0.035);
+      if (t.closest(".chk")) playClick(420, 0.018, 0.05);
+    }, { passive:true });
+
+    // ======== Checkbox pop animation helper ========
+    function bindChkPop(wrapperId, inputId){
+      const wrap = document.getElementById(wrapperId);
+      const inp = document.getElementById(inputId);
+      if (!wrap || !inp) return;
+      inp.addEventListener("change", () => {
+        wrap.classList.remove("pop");
+        void wrap.offsetWidth;
+        wrap.classList.add("pop");
+      });
+    }
+    bindChkPop("m_testWrap", "m_test");
+    bindChkPop("dontShowWrap", "dontShow");
+
+    // ======== Intro assistant: chat + typing + talking reaction + AI pulse ========
     const intro = document.getElementById("intro");
     const dontShow = document.getElementById("dontShow");
     const closeBtn = document.getElementById("closeBtn");
@@ -1571,8 +1814,13 @@
     let introDone = false;
 
     function setTalking(on){
-      if (on) bot.classList.add("talking");
-      else bot.classList.remove("talking");
+      if (on){
+        bot.classList.add("talking");
+        bot.classList.add("pulse");     // AI pulse ON
+      } else {
+        bot.classList.remove("talking");
+        bot.classList.remove("pulse");  // AI pulse OFF
+      }
     }
 
     function buildChat(){
@@ -1635,7 +1883,7 @@
       introDone = false;
       const msgs = i18n[currentLang].chat;
       for (let k=0; k<msgs.length; k++){
-        const bubble = chatEl.querySelector(`.bubble[data-idx="${k}"] .text`);
+        const bubble = chatEl.querySelector(\`.bubble[data-idx="\${k}"] .text\`);
         await typeInto(bubble, msgs[k].text, 12);
         await sleep(160);
       }
@@ -1667,7 +1915,7 @@
       stopTyping();
       const msgs = i18n[currentLang].chat;
       msgs.forEach((m, idx)=>{
-        const bubble = chatEl.querySelector(`.bubble[data-idx="${idx}"] .text`);
+        const bubble = chatEl.querySelector(\`.bubble[data-idx="\${idx}"] .text\`);
         if (bubble) bubble.textContent = m.text;
       });
       introDone = true;
@@ -1682,7 +1930,7 @@
         const y = (e.clientY - r.top) / r.height;
         const ry = clamp((x - 0.5) * 22, -18, 18);
         const rx = clamp(-(y - 0.5) * 18, -14, 14);
-        bot.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg) translateY(-6px)`;
+        bot.style.transform = \`rotateX(\${rx}deg) rotateY(\${ry}deg) translateY(-6px)\`;
         bot.style.transition = "transform 60ms linear";
       });
       stage.addEventListener("mouseleave", () => {
@@ -1697,26 +1945,195 @@
       else hideIntro();
     });
     closeBtn.addEventListener("click", hideIntro);
-    goJoinBtn.addEventListener("click", () => { hideIntro(); location.hash = "#join"; });
 
-    window.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && intro.style.display === "flex") hideIntro();
+    // ======== Application modal open/close ========
+    const applyModal = document.getElementById("applyModal");
+    const applyBackdrop = document.getElementById("applyBackdrop");
+    const applyClose = document.getElementById("applyClose");
+    const openApplyHero = document.getElementById("openApplyHero");
+    const openApplyHere = document.getElementById("openApplyHere");
+    const navJoinBtn = document.getElementById("navJoinBtn");
+
+    function openApply(){
+      applyModal.classList.add("show");
+      applyModal.setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+      // ensure audio on first gesture
+      ensureAudio();
+      // focus first field
+      setTimeout(() => document.getElementById("m_name")?.focus(), 120);
+    }
+    function closeApply(){
+      applyModal.classList.remove("show");
+      applyModal.setAttribute("aria-hidden", "true");
+      document.body.style.overflow = "";
+    }
+
+    openApplyHero.addEventListener("click", openApply);
+    openApplyHere.addEventListener("click", openApply);
+
+    // nav join: scroll + open modal
+    navJoinBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      document.getElementById("join")?.scrollIntoView({behavior:"smooth", block:"start"});
+      setTimeout(openApply, 260);
     });
 
-    // ======== Checkbox pop animation helper ========
-    function bindChkPop(wrapperId, inputId){
-      const wrap = document.getElementById(wrapperId);
-      const inp = document.getElementById(inputId);
-      if (!wrap || !inp) return;
-      inp.addEventListener("change", () => {
-        wrap.classList.remove("pop");
-        // force reflow
-        void wrap.offsetWidth;
-        wrap.classList.add("pop");
-      });
+    applyBackdrop.addEventListener("click", closeApply);
+    applyClose.addEventListener("click", closeApply);
+
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape"){
+        if (intro.style.display === "flex") hideIntro();
+        if (applyModal.classList.contains("show")) closeApply();
+      }
+    });
+
+    // Intro "join" opens modal instead of hash
+    goJoinBtn.addEventListener("click", () => {
+      hideIntro();
+      document.getElementById("join")?.scrollIntoView({behavior:"smooth", block:"start"});
+      setTimeout(openApply, 260);
+    });
+
+    // ======== Telegram auto-check (modal) ========
+    const mTg = document.getElementById("m_tg");
+
+    function normalizeTg(v){
+      let s = (v || "").trim();
+      if (!s) return s;
+      s = s.replace("https://t.me/", "@").replace("http://t.me/", "@").replace("t.me/", "@");
+      if (!s.startsWith("@")) s = "@" + s;
+      s = s.replace(/\s+/g, "");
+      return s;
     }
-    bindChkPop("testWrap", "test");
-    bindChkPop("dontShowWrap", "dontShow");
+    function isValidTg(v){
+      return /^@[A-Za-z0-9_]{3,32}$/.test(v);
+    }
+
+    // auto-fix while typing
+    let tgTypingTimer = null;
+    mTg.addEventListener("input", () => {
+      // soft normalize: only if user typed spaces or t.me/
+      const raw = mTg.value;
+      const fixed = raw.replace(/\s+/g, "").replace(/^https?:\/\/t\.me\//i, "@").replace(/^t\.me\//i, "@");
+      if (fixed !== raw) mTg.value = fixed;
+
+      clearTimeout(tgTypingTimer);
+      tgTypingTimer = setTimeout(() => {
+        let v = normalizeTg(mTg.value);
+        // don't aggressively add @ if empty
+        if (mTg.value.trim() && v !== mTg.value) mTg.value = v;
+
+        mTg.classList.remove("tg-good","tg-bad");
+        if (!mTg.value.trim()) return;
+
+        if (isValidTg(mTg.value)) mTg.classList.add("tg-good");
+        else mTg.classList.add("tg-bad");
+      }, 180);
+    });
+
+    // on blur: always normalize
+    mTg.addEventListener("blur", () => {
+      if (!mTg.value.trim()) return;
+      mTg.value = normalizeTg(mTg.value);
+      mTg.classList.remove("tg-good","tg-bad");
+      if (isValidTg(mTg.value)) mTg.classList.add("tg-good");
+      else mTg.classList.add("tg-bad");
+    });
+
+    // ======== Send (modal) ========
+    const mSendBtn = document.getElementById("m_sendBtn");
+    const mClearBtn = document.getElementById("m_clearBtn");
+
+    function getFormData(){
+      const name = document.getElementById("m_name").value.trim();
+      const tg = normalizeTg(document.getElementById("m_tg").value);
+      const role = document.getElementById("m_role").value;
+
+      const exp = document.getElementById("m_exp").value || "";
+      const portfolio = (document.getElementById("m_portfolio").value || "").trim();
+      const time = (document.getElementById("m_time").value || "").trim();
+      const about = (document.getElementById("m_about").value || "").trim();
+      const test = document.getElementById("m_test").checked;
+
+      return { name, tg, role, exp, portfolio, time, about, test };
+    }
+
+    function clearForm(){
+      document.getElementById("m_name").value = "";
+      document.getElementById("m_tg").value = "";
+      document.getElementById("m_role").selectedIndex = 0;
+      document.getElementById("m_exp").selectedIndex = 0;
+      document.getElementById("m_portfolio").value = "";
+      document.getElementById("m_time").value = "";
+      document.getElementById("m_about").value = "";
+      document.getElementById("m_test").checked = false;
+      document.getElementById("m_tg").classList.remove("tg-good","tg-bad");
+    }
+
+    mClearBtn.addEventListener("click", () => {
+      clearForm();
+      toast("", "Очищено", "Можно заполнить заново.", 1400);
+    });
+
+    async function send(){
+      const data = getFormData();
+
+      if (!data.name || !data.tg || !data.role){
+        toast("bad", i18n[currentLang].msg_fill, "Имя, Telegram и роль — обязательны.", 2600);
+        // focus missing
+        if (!data.name) document.getElementById("m_name")?.focus();
+        else if (!data.tg) document.getElementById("m_tg")?.focus();
+        else document.getElementById("m_role")?.focus();
+        return;
+      }
+      if (!isValidTg(data.tg)){
+        toast("bad", i18n[currentLang].msg_tg, "Пример: @username", 2600);
+        document.getElementById("m_tg")?.focus();
+        document.getElementById("m_tg").classList.add("tg-bad");
+        return;
+      }
+
+      mSendBtn.disabled = true;
+      mSendBtn.style.opacity = ".7";
+      toast("", i18n[currentLang].msg_sending, "Не закрывай окно…", 1600);
+
+      try{
+        const res = await fetch(ENDPOINT_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+
+        if (!res.ok){
+          let txt = "";
+          try{ txt = await res.text(); }catch(e){}
+          throw new Error(txt || "bad_response");
+        }
+
+        toast("ok", i18n[currentLang].msg_ok, "Мы свяжемся в Telegram.", 2400);
+        clearForm();
+
+        // close after a bit
+        setTimeout(() => closeApply(), 800);
+
+      }catch(e){
+        console.error("Send error:", e);
+        toast("bad", i18n[currentLang].msg_bad, "Проверь интернет и попробуй снова.", 3200);
+      }finally{
+        mSendBtn.disabled = false;
+        mSendBtn.style.opacity = "1";
+      }
+    }
+
+    mSendBtn.addEventListener("click", send);
+
+    // ======== init ========
+    applyLang(currentLang);
+
+    const hidden = localStorage.getItem(INTRO_KEY) === "1";
+    if (!hidden) setTimeout(showIntro, 420);
 
     // ======== TECH BACKGROUND CANVAS (dots + links) ========
     (function techFx(){
@@ -1810,12 +2227,6 @@
       else { requestAnimationFrame(step); }
       window.addEventListener("resize", () => { resize(); init(); });
     })();
-
-    // ======== init ========
-    applyLang(currentLang);
-
-    const hidden = localStorage.getItem(INTRO_KEY) === "1";
-    if (!hidden) setTimeout(showIntro, 420);
   </script>
 </body>
 </html>
