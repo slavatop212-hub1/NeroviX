@@ -28,84 +28,114 @@
       overflow-x:hidden;
     }
 
-    /* ===================== TECH FUTURE BACKGROUND (ANIMATED) ===================== */
+    /* ===================== BACKGROUND (more sci-fi, less math) ===================== */
     .bg{
-      position:fixed; inset:0; z-index:-6;
+      position:fixed; inset:0; z-index:-8;
       background:
-        radial-gradient(1100px 700px at 18% -5%, rgba(0,170,255,.26), transparent 60%),
-        radial-gradient(900px 600px at 88% 10%, rgba(106,240,255,.14), transparent 55%),
-        radial-gradient(900px 500px at 60% 92%, rgba(255,77,109,.08), transparent 60%),
+        radial-gradient(1200px 800px at 18% -8%, rgba(0,170,255,.28), transparent 62%),
+        radial-gradient(980px 680px at 88% 12%, rgba(106,240,255,.16), transparent 62%),
+        radial-gradient(1200px 900px at 60% 92%, rgba(0,170,255,.12), transparent 66%),
+        radial-gradient(900px 700px at 36% 62%, rgba(255,77,109,.08), transparent 62%),
         linear-gradient(180deg, #040614 0%, #070A12 45%, #040614 100%);
       pointer-events:none;
     }
-    .aurora{
-      position:fixed; inset:-120px; z-index:-5; pointer-events:none;
+
+    .nebula{
+      position:fixed; inset:-140px; z-index:-7;
+      pointer-events:none;
       background:
-        radial-gradient(700px 420px at 20% 25%, rgba(0,170,255,.18), transparent 60%),
-        radial-gradient(680px 420px at 80% 35%, rgba(106,240,255,.14), transparent 62%),
-        radial-gradient(620px 420px at 55% 85%, rgba(0,170,255,.10), transparent 62%);
-      filter: blur(18px) saturate(1.1);
+        radial-gradient(700px 500px at 18% 30%, rgba(0,170,255,.20), transparent 66%),
+        radial-gradient(800px 560px at 78% 18%, rgba(106,240,255,.16), transparent 70%),
+        radial-gradient(860px 600px at 58% 78%, rgba(0,170,255,.12), transparent 72%);
+      filter: blur(26px) saturate(1.15);
       opacity:.9;
-      animation: auroraMove 10s ease-in-out infinite;
+      animation: nebulaMove 12s ease-in-out infinite;
       transform: translate3d(0,0,0);
     }
-    @keyframes auroraMove{
-      0%,100%{ transform: translate3d(-2%, -1%, 0) scale(1.02); opacity:.78; }
-      50%{ transform: translate3d(2%, 1%, 0) scale(1.06); opacity:1; }
-    }
-    .grid-overlay{
-      position:fixed; inset:0; z-index:-4; opacity:.16;
-      background-image:
-        linear-gradient(to right, rgba(255,255,255,.07) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255,255,255,.07) 1px, transparent 1px);
-      background-size: 64px 64px;
-      mask-image: radial-gradient(760px 460px at 50% 18%, rgba(0,0,0,1), transparent 72%);
-      pointer-events:none;
-      animation: gridDrift 22s linear infinite;
-    }
-    @keyframes gridDrift{
-      0%{ background-position: 0 0, 0 0; }
-      100%{ background-position: 260px 220px, 260px 220px; }
-    }
-    .scanlines{
-      position:fixed; inset:0; z-index:-3; pointer-events:none;
-      background: repeating-linear-gradient(
-        to bottom,
-        rgba(255,255,255,.04) 0px,
-        rgba(255,255,255,.04) 1px,
-        transparent 3px,
-        transparent 6px
-      );
-      opacity:.05;
-      mix-blend-mode: overlay;
-      animation: scanMove 8s linear infinite;
-    }
-    @keyframes scanMove{
-      0%{ background-position: 0 0; }
-      100%{ background-position: 0 120px; }
-    }
-    .noise{
-      position:fixed; inset:0; z-index:-1; opacity:.07; pointer-events:none;
-      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E");
-    }
-    #fx{
-      position:fixed; inset:0; z-index:-2;
-      width:100%; height:100%;
-      pointer-events:none;
-      opacity:.9;
+    @keyframes nebulaMove{
+      0%,100%{ transform: translate3d(-2%, -1%, 0) scale(1.03); opacity:.75; }
+      50%{ transform: translate3d(2%, 1%, 0) scale(1.07); opacity:1; }
     }
 
-    /* FIX: контент выше фоновых слоёв */
+    /* subtle moving light streams */
+    .streams{
+      position:fixed; inset:0; z-index:-6; pointer-events:none;
+      background:
+        linear-gradient(110deg, transparent 0 40%, rgba(106,240,255,.06) 50%, transparent 60% 100%),
+        linear-gradient(120deg, transparent 0 46%, rgba(0,170,255,.05) 55%, transparent 64% 100%),
+        linear-gradient(100deg, transparent 0 42%, rgba(255,255,255,.02) 52%, transparent 62% 100%);
+      background-size: 180% 180%, 220% 220%, 200% 200%;
+      mix-blend-mode: screen;
+      opacity:.45;
+      animation: streams 18s linear infinite;
+    }
+    @keyframes streams{
+      0%{ background-position: -30% -20%, -20% 10%, -10% -10%; }
+      100%{ background-position: 130% 120%, 140% 110%, 120% 130%; }
+    }
+
+    /* particles canvas */
+    #fx{
+      position:fixed; inset:0; z-index:-5;
+      width:100%; height:100%;
+      pointer-events:none;
+      opacity:.95;
+    }
+
+    .noise{
+      position:fixed; inset:0; z-index:-4; opacity:.07; pointer-events:none;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E");
+    }
+
     header.nav, main.wrap{ position:relative; z-index:5; }
 
     @media (prefers-reduced-motion: reduce){
-      .aurora, .grid-overlay, .scanlines{ animation:none !important; }
+      .nebula, .streams{ animation:none !important; }
     }
 
     a{ color:inherit; text-decoration:none; }
     .wrap{ max-width:1100px; margin:0 auto; padding:0 18px; }
 
-    /* NAV */
+    /* ===================== GLOW BORDER (moving light on hover) ===================== */
+    .glow-border{
+      position:relative;
+      isolation:isolate;
+    }
+    .glow-border::before{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      border-radius: inherit;
+      padding:2px;
+      background: conic-gradient(
+        from 0deg,
+        transparent 0 18%,
+        rgba(106,240,255,.95) 22%,
+        rgba(0,170,255,.75) 28%,
+        transparent 34% 60%,
+        rgba(106,240,255,.55) 66%,
+        transparent 72% 100%
+      );
+      -webkit-mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      opacity:0;
+      filter: blur(.2px);
+      transform: translateZ(0);
+      transition: opacity .18s ease;
+      z-index:-1;
+    }
+    .glow-border:hover::before{
+      opacity:1;
+      animation: borderSpin .9s linear infinite;
+    }
+    @keyframes borderSpin{
+      to { transform: rotate(360deg); }
+    }
+
+    /* ===================== NAV ===================== */
     .nav{
       position:sticky; top:0; z-index:50;
       background: rgba(5,8,19,.62);
@@ -174,6 +204,8 @@
       user-select:none;
       font-weight:900;
       white-space:nowrap;
+      position:relative;
+      isolation:isolate;
     }
     .btn:hover{ transform: translateY(-1px); box-shadow: 0 10px 28px rgba(0,170,255,.12); }
     .btn:active{ transform: translateY(0px); }
@@ -187,7 +219,10 @@
       background: rgba(255,255,255,.03);
     }
 
-    /* HERO */
+    /* add glow moving border on buttons too (optional) */
+    .btn.glow-border::before{ inset:-3px; }
+
+    /* ===================== HERO ===================== */
     .hero{ padding:70px 0 32px; }
     .hero-grid{
       display:grid; gap:18px;
@@ -220,7 +255,7 @@
 
     /* PANEL */
     .panel{
-      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.02));
       border:1px solid var(--border);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
@@ -244,6 +279,24 @@
       font-size:13px;
       line-height:1.55;
     }
+    .mini-list{ display:grid; gap:10px; margin-top:12px; }
+    .mini-item{
+      display:flex; gap:10px; align-items:flex-start;
+      padding:10px 10px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.08);
+      background: rgba(0,0,0,.14);
+    }
+    .mini-ico{
+      width:28px; height:28px; border-radius:10px;
+      background: linear-gradient(180deg, rgba(106,240,255,.22), rgba(0,170,255,.12));
+      border:1px solid rgba(0,170,255,.25);
+      display:flex; align-items:center; justify-content:center;
+      flex: 0 0 auto;
+    }
+    .mini-ico span{ font-size:14px; }
+    .mini-text b{ display:block; font-size:13px; margin-bottom:2px; }
+    .mini-text p{ margin:0; color:var(--muted); font-size:12px; line-height:1.45; }
 
     /* SECTIONS */
     .section{ padding:38px 0; }
@@ -257,7 +310,7 @@
       padding:16px;
       border-radius: var(--radius);
       border:1px solid var(--border);
-      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
       box-shadow: 0 10px 30px rgba(0,0,0,.18);
       min-height:120px;
     }
@@ -289,81 +342,7 @@
       justify-content:flex-start;
     }
 
-    /* ===================== BEAUTIFUL CHECKBOX (ANIMATED) ===================== */
-    .chk{
-      display:flex; align-items:center; gap:12px;
-      padding:12px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.03);
-      cursor:pointer;
-      user-select:none;
-      color:var(--text);
-      position:relative;
-      overflow:hidden;
-    }
-    .chk input{ position:absolute; opacity:0; pointer-events:none; }
-    .chk .box{
-      width:22px; height:22px;
-      border-radius:7px;
-      border:1px solid rgba(255,255,255,.16);
-      background: rgba(0,0,0,.20);
-      position:relative;
-      flex:0 0 auto;
-      transition: .18s ease;
-    }
-    .chk .box::before{
-      content:"";
-      position:absolute; inset:-18px;
-      border-radius:999px;
-      background: radial-gradient(circle, rgba(106,240,255,.18), transparent 60%);
-      opacity:0;
-      transform: scale(.7);
-      transition: .22s ease;
-      pointer-events:none;
-    }
-    .chk .box::after{
-      content:"";
-      position:absolute;
-      left:6px; top:4px;
-      width:7px; height:12px;
-      border-right:3px solid rgba(234,240,255,.95);
-      border-bottom:3px solid rgba(234,240,255,.95);
-      transform: rotate(45deg) scale(0.2);
-      opacity:0;
-      transition: .18s ease;
-    }
-    .chk .lbl{ font-size:14px; color:var(--text); line-height:1.4; }
-
-    .chk input:checked + .box{
-      border-color: rgba(106,240,255,.45);
-      background: linear-gradient(180deg, rgba(0,170,255,.28), rgba(0,170,255,.10));
-      box-shadow: 0 0 0 3px rgba(0,170,255,.12), 0 14px 35px rgba(0,170,255,.10);
-      transform: translateY(-1px);
-    }
-    .chk input:checked + .box::before{
-      opacity:1;
-      transform: scale(1);
-      animation: ripple .42s ease-out;
-    }
-    @keyframes ripple{
-      0%{ transform: scale(.6); opacity:.0; }
-      30%{ transform: scale(1); opacity:1; }
-      100%{ transform: scale(1.2); opacity:0; }
-    }
-    .chk input:checked + .box::after{
-      opacity:1;
-      transform: rotate(45deg) scale(1);
-      transition-delay: .02s;
-    }
-    .chk.pop{ animation: pop .28s ease; }
-    @keyframes pop{
-      0%{ transform: scale(1); }
-      50%{ transform: scale(1.01); }
-      100%{ transform: scale(1); }
-    }
-
-    /* ================= INTRO OVERLAY ================= */
+    /* ===================== INTRO ===================== */
     .intro{
       position:fixed; inset:0; z-index:999;
       display:none;
@@ -373,9 +352,9 @@
     .intro-backdrop{
       position:absolute; inset:0;
       background:
-        radial-gradient(900px 520px at 50% 45%, rgba(0,170,255,.08), transparent 60%),
-        radial-gradient(820px 520px at 45% 55%, rgba(106,240,255,.06), transparent 60%),
-        radial-gradient(1100px 900px at 50% 50%, rgba(0,0,0,.45), rgba(0,0,0,.72));
+        radial-gradient(900px 520px at 50% 45%, rgba(0,170,255,.10), transparent 60%),
+        radial-gradient(820px 520px at 45% 55%, rgba(106,240,255,.08), transparent 60%),
+        radial-gradient(1100px 900px at 50% 50%, rgba(0,0,0,.45), rgba(0,0,0,.74));
       backdrop-filter: blur(18px) saturate(1.2);
     }
     .intro-vignette{
@@ -464,7 +443,81 @@
       justify-content:flex-end;
     }
 
-    /* =================== ROBOT (HUMANOID SHAPE) =================== */
+    /* checkbox */
+    .chk{
+      display:flex; align-items:center; gap:12px;
+      padding:12px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+      cursor:pointer;
+      user-select:none;
+      color:var(--text);
+      position:relative;
+      overflow:hidden;
+    }
+    .chk input{ position:absolute; opacity:0; pointer-events:none; }
+    .chk .box{
+      width:22px; height:22px;
+      border-radius:7px;
+      border:1px solid rgba(255,255,255,.16);
+      background: rgba(0,0,0,.20);
+      position:relative;
+      flex:0 0 auto;
+      transition: .18s ease;
+    }
+    .chk .box::before{
+      content:"";
+      position:absolute; inset:-18px;
+      border-radius:999px;
+      background: radial-gradient(circle, rgba(106,240,255,.18), transparent 60%);
+      opacity:0;
+      transform: scale(.7);
+      transition: .22s ease;
+      pointer-events:none;
+    }
+    .chk .box::after{
+      content:"";
+      position:absolute;
+      left:6px; top:4px;
+      width:7px; height:12px;
+      border-right:3px solid rgba(234,240,255,.95);
+      border-bottom:3px solid rgba(234,240,255,.95);
+      transform: rotate(45deg) scale(0.2);
+      opacity:0;
+      transition: .18s ease;
+    }
+    .chk .lbl{ font-size:14px; color:var(--text); line-height:1.4; }
+
+    .chk input:checked + .box{
+      border-color: rgba(106,240,255,.45);
+      background: linear-gradient(180deg, rgba(0,170,255,.28), rgba(0,170,255,.10));
+      box-shadow: 0 0 0 3px rgba(0,170,255,.12), 0 14px 35px rgba(0,170,255,.10);
+      transform: translateY(-1px);
+    }
+    .chk input:checked + .box::before{
+      opacity:1;
+      transform: scale(1);
+      animation: ripple .42s ease-out;
+    }
+    @keyframes ripple{
+      0%{ transform: scale(.6); opacity:.0; }
+      30%{ transform: scale(1); opacity:1; }
+      100%{ transform: scale(1.2); opacity:0; }
+    }
+    .chk input:checked + .box::after{
+      opacity:1;
+      transform: rotate(45deg) scale(1);
+      transition-delay: .02s;
+    }
+    .chk.pop{ animation: pop .28s ease; }
+    @keyframes pop{
+      0%{ transform: scale(1); }
+      50%{ transform: scale(1.01); }
+      100%{ transform: scale(1); }
+    }
+
+    /* ===================== ROBOT (humanoid) ===================== */
     .stage{
       height:100%;
       display:flex;
@@ -562,7 +615,6 @@
         inset 0 0 0 1px rgba(255,255,255,.05);
       overflow:hidden;
     }
-    /* AI pulse */
     .bot .visor::after{
       content:"";
       position:absolute;
@@ -573,13 +625,15 @@
       opacity:.55;
       pointer-events:none;
     }
+    /* AI pulse + breathe outline */
     .bot.pulse .visor::after{
       animation: visorPulse 1.35s ease-in-out infinite;
     }
     @keyframes visorPulse{
-      0%,100%{ opacity:.40; box-shadow: 0 0 18px rgba(0,170,255,.10); border-color: rgba(106,240,255,.10); }
-      50%{ opacity:.95; box-shadow: 0 0 36px rgba(0,170,255,.22); border-color: rgba(106,240,255,.26); }
+      0%,100%{ opacity:.35; box-shadow: 0 0 18px rgba(0,170,255,.10); border-color: rgba(106,240,255,.10); }
+      50%{ opacity:.95; box-shadow: 0 0 38px rgba(0,170,255,.22); border-color: rgba(106,240,255,.26); }
     }
+
     .bot .eyes{
       position:absolute; left:0; right:0;
       top: 84px;
@@ -650,14 +704,13 @@
       padding:18px;
     }
     .apply-modal.show{ display:flex; }
-
     .apply-backdrop{
       position:absolute; inset:0;
-      background: radial-gradient(900px 520px at 50% 40%, rgba(0,170,255,.09), transparent 60%),
-                  rgba(0,0,0,.72);
+      background:
+        radial-gradient(900px 520px at 50% 40%, rgba(0,170,255,.10), transparent 60%),
+        rgba(0,0,0,.72);
       backdrop-filter: blur(14px) saturate(1.1);
     }
-
     .apply-card{
       position:relative;
       width: min(900px, 100%);
@@ -672,13 +725,12 @@
       box-shadow: 0 30px 90px rgba(0,0,0,.62);
       padding: 16px 16px 18px;
     }
-
     .apply-top{
       display:flex;
       align-items:center;
       justify-content:space-between;
       gap:10px;
-      padding: 6px 6px 10px;
+      padding: 8px 8px 10px;
       border-bottom: 1px solid rgba(255,255,255,.10);
       margin-bottom: 12px;
       position:sticky;
@@ -710,6 +762,7 @@
       display:flex; flex-direction:column; gap:7px;
       font-size:13px; color:var(--muted); text-align:left;
     }
+    .label-text{ color:var(--muted); font-size:13px; }
     input, select, textarea{
       padding:12px 12px;
       border-radius:14px;
@@ -734,7 +787,6 @@
       box-shadow: 0 0 0 3px rgba(255,77,109,.10) !important;
     }
 
-    /* sound toggle */
     .sound-toggle{
       display:flex; align-items:center; gap:10px;
       padding:8px 10px;
@@ -797,13 +849,87 @@
     .toast.hide{ animation: toastOut .18s ease forwards; }
     @keyframes toastOut{ to { transform: translateY(-6px); opacity:0; } }
 
-    /* AI floating button (если интро выключили) */
+    /* AI floating button */
     .ai-fab{
       position:fixed;
       right: 14px;
       bottom: 14px;
       z-index: 1800;
       display:none;
+    }
+
+    /* ===================== FAQ (beautiful accordion) ===================== */
+    .faq{
+      display:grid;
+      gap:12px;
+    }
+    .faq-item{
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.03);
+      border-radius: 18px;
+      overflow:hidden;
+    }
+    .faq-q{
+      width:100%;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      padding:14px 14px;
+      cursor:pointer;
+      user-select:none;
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(0,0,0,.06));
+    }
+    .faq-q b{
+      font-weight:900;
+      color: var(--text);
+      font-size:14px;
+    }
+    .faq-ico{
+      width:34px; height:34px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.18);
+      display:flex; align-items:center; justify-content:center;
+      flex:0 0 auto;
+      position:relative;
+    }
+    .faq-ico::before, .faq-ico::after{
+      content:"";
+      position:absolute;
+      background: rgba(106,240,255,.9);
+      box-shadow: 0 0 16px rgba(0,170,255,.28);
+      border-radius: 2px;
+      transition: .18s ease;
+    }
+    .faq-ico::before{ width:14px; height:2px; }
+    .faq-ico::after{ width:2px; height:14px; }
+    .faq-item.open .faq-ico::after{ transform: scaleY(0); opacity:.2; }
+
+    .faq-a{
+      height:0;
+      overflow:hidden;
+      transition: height .22s ease;
+      border-top:1px solid rgba(255,255,255,.08);
+      background: rgba(0,0,0,.10);
+    }
+    .faq-a p{
+      margin:0;
+      padding: 12px 14px 14px;
+      color: var(--muted);
+      line-height: 1.65;
+      font-size:14px;
+    }
+
+    /* FOOTER */
+    .footer{
+      padding:26px 0 36px;
+      border-top:1px solid var(--border);
+      color:var(--muted);
+      font-size:13px;
+    }
+    .footer-inner{
+      display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;
     }
 
     /* Responsive */
@@ -830,17 +956,15 @@
 
 <body>
   <div class="bg"></div>
-  <div class="aurora"></div>
+  <div class="nebula"></div>
+  <div class="streams"></div>
   <canvas id="fx"></canvas>
-  <div class="grid-overlay"></div>
-  <div class="scanlines"></div>
   <div class="noise"></div>
 
   <div class="toasts" id="toasts"></div>
 
-  <!-- AI floating button (появится если интро отключено) -->
   <div class="ai-fab" id="aiFab">
-    <button class="btn primary" type="button" id="aiFabBtn">AI</button>
+    <button class="btn primary glow-border" type="button" id="aiFabBtn">AI</button>
   </div>
 
   <!-- INTRO -->
@@ -850,7 +974,10 @@
 
     <div class="intro-card" role="dialog" aria-modal="true">
       <div class="intro-left">
-        <div class="brand"><div class="dot"></div><div>NeroviX</div></div>
+        <div class="brand">
+          <div class="dot glow-border" style="border-radius:999px;"></div>
+          <div>NeroviX</div>
+        </div>
 
         <div class="stage" id="stage">
           <div class="halo"></div>
@@ -896,9 +1023,9 @@
         </div>
 
         <div class="intro-actions">
-          <button class="btn ghost" id="skipBtn" type="button">Пропустить</button>
-          <button class="btn primary" id="goJoinBtn" type="button">Вступить</button>
-          <button class="btn" id="closeBtn" type="button">Понятно</button>
+          <button class="btn ghost glow-border" id="skipBtn" type="button">Пропустить</button>
+          <button class="btn primary glow-border" id="goJoinBtn" type="button">Вступить</button>
+          <button class="btn glow-border" id="closeBtn" type="button">Понятно</button>
         </div>
       </div>
     </div>
@@ -912,27 +1039,30 @@
       <div class="apply-top">
         <h3 id="applyTitle">Заявка в NeroviX</h3>
         <div class="apply-actions">
-          <label class="sound-toggle" id="soundToggle" title="Sound">
+          <label class="sound-toggle glow-border" id="soundToggle" title="Sound">
             <span class="sound-dot"></span>
             <b id="soundText">Звук</b>
           </label>
-          <button class="icon-btn" id="applyClose" type="button" aria-label="Close">✕</button>
+          <button class="icon-btn glow-border" id="applyClose" type="button" aria-label="Close">✕</button>
         </div>
       </div>
 
       <form id="formModal">
         <div class="row">
-          <label data-i18n="f_name_label">Имя / Ник
+          <label>
+            <span class="label-text" data-i18n="f_name_label">Имя / Ник</span>
             <input type="text" id="m_name" placeholder="Например: Ваня" autocomplete="name" />
           </label>
 
-          <label data-i18n="f_tg_label">Telegram
+          <label>
+            <span class="label-text" data-i18n="f_tg_label">Telegram</span>
             <input type="text" id="m_tg" placeholder="@username" autocomplete="off" inputmode="text" />
           </label>
         </div>
 
         <div class="row">
-          <label data-i18n="f_role_label">Роль
+          <label>
+            <span class="label-text" data-i18n="f_role_label">Роль</span>
             <select id="m_role">
               <option value="" disabled selected data-i18n="f_role_choose">Выбери роль</option>
               <option value="editor" data-i18n="role_editor">Монтажёр</option>
@@ -943,7 +1073,8 @@
             </select>
           </label>
 
-          <label data-i18n="f_exp_label">Опыт
+          <label>
+            <span class="label-text" data-i18n="f_exp_label">Опыт</span>
             <select id="m_exp">
               <option value="" selected data-i18n="exp_na">Не указано</option>
               <option value="junior" data-i18n="exp_junior">Новичок</option>
@@ -953,15 +1084,18 @@
           </label>
         </div>
 
-        <label data-i18n="f_port_label">Портфолио / примеры (ссылка)
+        <label>
+          <span class="label-text" data-i18n="f_port_label">Портфолио / примеры (ссылка)</span>
           <input type="text" id="m_portfolio" placeholder="YouTube / TikTok / Drive / Behance" />
         </label>
 
-        <label data-i18n="f_time_label">Сколько времени готов уделять?
+        <label>
+          <span class="label-text" data-i18n="f_time_label">Сколько времени готов уделять?</span>
           <input type="text" id="m_time" placeholder="Например: 1-2 часа в день" />
         </label>
 
-        <label data-i18n="f_about_label">О себе (коротко)
+        <label>
+          <span class="label-text" data-i18n="f_about_label">О себе (коротко)</span>
           <textarea id="m_about" placeholder="2-5 предложений"></textarea>
         </label>
 
@@ -972,8 +1106,8 @@
         </label>
 
         <div class="btn-row">
-          <button class="btn primary big" type="button" id="m_sendBtn" data-i18n="f_send">Отправить заявку</button>
-          <button class="btn big" type="button" id="m_clearBtn">Очистить</button>
+          <button class="btn primary big glow-border" type="button" id="m_sendBtn" data-i18n="f_send">Отправить заявку</button>
+          <button class="btn big glow-border" type="button" id="m_clearBtn">Очистить</button>
         </div>
       </form>
     </div>
@@ -981,7 +1115,10 @@
 
   <header class="nav">
     <div class="wrap nav-inner">
-      <div class="brand"><div class="dot"></div><div>NeroviX</div></div>
+      <div class="brand">
+        <div class="dot glow-border" style="border-radius:999px;"></div>
+        <div>NeroviX</div>
+      </div>
 
       <nav class="menu">
         <a href="#projects" data-i18n="nav_projects">Проекты</a>
@@ -997,7 +1134,7 @@
           </select>
         </div>
 
-        <a class="btn primary" href="#join" data-i18n="nav_join_btn" id="navJoinBtn">Вступить</a>
+        <a class="btn primary glow-border" href="#join" data-i18n="nav_join_btn" id="navJoinBtn">Вступить</a>
       </nav>
     </div>
   </header>
@@ -1013,8 +1150,8 @@
           </p>
 
           <div class="hero-actions">
-            <button class="btn primary big" type="button" id="openApplyHero" data-i18n="hero_join">Вступить в команду</button>
-            <a class="btn big" href="#projects" data-i18n="hero_projects">Посмотреть проекты</a>
+            <button class="btn primary big glow-border" type="button" id="openApplyHero" data-i18n="hero_join">Вступить в команду</button>
+            <a class="btn big glow-border" href="#projects" data-i18n="hero_projects">Посмотреть проекты</a>
           </div>
 
           <div class="badge-row">
@@ -1027,10 +1164,36 @@
 
         <div class="hero-right panel">
           <div class="glow"></div>
+
           <div class="card-title" data-i18n="work_title">Как мы работаем</div>
           <div class="card-sub" data-i18n="work_sub">
             Быстро тестируем гипотезы, фиксируем правила, повторяем то, что даёт рост.
           </div>
+
+          <div class="mini-list">
+            <div class="mini-item">
+              <div class="mini-ico glow-border"><span>⚡</span></div>
+              <div class="mini-text">
+                <b data-i18n="work_speed_t">Скорость</b>
+                <p data-i18n="work_speed_d">Меньше созвонов — больше результата.</p>
+              </div>
+            </div>
+            <div class="mini-item">
+              <div class="mini-ico glow-border"><span>🎯</span></div>
+              <div class="mini-text">
+                <b data-i18n="work_tasks_t">Чёткие задачи</b>
+                <p data-i18n="work_tasks_d">Понятно кто что делает и зачем.</p>
+              </div>
+            </div>
+            <div class="mini-item">
+              <div class="mini-ico glow-border"><span>📈</span></div>
+              <div class="mini-text">
+                <b data-i18n="work_growth_t">Рост</b>
+                <p data-i18n="work_growth_d">Сначала тесты — потом масштаб.</p>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
     </section>
@@ -1106,17 +1269,18 @@
 
         <div class="join-right panel">
           <div class="card-title">Заявка</div>
-          <div class="card-sub">Откроется в отдельном окне (удобно и без багов).</div>
+          <div class="card-sub">Откроется в отдельном окне — можно нормально заполнить.</div>
 
           <div class="btn-row">
-            <button class="btn primary big" type="button" id="openApplyHere">Открыть заявку</button>
-            <a class="btn big" href="#top" data-i18n="to_top">Наверх</a>
+            <button class="btn primary big glow-border" type="button" id="openApplyHere">Открыть заявку</button>
+            <a class="btn big glow-border" href="#top" data-i18n="to_top">Наверх</a>
           </div>
 
           <div class="badge-row" style="margin-top:12px;">
             <span class="badge">Auto-check Telegram</span>
             <span class="badge">Toasts</span>
             <span class="badge">Micro clicks</span>
+            <span class="badge">Hover glow</span>
           </div>
         </div>
       </div>
@@ -1124,19 +1288,37 @@
 
     <section class="section" id="faq">
       <h2 data-i18n="faq_title">FAQ</h2>
-      <div style="display:grid; gap:12px;">
-        <details>
-          <summary data-i18n="faq_q1">Это оплачивается?</summary>
-          <p data-i18n="faq_a1">На старте — тест и первые задачи. Дальше — по результату: фикс/процент/доля.</p>
-        </details>
-        <details>
-          <summary data-i18n="faq_q2">Сколько времени нужно?</summary>
-          <p data-i18n="faq_a2">Даже 1–2 часа в день, но регулярно.</p>
-        </details>
-        <details>
-          <summary data-i18n="faq_q3">Какой формат работы?</summary>
-          <p data-i18n="faq_a3">Задачи, дедлайны, быстрые правки. Управление по темам в Telegram.</p>
-        </details>
+
+      <div class="faq" id="faqList">
+        <div class="faq-item">
+          <div class="faq-q">
+            <b data-i18n="faq_q1">Это оплачивается?</b>
+            <div class="faq-ico glow-border"></div>
+          </div>
+          <div class="faq-a">
+            <p data-i18n="faq_a1">На старте — тест и первые задачи. Дальше — по результату: фикс/процент/доля.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">
+            <b data-i18n="faq_q2">Сколько времени нужно?</b>
+            <div class="faq-ico glow-border"></div>
+          </div>
+          <div class="faq-a">
+            <p data-i18n="faq_a2">Даже 1–2 часа в день, но регулярно.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q">
+            <b data-i18n="faq_q3">Какой формат работы?</b>
+            <div class="faq-ico glow-border"></div>
+          </div>
+          <div class="faq-a">
+            <p data-i18n="faq_a3">Задачи, дедлайны, быстрые правки. Управление по темам в Telegram.</p>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -1162,6 +1344,9 @@
         hero_sub:"Команда цифровых проектов. Создаём ботов, системы, сайты и контент-механики. Набираем людей под задачи и рост — без воды, по результату.",
         hero_join:"Вступить в команду", hero_projects:"Посмотреть проекты",
         work_title:"Как мы работаем", work_sub:"Быстро тестируем гипотезы, фиксируем правила, повторяем то, что даёт рост.",
+        work_speed_t:"Скорость", work_speed_d:"Меньше созвонов — больше результата.",
+        work_tasks_t:"Чёткие задачи", work_tasks_d:"Понятно кто что делает и зачем.",
+        work_growth_t:"Рост", work_growth_d:"Сначала тесты — потом масштаб.",
         projects_title:"Проекты", p1_title:"Проект #1", p1_desc:"Технологический продукт с упором на автоматизацию и рост.",
         p2_title:"Проект #2", p2_desc:"Система контента и воронок: быстрое производство и тест гипотез.",
         p3_title:"Проект #3", p3_desc:"Будущие направления: продукты, сервисы, эксперименты.",
@@ -1195,11 +1380,15 @@
         msg_tg:"Telegram должен быть вида @username (без пробелов).",
         msg_sending:"Отправляю…", msg_ok:"Заявка отправлена ✅", msg_bad:"Ошибка отправки ❌ Попробуй ещё раз."
       },
+
       uk: {
         nav_projects:"Проєкти", nav_roles:"Ролі", nav_faq:"FAQ", nav_lang:"Мова", nav_join_btn:"Вступити",
         hero_sub:"Команда цифрових проєктів. Створюємо ботів, системи, сайти та контент-механіки. Набираємо людей під задачі й ріст — без води, по результату.",
         hero_join:"Вступити в команду", hero_projects:"Переглянути проєкти",
         work_title:"Як ми працюємо", work_sub:"Швидко тестуємо гіпотези, фіксуємо правила, повторюємо те, що дає ріст.",
+        work_speed_t:"Швидкість", work_speed_d:"Менше дзвінків — більше результату.",
+        work_tasks_t:"Чіткі задачі", work_tasks_d:"Зрозуміло хто що робить і навіщо.",
+        work_growth_t:"Ріст", work_growth_d:"Спочатку тести — потім масштаб.",
         projects_title:"Проєкти", p1_title:"Проєкт #1", p1_desc:"Технологічний продукт з фокусом на автоматизацію та ріст.",
         p2_title:"Проєкт #2", p2_desc:"Система контенту та воронок: швидке виробництво й тест гіпотез.",
         p3_title:"Проєкт #3", p3_desc:"Майбутні напрями: продукти, сервіси, експерименти.",
@@ -1233,11 +1422,15 @@
         msg_tg:"Telegram має бути у форматі @username (без пробілів).",
         msg_sending:"Надсилаю…", msg_ok:"Заявку надіслано ✅", msg_bad:"Помилка надсилання ❌ Спробуй ще раз."
       },
+
       en: {
         nav_projects:"Projects", nav_roles:"Roles", nav_faq:"FAQ", nav_lang:"Language", nav_join_btn:"Join",
         hero_sub:"A digital projects team. We build bots, systems, sites and content mechanics. We recruit people for tasks and growth — no fluff, results-driven.",
         hero_join:"Join the team", hero_projects:"View projects",
         work_title:"How we work", work_sub:"We test hypotheses fast, set rules, and repeat what drives growth.",
+        work_speed_t:"Speed", work_speed_d:"Fewer calls — more output.",
+        work_tasks_t:"Clear tasks", work_tasks_d:"Everyone knows what and why.",
+        work_growth_t:"Growth", work_growth_d:"Tests first — scale next.",
         projects_title:"Projects", p1_title:"Project #1", p1_desc:"A tech product focused on automation and growth.",
         p2_title:"Project #2", p2_desc:"Content + funnel system: fast production and hypothesis testing.",
         p3_title:"Project #3", p3_desc:"Future directions: products, services, experiments.",
@@ -1322,7 +1515,10 @@
       document.querySelectorAll("[data-i18n]").forEach(el=>{
         const key = el.getAttribute("data-i18n");
         const v = i18n[lang][key];
-        if (typeof v === "string") el.textContent = v;
+        if (typeof v === "string"){
+          // ВАЖНО: мы больше НЕ трогаем label целиком. Только отдельные текстовые элементы.
+          el.textContent = v;
+        }
       });
 
       if ($("introTitle")) $("introTitle").textContent = i18n[lang].introTitle;
@@ -1336,7 +1532,7 @@
       if ($("applyTitle")) $("applyTitle").textContent = i18n[lang].applyTitle;
       if ($("soundText")) $("soundText").textContent = i18n[lang].sound;
 
-      buildChat(); // safe rebuild
+      buildChat();
     }
 
     // ======== Micro-click sound ========
@@ -1349,7 +1545,6 @@
       }
       if (audioCtx.state === "suspended") audioCtx.resume().catch(()=>{});
     }
-
     function playClick(freq=520, vol=0.02, dur=0.035){
       if (!soundEnabled) return;
       try{
@@ -1374,7 +1569,6 @@
         o.stop(t0 + dur + 0.01);
       }catch(e){}
     }
-
     function renderSoundToggle(){
       const st = $("soundToggle");
       if (!st) return;
@@ -1484,7 +1678,6 @@
         introDone = true;
         setTalking(false);
       }catch(e){
-        // если вдруг что-то сломалось — не ломаем сайт
         console.error("Intro chat error:", e);
         introDone = true;
         setTalking(false);
@@ -1498,7 +1691,6 @@
       buildChat();
       playIntroChat();
     }
-
     function hideIntro(){
       if (!intro) return;
       intro.style.display = "none";
@@ -1507,13 +1699,11 @@
       const ds = $("dontShow");
       if (ds && ds.checked) localStorage.setItem(INTRO_KEY, "1");
     }
-
     function stopTyping(){
       clearTimeout(typingTimer);
       isTyping = false;
       setTalking(false);
     }
-
     function fillAllChatInstant(){
       stopTyping();
       const msgs = i18n[currentLang].chat;
@@ -1544,16 +1734,14 @@
 
     // ======== Apply modal ========
     const applyModal = $("applyModal");
-
     function openApply(){
       if (!applyModal) return;
       applyModal.classList.add("show");
       applyModal.setAttribute("aria-hidden", "false");
       document.body.style.overflow = "hidden";
       ensureAudio();
-      setTimeout(() => { const f = $("m_name"); if (f) f.focus(); }, 120);
+      setTimeout(() => { $("m_name")?.focus(); }, 120);
     }
-
     function closeApply(){
       if (!applyModal) return;
       applyModal.classList.remove("show");
@@ -1629,53 +1817,100 @@
       }
     }
 
-    // ======== Init (safe) ========
+    // ======== FAQ accordion ========
+    function bindFAQ(){
+      const list = $("faqList");
+      if (!list) return;
+      const items = Array.from(list.querySelectorAll(".faq-item"));
+
+      items.forEach(item=>{
+        const q = item.querySelector(".faq-q");
+        const a = item.querySelector(".faq-a");
+        if (!q || !a) return;
+
+        const close = () => {
+          item.classList.remove("open");
+          a.style.height = "0px";
+        };
+        const open = () => {
+          item.classList.add("open");
+          // set to content height
+          const h = a.scrollHeight;
+          a.style.height = h + "px";
+        };
+
+        close();
+
+        q.addEventListener("click", () => {
+          playClick(460, 0.018, 0.05);
+          // close others
+          items.forEach(it=>{
+            if (it !== item){
+              const aa = it.querySelector(".faq-a");
+              it.classList.remove("open");
+              if (aa) aa.style.height = "0px";
+            }
+          });
+
+          if (item.classList.contains("open")) close();
+          else open();
+        });
+      });
+
+      // on resize fix opened height
+      window.addEventListener("resize", () => {
+        items.forEach(item=>{
+          if (item.classList.contains("open")){
+            const a = item.querySelector(".faq-a");
+            if (a) a.style.height = a.scrollHeight + "px";
+          }
+        });
+      });
+    }
+
+    // ======== Init ========
     (function init(){
       try{
-        // apply language
         applyLang(currentLang);
 
-        // bind language selects
-        const ls = $("langSelect");
-        const lsi = $("langSelectIntro");
-        if (ls) ls.addEventListener("change", e => applyLang(e.target.value));
-        if (lsi) lsi.addEventListener("change", e => applyLang(e.target.value));
+        $("langSelect")?.addEventListener("change", e => applyLang(e.target.value));
+        $("langSelectIntro")?.addEventListener("change", e => applyLang(e.target.value));
 
-        // checkbox pop
         bindChkPop("m_testWrap","m_test");
         bindChkPop("dontShowWrap","dontShow");
 
-        // 3d
         bind3D();
+        bindFAQ();
 
-        // intro buttons
         $("skipBtn")?.addEventListener("click", () => {
+          playClick(520, 0.02, 0.04);
           if (!introDone) fillAllChatInstant();
           else hideIntro();
         });
-        $("closeBtn")?.addEventListener("click", hideIntro);
-        $("goJoinBtn")?.addEventListener("click", () => { hideIntro(); document.getElementById("join")?.scrollIntoView({behavior:"smooth"}); setTimeout(openApply, 260); });
-
-        // apply modal open buttons
-        $("openApplyHero")?.addEventListener("click", openApply);
-        $("openApplyHere")?.addEventListener("click", openApply);
-
-        // nav join
-        $("navJoinBtn")?.addEventListener("click", (e) => {
-          e.preventDefault();
+        $("closeBtn")?.addEventListener("click", () => { playClick(520, 0.02, 0.04); hideIntro(); });
+        $("goJoinBtn")?.addEventListener("click", () => {
+          playClick(520, 0.02, 0.04);
+          hideIntro();
           document.getElementById("join")?.scrollIntoView({behavior:"smooth"});
           setTimeout(openApply, 260);
         });
 
-        // modal close
-        $("applyBackdrop")?.addEventListener("click", closeApply);
-        $("applyClose")?.addEventListener("click", closeApply);
+        $("openApplyHero")?.addEventListener("click", () => { playClick(520, 0.02, 0.04); openApply(); });
+        $("openApplyHere")?.addEventListener("click", () => { playClick(520, 0.02, 0.04); openApply(); });
 
-        // modal actions
-        $("m_sendBtn")?.addEventListener("click", send);
-        $("m_clearBtn")?.addEventListener("click", () => { clearForm(); toast("", "Очищено", "Можно заполнить заново.", 1400); });
+        $("navJoinBtn")?.addEventListener("click", (e) => {
+          e.preventDefault();
+          playClick(520, 0.02, 0.04);
+          document.getElementById("join")?.scrollIntoView({behavior:"smooth"});
+          setTimeout(openApply, 260);
+        });
 
-        // telegram live check
+        $("applyBackdrop")?.addEventListener("click", () => { playClick(620, 0.018, 0.035); closeApply(); });
+        $("applyClose")?.addEventListener("click", () => { playClick(620, 0.018, 0.035); closeApply(); });
+
+        $("m_sendBtn")?.addEventListener("click", () => { playClick(560, 0.02, 0.04); send(); });
+        $("m_clearBtn")?.addEventListener("click", () => { playClick(520, 0.02, 0.04); clearForm(); toast("", "Очищено", "Можно заполнить заново.", 1400); });
+
         const tg = $("m_tg");
         let tgTimer = null;
         tg?.addEventListener("input", () => {
@@ -1693,17 +1928,16 @@
           }, 160);
         });
 
-        // sound toggle
         $("soundToggle")?.addEventListener("click", () => {
           soundEnabled = !soundEnabled;
           localStorage.setItem(SOUND_KEY, soundEnabled ? "1" : "0");
           renderSoundToggle();
           playClick(520, 0.02, 0.04);
-          toast("", soundEnabled ? "Звук включён" : "Звук выключен", "Можно включать/выключать в окне заявки.", 1500);
+          toast("", soundEnabled ? "Звук включён" : "Звук выключен", "Можно включать/выключать в заявке.", 1500);
         });
         renderSoundToggle();
 
-        // global click sounds
+        // global click sounds (very light)
         document.addEventListener("click", (e) => {
           const t = e.target;
           if (t.closest(".btn")) playClick(520, 0.02, 0.04);
@@ -1711,7 +1945,6 @@
           if (t.closest(".chk")) playClick(420, 0.018, 0.05);
         }, { passive:true });
 
-        // ESC
         window.addEventListener("keydown", (e) => {
           if (e.key === "Escape"){
             if (intro && intro.style.display === "flex") hideIntro();
@@ -1719,7 +1952,6 @@
           }
         });
 
-        // intro show logic + fallback AI button
         const hidden = localStorage.getItem(INTRO_KEY) === "1";
         const fab = $("aiFab");
         const fabBtn = $("aiFabBtn");
@@ -1727,7 +1959,7 @@
           setTimeout(showIntro, 420);
         } else {
           if (fab) fab.style.display = "block";
-          fabBtn?.addEventListener("click", showIntro);
+          fabBtn?.addEventListener("click", () => { playClick(520, 0.02, 0.04); showIntro(); });
         }
 
       }catch(e){
@@ -1736,7 +1968,7 @@
       }
     })();
 
-    // ======== TECH BACKGROUND CANVAS (dots + links) ========
+    // ======== Background particles (no lines, no "math") ========
     (function techFx(){
       const canvas = document.getElementById("fx");
       if (!canvas) return;
@@ -1745,8 +1977,7 @@
 
       let w=0, h=0, dpr=1;
       const prefersReduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      const POINTS = prefersReduce ? 36 : 70;
-      const LINK_DIST = prefersReduce ? 120 : 150;
+      const POINTS = prefersReduce ? 36 : 90;
       const pts = [];
 
       function resize(){
@@ -1763,55 +1994,53 @@
           pts.push({
             x: rand(0,w),
             y: rand(0,h),
-            vx: rand(-0.22,0.22) * dpr,
-            vy: rand(-0.18,0.18) * dpr,
-            r: rand(1.0, 2.0) * dpr,
-            a: rand(0.25, 0.7)
+            vx: rand(-0.12,0.12) * dpr,
+            vy: rand(-0.08,0.08) * dpr,
+            r: rand(0.9, 2.2) * dpr,
+            a: rand(0.12, 0.55),
+            glow: rand(0.0, 1.0)
           });
         }
       }
 
-      function step(){
+      function draw(){
         ctx.clearRect(0,0,w,h);
+
+        // soft vignette
+        const g = ctx.createRadialGradient(w*0.5, h*0.35, 0, w*0.5, h*0.35, Math.max(w,h)*0.7);
+        g.addColorStop(0, "rgba(0,170,255,0.08)");
+        g.addColorStop(0.55, "rgba(0,0,0,0)");
+        g.addColorStop(1, "rgba(0,0,0,0.35)");
+        ctx.fillStyle = g;
+        ctx.fillRect(0,0,w,h);
 
         for(const p of pts){
           p.x += p.vx; p.y += p.vy;
-          if(p.x < -40*dpr) p.x = w + 40*dpr;
-          if(p.x > w + 40*dpr) p.x = -40*dpr;
-          if(p.y < -40*dpr) p.y = h + 40*dpr;
-          if(p.y > h + 40*dpr) p.y = -40*dpr;
-        }
+          if(p.x < -60*dpr) p.x = w + 60*dpr;
+          if(p.x > w + 60*dpr) p.x = -60*dpr;
+          if(p.y < -60*dpr) p.y = h + 60*dpr;
+          if(p.y > h + 60*dpr) p.y = -60*dpr;
 
-        for(let i=0;i<pts.length;i++){
-          for(let j=i+1;j<pts.length;j++){
-            const a = pts[i], b = pts[j];
-            const dx = a.x - b.x, dy = a.y - b.y;
-            const dist = Math.sqrt(dx*dx + dy*dy);
-            if(dist < LINK_DIST*dpr){
-              const t = 1 - dist/(LINK_DIST*dpr);
-              ctx.strokeStyle = `rgba(106,240,255,${0.10*t})`;
-              ctx.lineWidth = 1*dpr;
-              ctx.beginPath();
-              ctx.moveTo(a.x, a.y);
-              ctx.lineTo(b.x, b.y);
-              ctx.stroke();
-            }
+          // glow
+          if (p.glow > 0.86){
+            ctx.fillStyle = `rgba(106,240,255,${Math.min(0.22, p.a*0.6)})`;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r*6.5, 0, Math.PI*2);
+            ctx.fill();
           }
-        }
 
-        for(const p of pts){
           ctx.fillStyle = `rgba(106,240,255,${p.a})`;
           ctx.beginPath();
           ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
           ctx.fill();
         }
 
-        if(!prefersReduce) requestAnimationFrame(step);
+        if(!prefersReduce) requestAnimationFrame(draw);
       }
 
       resize(); init();
-      if(prefersReduce) step();
-      else requestAnimationFrame(step);
+      if(prefersReduce) draw();
+      else requestAnimationFrame(draw);
       window.addEventListener("resize", () => { resize(); init(); });
     })();
   </script>
