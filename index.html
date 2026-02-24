@@ -38,7 +38,6 @@
         linear-gradient(180deg, #040614 0%, #070A12 45%, #040614 100%);
       pointer-events:none;
     }
-
     .aurora{
       position:fixed; inset:-120px; z-index:-5; pointer-events:none;
       background:
@@ -54,7 +53,6 @@
       0%,100%{ transform: translate3d(-2%, -1%, 0) scale(1.02); opacity:.78; }
       50%{ transform: translate3d(2%, 1%, 0) scale(1.06); opacity:1; }
     }
-
     .grid-overlay{
       position:fixed; inset:0; z-index:-4; opacity:.16;
       background-image:
@@ -69,7 +67,6 @@
       0%{ background-position: 0 0, 0 0; }
       100%{ background-position: 260px 220px, 260px 220px; }
     }
-
     .scanlines{
       position:fixed; inset:0; z-index:-3; pointer-events:none;
       background: repeating-linear-gradient(
@@ -87,12 +84,10 @@
       0%{ background-position: 0 0; }
       100%{ background-position: 0 120px; }
     }
-
     .noise{
       position:fixed; inset:0; z-index:-1; opacity:.07; pointer-events:none;
       background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='.45'/%3E%3C/svg%3E");
     }
-
     #fx{
       position:fixed; inset:0; z-index:-2;
       width:100%; height:100%;
@@ -100,15 +95,15 @@
       opacity:.9;
     }
 
+    /* FIX: контент выше фоновых слоёв */
+    header.nav, main.wrap{ position:relative; z-index:5; }
+
     @media (prefers-reduced-motion: reduce){
       .aurora, .grid-overlay, .scanlines{ animation:none !important; }
     }
 
     a{ color:inherit; text-decoration:none; }
     .wrap{ max-width:1100px; margin:0 auto; padding:0 18px; }
-
-    /* FIX: контент выше фоновых слоёв */
-    header.nav, main.wrap{ position:relative; z-index:5; }
 
     /* NAV */
     .nav{
@@ -249,24 +244,6 @@
       font-size:13px;
       line-height:1.55;
     }
-    .mini-list{ display:grid; gap:10px; margin-top:12px; }
-    .mini-item{
-      display:flex; gap:10px; align-items:flex-start;
-      padding:10px 10px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,.08);
-      background: rgba(0,0,0,.14);
-    }
-    .mini-ico{
-      width:28px; height:28px; border-radius:10px;
-      background: linear-gradient(180deg, rgba(106,240,255,.22), rgba(0,170,255,.12));
-      border:1px solid rgba(0,170,255,.25);
-      display:flex; align-items:center; justify-content:center;
-      flex: 0 0 auto;
-    }
-    .mini-ico span{ font-size:14px; }
-    .mini-text b{ display:block; font-size:13px; margin-bottom:2px; }
-    .mini-text p{ margin:0; color:var(--muted); font-size:12px; line-height:1.45; }
 
     /* SECTIONS */
     .section{ padding:38px 0; }
@@ -304,43 +281,6 @@
     .join-left{ padding:18px; }
     .join-left p{ color:var(--muted); margin:0 0 10px; line-height:1.65; }
     .join-right{ padding:18px; }
-
-    /* IMPORTANT: форма на странице остаётся, но теперь мы открываем её в модальном окне */
-    form{ display:grid; gap:12px; }
-    .row{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:12px;
-    }
-    label{
-      display:flex; flex-direction:column; gap:7px;
-      font-size:13px; color:var(--muted); text-align:left;
-    }
-    input, select, textarea{
-      padding:12px 12px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(0,0,0,.18);
-      color: var(--text);
-      outline:none;
-      font-size:14px;
-    }
-    input:focus, select:focus, textarea:focus{
-      border-color: rgba(0,170,255,.65);
-      box-shadow: 0 0 0 3px rgba(0,170,255,.10);
-    }
-    textarea{ resize: vertical; min-height: 92px; }
-
-    /* Telegram live validation */
-    .tg-good{
-      border-color: rgba(45,212,191,.55) !important;
-      box-shadow: 0 0 0 3px rgba(45,212,191,.10) !important;
-    }
-    .tg-bad{
-      border-color: rgba(255,77,109,.55) !important;
-      box-shadow: 0 0 0 3px rgba(255,77,109,.10) !important;
-    }
-
     .btn-row{
       display:flex;
       gap:10px;
@@ -351,9 +291,7 @@
 
     /* ===================== BEAUTIFUL CHECKBOX (ANIMATED) ===================== */
     .chk{
-      display:flex;
-      align-items:center;
-      gap:12px;
+      display:flex; align-items:center; gap:12px;
       padding:12px;
       border-radius:14px;
       border:1px solid rgba(255,255,255,.10);
@@ -364,26 +302,19 @@
       position:relative;
       overflow:hidden;
     }
-    .chk input{
-      position:absolute;
-      opacity:0;
-      pointer-events:none;
-    }
+    .chk input{ position:absolute; opacity:0; pointer-events:none; }
     .chk .box{
       width:22px; height:22px;
       border-radius:7px;
       border:1px solid rgba(255,255,255,.16);
       background: rgba(0,0,0,.20);
-      box-shadow: inset 0 0 0 1px rgba(0,170,255,.05);
       position:relative;
       flex:0 0 auto;
-      transform: translateZ(0);
       transition: .18s ease;
     }
     .chk .box::before{
       content:"";
-      position:absolute;
-      inset:-18px;
+      position:absolute; inset:-18px;
       border-radius:999px;
       background: radial-gradient(circle, rgba(106,240,255,.18), transparent 60%);
       opacity:0;
@@ -402,11 +333,7 @@
       opacity:0;
       transition: .18s ease;
     }
-    .chk .lbl{
-      font-size:14px;
-      color:var(--text);
-      line-height:1.4;
-    }
+    .chk .lbl{ font-size:14px; color:var(--text); line-height:1.4; }
 
     .chk input:checked + .box{
       border-color: rgba(106,240,255,.45);
@@ -434,32 +361,6 @@
       0%{ transform: scale(1); }
       50%{ transform: scale(1.01); }
       100%{ transform: scale(1); }
-    }
-
-    /* FAQ */
-    details{
-      border:1px solid var(--border);
-      background: rgba(255,255,255,.03);
-      border-radius: var(--radius);
-      padding:12px 14px;
-    }
-    summary{ cursor:pointer; font-weight:900; color:var(--text); outline:none; }
-    details p{
-      margin:10px 0 0;
-      color:var(--muted);
-      line-height:1.65;
-      font-size:14px;
-    }
-
-    /* FOOTER */
-    .footer{
-      padding:26px 0 36px;
-      border-top:1px solid var(--border);
-      color:var(--muted);
-      font-size:13px;
-    }
-    .footer-inner{
-      display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;
     }
 
     /* ================= INTRO OVERLAY ================= */
@@ -500,13 +401,6 @@
       min-height: 580px;
       z-index:2;
     }
-    .intro-card::before{
-      content:"";
-      position:absolute; inset:-2px;
-      background: radial-gradient(520px 280px at 30% 20%, rgba(255,255,255,.08), transparent 60%);
-      pointer-events:none;
-      opacity:.85;
-    }
     .intro-left{
       padding:22px;
       position:relative;
@@ -520,26 +414,10 @@
       justify-content:space-between;
       gap:14px;
     }
-    .intro-title{
-      font-size:30px;
-      margin:0 0 6px;
-      letter-spacing:-.2px;
-      font-weight:900;
-    }
-    .intro-sub{
-      margin:0;
-      color:var(--muted);
-      line-height:1.7;
-      font-size:15px;
-    }
+    .intro-title{ font-size:30px; margin:0 0 6px; font-weight:900; }
+    .intro-sub{ margin:0; color:var(--muted); line-height:1.7; font-size:15px; }
 
-    /* chat bubbles */
-    .chat{
-      margin-top:14px;
-      display:flex;
-      flex-direction:column;
-      gap:10px;
-    }
+    .chat{ margin-top:14px; display:flex; flex-direction:column; gap:10px; }
     .bubble{
       border-radius:18px;
       border:1px solid rgba(255,255,255,.12);
@@ -579,7 +457,6 @@
       0%,49%{ opacity:1; }
       50%,100%{ opacity:0; }
     }
-
     .intro-actions{
       display:flex;
       gap:10px;
@@ -597,7 +474,6 @@
       position:relative;
       padding-top: 10px;
     }
-
     .halo{
       position:absolute;
       width:520px; height:520px;
@@ -612,10 +488,8 @@
       0%,100%{ transform: translateY(0) scale(1); opacity:.72; }
       50%{ transform: translateY(-10px) scale(1.05); opacity:1; }
     }
-
     .ring{
-      position:absolute;
-      left: 50%; top: 50%;
+      position:absolute; left: 50%; top: 50%;
       width: 430px; height: 430px;
       transform: translate(-50%,-50%);
       border-radius: 999px;
@@ -645,7 +519,6 @@
       0%,100%{ transform: rotateX(10deg) rotateY(-14deg) translateY(0); }
       50%{ transform: rotateX(12deg) rotateY(-6deg) translateY(-10px); }
     }
-
     .bot .neck{
       position:absolute;
       left:50%; bottom: 12px;
@@ -658,7 +531,6 @@
       border: 1px solid rgba(255,255,255,.10);
       opacity:.7;
     }
-
     .bot .head{
       position:absolute;
       left:50%; top: 26px;
@@ -674,7 +546,6 @@
         inset 0 24px 80px rgba(0,170,255,.08);
       overflow:hidden;
     }
-
     .bot .visor{
       position:absolute;
       left:50%; top: 44px;
@@ -691,8 +562,7 @@
         inset 0 0 0 1px rgba(255,255,255,.05);
       overflow:hidden;
     }
-
-    /* NEW: visor outline pulse (AI pulse) */
+    /* AI pulse */
     .bot .visor::after{
       content:"";
       position:absolute;
@@ -707,37 +577,11 @@
       animation: visorPulse 1.35s ease-in-out infinite;
     }
     @keyframes visorPulse{
-      0%,100%{
-        opacity:.40;
-        box-shadow: 0 0 18px rgba(0,170,255,.10);
-        border-color: rgba(106,240,255,.10);
-      }
-      50%{
-        opacity:.95;
-        box-shadow: 0 0 36px rgba(0,170,255,.22);
-        border-color: rgba(106,240,255,.26);
-      }
+      0%,100%{ opacity:.40; box-shadow: 0 0 18px rgba(0,170,255,.10); border-color: rgba(106,240,255,.10); }
+      50%{ opacity:.95; box-shadow: 0 0 36px rgba(0,170,255,.22); border-color: rgba(106,240,255,.26); }
     }
-
-    .bot .visor::before{
-      content:"";
-      position:absolute;
-      left:-30%; top:-30%;
-      width: 160%; height: 160%;
-      background: linear-gradient(120deg, transparent 40%, rgba(255,255,255,.10) 55%, transparent 70%);
-      transform: rotate(12deg);
-      opacity:.55;
-      animation: shine 6.2s ease-in-out infinite;
-      pointer-events:none;
-    }
-    @keyframes shine{
-      0%,100%{ transform: rotate(12deg) translateX(-6%); opacity:.35; }
-      50%{ transform: rotate(12deg) translateX(6%); opacity:.65; }
-    }
-
     .bot .eyes{
-      position:absolute;
-      left:0; right:0;
+      position:absolute; left:0; right:0;
       top: 84px;
       display:flex;
       justify-content:space-between;
@@ -767,17 +611,14 @@
       box-shadow:
         10px 0 0 rgba(106,240,255,.95),
         20px 0 0 rgba(106,240,255,.95),
-
         0 10px 0 rgba(106,240,255,.95),
         10px 10px 0 rgba(0,170,255,.20),
         20px 10px 0 rgba(106,240,255,.95),
-
         0 20px 0 rgba(106,240,255,.95),
         10px 20px 0 rgba(106,240,255,.95),
         20px 20px 0 rgba(106,240,255,.95);
       filter: drop-shadow(0 0 14px rgba(106,240,255,.35));
     }
-
     .bot .beam{
       position:absolute;
       left:-60px; right:-60px;
@@ -787,15 +628,6 @@
       transform: rotate(10deg);
       opacity:0;
       pointer-events:none;
-    }
-
-    .bot.talking .eye{
-      border-color: rgba(106,240,255,.32);
-      box-shadow: 0 0 34px rgba(0,170,255,.18);
-      background: rgba(0,170,255,.10);
-    }
-    .bot.talking .eye .px{
-      filter: drop-shadow(0 0 18px rgba(106,240,255,.55));
     }
     .bot.talking .beam{
       opacity:1;
@@ -809,29 +641,7 @@
       100%{ top:330px; opacity:0; }
     }
 
-    /* Responsive */
-    @media (max-width: 900px){
-      .hero-grid{ grid-template-columns:1fr; }
-      .grid{ grid-template-columns:1fr; }
-      .join{ grid-template-columns:1fr; }
-      .row{ grid-template-columns:1fr; }
-      h1{ font-size:38px; }
-
-      .intro-card{ grid-template-columns:1fr; min-height:auto; }
-      .intro-left{ border-right:none; border-bottom:1px solid rgba(255,255,255,.10); }
-      .intro-actions{ justify-content:flex-start; }
-
-      .bot{ width:300px; height:340px; }
-      .ring{ width:360px; height:360px; }
-      .halo{ width:380px; height:380px; }
-      .bot .head{ width: 210px; height: 265px; top: 22px; }
-      .bot .visor{ width: 168px; height: 188px; top: 40px; }
-      .bot .eyes{ top: 74px; padding: 0 40px; }
-      .bot .eye{ width: 42px; height: 42px; }
-      .bot .neck{ width: 190px; height: 120px; }
-    }
-
-    /* ===================== APPLY MODAL (APPLICATION WINDOW) ===================== */
+    /* ===================== APPLY MODAL ===================== */
     .apply-modal{
       position:fixed; inset:0; z-index:1200;
       display:none;
@@ -878,15 +688,8 @@
       z-index:2;
       border-radius: 18px;
     }
-    .apply-top h3{
-      margin:0;
-      font-size:16px;
-      font-weight:900;
-      letter-spacing:.2px;
-    }
-    .apply-actions{
-      display:flex; align-items:center; gap:10px; flex-wrap:wrap;
-    }
+    .apply-top h3{ margin:0; font-size:16px; font-weight:900; }
+    .apply-actions{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
 
     .icon-btn{
       width:38px; height:38px;
@@ -899,7 +702,37 @@
       transition:.15s;
       user-select:none;
     }
-    .icon-btn:hover{ transform: translateY(-1px); }
+
+    /* form */
+    form{ display:grid; gap:12px; }
+    .row{ display:grid; grid-template-columns: 1fr 1fr; gap:12px; }
+    label{
+      display:flex; flex-direction:column; gap:7px;
+      font-size:13px; color:var(--muted); text-align:left;
+    }
+    input, select, textarea{
+      padding:12px 12px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.18);
+      color: var(--text);
+      outline:none;
+      font-size:14px;
+    }
+    input:focus, select:focus, textarea:focus{
+      border-color: rgba(0,170,255,.65);
+      box-shadow: 0 0 0 3px rgba(0,170,255,.10);
+    }
+    textarea{ resize: vertical; min-height: 92px; }
+
+    .tg-good{
+      border-color: rgba(45,212,191,.55) !important;
+      box-shadow: 0 0 0 3px rgba(45,212,191,.10) !important;
+    }
+    .tg-bad{
+      border-color: rgba(255,77,109,.55) !important;
+      box-shadow: 0 0 0 3px rgba(255,77,109,.10) !important;
+    }
 
     /* sound toggle */
     .sound-toggle{
@@ -950,20 +783,9 @@
       opacity:0;
       animation: toastIn .22s ease forwards;
     }
-    @keyframes toastIn{
-      to { transform: translateY(0); opacity:1; }
-    }
-    .toast .t{
-      display:flex; align-items:center; gap:10px;
-      font-weight:900;
-      font-size:14px;
-    }
-    .toast .d{
-      margin-top:6px;
-      color: var(--muted);
-      font-size:13px;
-      line-height:1.45;
-    }
+    @keyframes toastIn{ to { transform: translateY(0); opacity:1; } }
+    .toast .t{ display:flex; align-items:center; gap:10px; font-weight:900; font-size:14px; }
+    .toast .d{ margin-top:6px; color: var(--muted); font-size:13px; line-height:1.45; }
     .pill{
       width:10px; height:10px; border-radius:999px;
       background: rgba(0,170,255,.9);
@@ -972,11 +794,36 @@
     }
     .toast.ok .pill{ background: rgba(45,212,191,.95); box-shadow: 0 0 14px rgba(45,212,191,.35); }
     .toast.bad .pill{ background: rgba(255,77,109,.95); box-shadow: 0 0 14px rgba(255,77,109,.35); }
-    .toast.hide{
-      animation: toastOut .18s ease forwards;
+    .toast.hide{ animation: toastOut .18s ease forwards; }
+    @keyframes toastOut{ to { transform: translateY(-6px); opacity:0; } }
+
+    /* AI floating button (если интро выключили) */
+    .ai-fab{
+      position:fixed;
+      right: 14px;
+      bottom: 14px;
+      z-index: 1800;
+      display:none;
     }
-    @keyframes toastOut{
-      to { transform: translateY(-6px); opacity:0; }
+
+    /* Responsive */
+    @media (max-width: 900px){
+      .hero-grid{ grid-template-columns:1fr; }
+      .grid{ grid-template-columns:1fr; }
+      .join{ grid-template-columns:1fr; }
+      .row{ grid-template-columns:1fr; }
+      h1{ font-size:38px; }
+      .intro-card{ grid-template-columns:1fr; min-height:auto; }
+      .intro-left{ border-right:none; border-bottom:1px solid rgba(255,255,255,.10); }
+      .intro-actions{ justify-content:flex-start; }
+      .bot{ width:300px; height:340px; }
+      .ring{ width:360px; height:360px; }
+      .halo{ width:380px; height:380px; }
+      .bot .head{ width: 210px; height: 265px; top: 22px; }
+      .bot .visor{ width: 168px; height: 188px; top: 40px; }
+      .bot .eyes{ top: 74px; padding: 0 40px; }
+      .bot .eye{ width: 42px; height: 42px; }
+      .bot .neck{ width: 190px; height: 120px; }
     }
   </style>
 </head>
@@ -989,20 +836,21 @@
   <div class="scanlines"></div>
   <div class="noise"></div>
 
-  <!-- TOAST CONTAINER -->
   <div class="toasts" id="toasts"></div>
 
-  <!-- INTRO AI ASSISTANT -->
+  <!-- AI floating button (появится если интро отключено) -->
+  <div class="ai-fab" id="aiFab">
+    <button class="btn primary" type="button" id="aiFabBtn">AI</button>
+  </div>
+
+  <!-- INTRO -->
   <div class="intro" id="intro">
     <div class="intro-backdrop"></div>
     <div class="intro-vignette"></div>
 
     <div class="intro-card" role="dialog" aria-modal="true">
       <div class="intro-left">
-        <div class="brand">
-          <div class="dot"></div>
-          <div>NeroviX</div>
-        </div>
+        <div class="brand"><div class="dot"></div><div>NeroviX</div></div>
 
         <div class="stage" id="stage">
           <div class="halo"></div>
@@ -1038,7 +886,6 @@
         <div>
           <h2 class="intro-title" id="introTitle">Привет. Я NeroviX AI Assistant</h2>
           <p class="intro-sub" id="introSub">Коротко покажу, что это за сайт и кто мы.</p>
-
           <div class="chat" id="chat"></div>
 
           <label class="chk" id="dontShowWrap">
@@ -1057,11 +904,11 @@
     </div>
   </div>
 
-  <!-- APPLICATION MODAL -->
+  <!-- APPLY MODAL -->
   <div class="apply-modal" id="applyModal" aria-hidden="true">
     <div class="apply-backdrop" id="applyBackdrop"></div>
 
-    <div class="apply-card" role="dialog" aria-modal="true" aria-label="Application form">
+    <div class="apply-card" role="dialog" aria-modal="true">
       <div class="apply-top">
         <h3 id="applyTitle">Заявка в NeroviX</h3>
         <div class="apply-actions">
@@ -1073,7 +920,6 @@
         </div>
       </div>
 
-      <!-- same form -->
       <form id="formModal">
         <div class="row">
           <label data-i18n="f_name_label">Имя / Ник
@@ -1129,18 +975,13 @@
           <button class="btn primary big" type="button" id="m_sendBtn" data-i18n="f_send">Отправить заявку</button>
           <button class="btn big" type="button" id="m_clearBtn">Очистить</button>
         </div>
-
-        <!-- (строка статуса убрана, вместо неё Toast) -->
       </form>
     </div>
   </div>
 
   <header class="nav">
     <div class="wrap nav-inner">
-      <div class="brand">
-        <div class="dot"></div>
-        <div>NeroviX</div>
-      </div>
+      <div class="brand"><div class="dot"></div><div>NeroviX</div></div>
 
       <nav class="menu">
         <a href="#projects" data-i18n="nav_projects">Проекты</a>
@@ -1190,31 +1031,6 @@
           <div class="card-sub" data-i18n="work_sub">
             Быстро тестируем гипотезы, фиксируем правила, повторяем то, что даёт рост.
           </div>
-
-          <div class="mini-list">
-            <div class="mini-item">
-              <div class="mini-ico"><span>⚡</span></div>
-              <div class="mini-text">
-                <b data-i18n="work_speed_t">Скорость</b>
-                <p data-i18n="work_speed_d">Меньше созвонов — больше результата.</p>
-              </div>
-            </div>
-            <div class="mini-item">
-              <div class="mini-ico"><span>🎯</span></div>
-              <div class="mini-text">
-                <b data-i18n="work_tasks_t">Чёткие задачи</b>
-                <p data-i18n="work_tasks_d">Понятно кто что делает и зачем.</p>
-              </div>
-            </div>
-            <div class="mini-item">
-              <div class="mini-ico"><span>📈</span></div>
-              <div class="mini-text">
-                <b data-i18n="work_growth_t">Рост</b>
-                <p data-i18n="work_growth_d">Сначала тесты — потом масштаб.</p>
-              </div>
-            </div>
-          </div>
-
         </div>
       </div>
     </section>
@@ -1273,7 +1089,6 @@
       </div>
     </section>
 
-    <!-- Keeping this anchor for navigation, but form moved to modal -->
     <section class="section" id="join">
       <h2 data-i18n="join_title">Вступить в команду</h2>
 
@@ -1291,7 +1106,7 @@
 
         <div class="join-right panel">
           <div class="card-title">Заявка</div>
-          <div class="card-sub">Откроется в отдельном окне (удобнее и без багов).</div>
+          <div class="card-sub">Откроется в отдельном окне (удобно и без багов).</div>
 
           <div class="btn-row">
             <button class="btn primary big" type="button" id="openApplyHere">Открыть заявку</button>
@@ -1316,7 +1131,7 @@
         </details>
         <details>
           <summary data-i18n="faq_q2">Сколько времени нужно?</summary>
-          <p data-i18n="faq_a2">Даже 1–2 часа в день, но регулярно. Лучше стабильность, чем “пропал на неделю”.</p>
+          <p data-i18n="faq_a2">Даже 1–2 часа в день, но регулярно.</p>
         </details>
         <details>
           <summary data-i18n="faq_q3">Какой формат работы?</summary>
@@ -1334,326 +1149,156 @@
   </main>
 
   <script>
-    // ======== ВАЖНО: твой воркер ========
+    // ======== Config ========
     const ENDPOINT_URL = "https://super-voice-25ca.slavatop212.workers.dev/";
     const INTRO_KEY = "nerovix_intro_hidden_v3";
-    const LANG_KEY = "nerovix_lang_v1";
+    const LANG_KEY  = "nerovix_lang_v1";
     const SOUND_KEY = "nerovix_sound_v1";
 
     // ======== i18n ========
     const i18n = {
       ru: {
-        nav_projects: "Проекты",
-        nav_roles: "Роли",
-        nav_faq: "FAQ",
-        nav_lang: "Язык",
-        nav_join_btn: "Вступить",
-
-        hero_sub: "Команда цифровых проектов. Создаём ботов, системы, сайты и контент-механики. Набираем людей под задачи и рост — без воды, по результату.",
-        hero_join: "Вступить в команду",
-        hero_projects: "Посмотреть проекты",
-
-        work_title: "Как мы работаем",
-        work_sub: "Быстро тестируем гипотезы, фиксируем правила, повторяем то, что даёт рост.",
-        work_speed_t: "Скорость",
-        work_speed_d: "Меньше созвонов — больше результата.",
-        work_tasks_t: "Чёткие задачи",
-        work_tasks_d: "Понятно кто что делает и зачем.",
-        work_growth_t: "Рост",
-        work_growth_d: "Сначала тесты — потом масштаб.",
-
-        projects_title: "Проекты",
-        p1_title: "Проект #1",
-        p1_desc: "Технологический продукт с упором на автоматизацию и рост.",
-        p2_title: "Проект #2",
-        p2_desc: "Система контента и воронок: быстрое производство и тест гипотез.",
-        p3_title: "Проект #3",
-        p3_desc: "Будущие направления: продукты, сервисы, эксперименты.",
-
-        roles_title: "Кого набираем",
-        r_editor_t: "Монтажёр",
-        r_editor_d: "Короткие ролики: динамика, удержание, титры, темп.",
-        r_designer_t: "Дизайнер",
-        r_designer_d: "Оформление, обложки, графика, элементы бренда.",
-        r_dev_t: "Разработчик",
-        r_dev_d: "Боты, интеграции, автоворонки, мини-сайты.",
-
-        join_title: "Вступить в команду",
-        join_rules_t: "Условия",
-        join_rules_1: "Нам важны: ответственность, регулярность, умение доводить до результата.",
-        join_rules_2: "Формат: тест → первые задачи → рост и распределение по результату.",
-        join_badge_1: "Регулярность",
-        join_badge_2: "Чёткие правила",
-        join_badge_3: "Рост",
-
-        f_name_label: "Имя / Ник",
-        f_tg_label: "Telegram",
-        f_role_label: "Роль",
-        f_role_choose: "Выбери роль",
-        role_editor: "Монтажёр",
-        role_designer: "Дизайнер",
-        role_dev: "Разработчик",
-        role_content: "Контент-менеджер",
-        role_other: "Другое",
-
-        f_exp_label: "Опыт",
-        exp_na: "Не указано",
-        exp_junior: "Новичок",
-        exp_mid: "Средний",
-        exp_senior: "Опытный",
-
-        f_port_label: "Портфолио / примеры (ссылка)",
-        f_time_label: "Сколько времени готов уделять?",
-        f_about_label: "О себе (коротко)",
-        f_test_label: "Готов(а) сделать тестовое задание",
-        f_send: "Отправить заявку",
-        to_top: "Наверх",
-
-        faq_title: "FAQ",
-        faq_q1: "Это оплачивается?",
-        faq_a1: "На старте — тест и первые задачи. Дальше — по результату: фикс/процент/доля.",
-        faq_q2: "Сколько времени нужно?",
-        faq_a2: "Даже 1–2 часа в день, но регулярно.",
-        faq_q3: "Какой формат работы?",
-        faq_a3: "Задачи, дедлайны, быстрые правки. Управление по темам в Telegram.",
-
-        footer_note: "Заявки приходят прямо в Telegram",
-
-        introTitle: "Привет. Я NeroviX AI Assistant",
-        introSub: "Коротко покажу, что это за сайт и кто мы.",
-        dontShowText: "Больше не показывать это интро",
-        skipBtn: "Пропустить",
-        joinBtn: "Вступить",
-        okBtn: "Понятно",
-        langLabel: "Язык",
-
-        applyTitle: "Заявка в NeroviX",
-        sound: "Звук",
-
-        chat: [
-          { title: "Сообщение", text: "Добро пожаловать на сайт NeroviX." },
-          { title: "Кто мы", text: "Мы строим цифровые проекты и доводим их до результата." },
-          { title: "Что делаем", text: "• автоматизация и боты\n• контент-системы и воронки\n• сайты и интеграции" },
-          { title: "Дальше", text: "Если хочешь попасть в команду — нажми «Вступить». Откроется заявка в удобном окне." }
+        nav_projects:"Проекты", nav_roles:"Роли", nav_faq:"FAQ", nav_lang:"Язык", nav_join_btn:"Вступить",
+        hero_sub:"Команда цифровых проектов. Создаём ботов, системы, сайты и контент-механики. Набираем людей под задачи и рост — без воды, по результату.",
+        hero_join:"Вступить в команду", hero_projects:"Посмотреть проекты",
+        work_title:"Как мы работаем", work_sub:"Быстро тестируем гипотезы, фиксируем правила, повторяем то, что даёт рост.",
+        projects_title:"Проекты", p1_title:"Проект #1", p1_desc:"Технологический продукт с упором на автоматизацию и рост.",
+        p2_title:"Проект #2", p2_desc:"Система контента и воронок: быстрое производство и тест гипотез.",
+        p3_title:"Проект #3", p3_desc:"Будущие направления: продукты, сервисы, эксперименты.",
+        roles_title:"Кого набираем",
+        r_editor_t:"Монтажёр", r_editor_d:"Короткие ролики: динамика, удержание, титры, темп.",
+        r_designer_t:"Дизайнер", r_designer_d:"Оформление, обложки, графика, элементы бренда.",
+        r_dev_t:"Разработчик", r_dev_d:"Боты, интеграции, автоворонки, мини-сайты.",
+        join_title:"Вступить в команду", join_rules_t:"Условия",
+        join_rules_1:"Нам важны: ответственность, регулярность, умение доводить до результата.",
+        join_rules_2:"Формат: тест → первые задачи → рост и распределение по результату.",
+        join_badge_1:"Регулярность", join_badge_2:"Чёткие правила", join_badge_3:"Рост",
+        f_name_label:"Имя / Ник", f_tg_label:"Telegram", f_role_label:"Роль", f_role_choose:"Выбери роль",
+        role_editor:"Монтажёр", role_designer:"Дизайнер", role_dev:"Разработчик", role_content:"Контент-менеджер", role_other:"Другое",
+        f_exp_label:"Опыт", exp_na:"Не указано", exp_junior:"Новичок", exp_mid:"Средний", exp_senior:"Опытный",
+        f_port_label:"Портфолио / примеры (ссылка)", f_time_label:"Сколько времени готов уделять?", f_about_label:"О себе (коротко)",
+        f_test_label:"Готов(а) сделать тестовое задание", f_send:"Отправить заявку", to_top:"Наверх",
+        faq_title:"FAQ", faq_q1:"Это оплачивается?", faq_a1:"На старте — тест и первые задачи. Дальше — по результату: фикс/процент/доля.",
+        faq_q2:"Сколько времени нужно?", faq_a2:"Даже 1–2 часа в день, но регулярно.",
+        faq_q3:"Какой формат работы?", faq_a3:"Задачи, дедлайны, быстрые правки. Управление по темам в Telegram.",
+        footer_note:"Заявки приходят прямо в Telegram",
+        introTitle:"Привет. Я NeroviX AI Assistant", introSub:"Коротко покажу, что это за сайт и кто мы.",
+        dontShowText:"Больше не показывать это интро", skipBtn:"Пропустить", joinBtn:"Вступить", okBtn:"Понятно", langLabel:"Язык",
+        applyTitle:"Заявка в NeroviX", sound:"Звук",
+        chat:[
+          { title:"Сообщение", text:"Добро пожаловать на сайт NeroviX." },
+          { title:"Кто мы", text:"Мы строим цифровые проекты и доводим их до результата." },
+          { title:"Что делаем", text:"• автоматизация и боты\n• контент-системы и воронки\n• сайты и интеграции" },
+          { title:"Дальше", text:"Если хочешь попасть в команду — нажми «Вступить». Откроется заявка в удобном окне." }
         ],
-
-        msg_fill: "Заполни: имя, Telegram и роль.",
-        msg_tg: "Telegram должен быть вида @username (без пробелов).",
-        msg_sending: "Отправляю…",
-        msg_ok: "Заявка отправлена ✅",
-        msg_bad: "Ошибка отправки ❌ Попробуй ещё раз."
+        msg_fill:"Заполни: имя, Telegram и роль.",
+        msg_tg:"Telegram должен быть вида @username (без пробелов).",
+        msg_sending:"Отправляю…", msg_ok:"Заявка отправлена ✅", msg_bad:"Ошибка отправки ❌ Попробуй ещё раз."
       },
-
       uk: {
-        nav_projects: "Проєкти",
-        nav_roles: "Ролі",
-        nav_faq: "FAQ",
-        nav_lang: "Мова",
-        nav_join_btn: "Вступити",
-
-        hero_sub: "Команда цифрових проєктів. Створюємо ботів, системи, сайти та контент-механіки. Набираємо людей під задачі й ріст — без води, по результату.",
-        hero_join: "Вступити в команду",
-        hero_projects: "Переглянути проєкти",
-
-        work_title: "Як ми працюємо",
-        work_sub: "Швидко тестуємо гіпотези, фіксуємо правила, повторюємо те, що дає ріст.",
-        work_speed_t: "Швидкість",
-        work_speed_d: "Менше дзвінків — більше результату.",
-        work_tasks_t: "Чіткі задачі",
-        work_tasks_d: "Зрозуміло хто що робить і навіщо.",
-        work_growth_t: "Ріст",
-        work_growth_d: "Спочатку тести — потім масштаб.",
-
-        projects_title: "Проєкти",
-        p1_title: "Проєкт #1",
-        p1_desc: "Технологічний продукт з фокусом на автоматизацію та ріст.",
-        p2_title: "Проєкт #2",
-        p2_desc: "Система контенту та воронок: швидке виробництво й тест гіпотез.",
-        p3_title: "Проєкт #3",
-        p3_desc: "Майбутні напрями: продукти, сервіси, експерименти.",
-
-        roles_title: "Кого набираємо",
-        r_editor_t: "Монтажер",
-        r_editor_d: "Короткі ролики: динаміка, утримання, титри, темп.",
-        r_designer_t: "Дизайнер",
-        r_designer_d: "Оформлення, обкладинки, графіка, елементи бренду.",
-        r_dev_t: "Розробник",
-        r_dev_d: "Боти, інтеграції, автовирви, міні-сайти.",
-
-        join_title: "Вступити в команду",
-        join_rules_t: "Умови",
-        join_rules_1: "Нам важливі: відповідальність, регулярність, вміння доводити до результату.",
-        join_rules_2: "Формат: тест → перші задачі → ріст і розподіл за результатом.",
-        join_badge_1: "Регулярність",
-        join_badge_2: "Чіткі правила",
-        join_badge_3: "Ріст",
-
-        f_name_label: "Ім’я / Нік",
-        f_tg_label: "Telegram",
-        f_role_label: "Роль",
-        f_role_choose: "Обери роль",
-        role_editor: "Монтажер",
-        role_designer: "Дизайнер",
-        role_dev: "Розробник",
-        role_content: "Контент-менеджер",
-        role_other: "Інше",
-
-        f_exp_label: "Досвід",
-        exp_na: "Не вказано",
-        exp_junior: "Новачок",
-        exp_mid: "Середній",
-        exp_senior: "Досвідчений",
-
-        f_port_label: "Портфоліо / приклади (посилання)",
-        f_time_label: "Скільки часу готовий(а) приділяти?",
-        f_about_label: "Про себе (коротко)",
-        f_test_label: "Готовий(а) виконати тестове завдання",
-        f_send: "Надіслати заявку",
-        to_top: "Вгору",
-
-        faq_title: "FAQ",
-        faq_q1: "Це оплачується?",
-        faq_a1: "На старті — тест і перші задачі. Далі — за результатом: фікс/відсоток/частка.",
-        faq_q2: "Скільки часу потрібно?",
-        faq_a2: "Навіть 1–2 години на день, але регулярно.",
-        faq_q3: "Який формат роботи?",
-        faq_a3: "Задачі, дедлайни, швидкі правки. Управління по темах у Telegram.",
-
-        footer_note: "Заявки приходять прямо в Telegram",
-
-        introTitle: "Привіт. Я NeroviX AI Assistant",
-        introSub: "Коротко покажу, що це за сайт і хто ми.",
-        dontShowText: "Більше не показувати це інтро",
-        skipBtn: "Пропустити",
-        joinBtn: "Вступити",
-        okBtn: "Зрозуміло",
-        langLabel: "Мова",
-
-        applyTitle: "Заявка в NeroviX",
-        sound: "Звук",
-
-        chat: [
-          { title: "Повідомлення", text: "Ласкаво просимо на сайт NeroviX." },
-          { title: "Хто ми", text: "Ми створюємо цифрові проєкти й доводимо їх до результату." },
-          { title: "Що робимо", text: "• автоматизація та боти\n• контент-системи і воронки\n• сайти та інтеграції" },
-          { title: "Далі", text: "Якщо хочеш у команду — натисни «Вступити». Відкриється заявка в зручному вікні." }
+        nav_projects:"Проєкти", nav_roles:"Ролі", nav_faq:"FAQ", nav_lang:"Мова", nav_join_btn:"Вступити",
+        hero_sub:"Команда цифрових проєктів. Створюємо ботів, системи, сайти та контент-механіки. Набираємо людей під задачі й ріст — без води, по результату.",
+        hero_join:"Вступити в команду", hero_projects:"Переглянути проєкти",
+        work_title:"Як ми працюємо", work_sub:"Швидко тестуємо гіпотези, фіксуємо правила, повторюємо те, що дає ріст.",
+        projects_title:"Проєкти", p1_title:"Проєкт #1", p1_desc:"Технологічний продукт з фокусом на автоматизацію та ріст.",
+        p2_title:"Проєкт #2", p2_desc:"Система контенту та воронок: швидке виробництво й тест гіпотез.",
+        p3_title:"Проєкт #3", p3_desc:"Майбутні напрями: продукти, сервіси, експерименти.",
+        roles_title:"Кого набираємо",
+        r_editor_t:"Монтажер", r_editor_d:"Короткі ролики: динаміка, утримання, титри, темп.",
+        r_designer_t:"Дизайнер", r_designer_d:"Оформлення, обкладинки, графіка, елементи бренду.",
+        r_dev_t:"Розробник", r_dev_d:"Боти, інтеграції, автовирви, міні-сайти.",
+        join_title:"Вступити в команду", join_rules_t:"Умови",
+        join_rules_1:"Нам важливі: відповідальність, регулярність, вміння доводити до результату.",
+        join_rules_2:"Формат: тест → перші задачі → ріст і розподіл за результатом.",
+        join_badge_1:"Регулярність", join_badge_2:"Чіткі правила", join_badge_3:"Ріст",
+        f_name_label:"Ім’я / Нік", f_tg_label:"Telegram", f_role_label:"Роль", f_role_choose:"Обери роль",
+        role_editor:"Монтажер", role_designer:"Дизайнер", role_dev:"Розробник", role_content:"Контент-менеджер", role_other:"Інше",
+        f_exp_label:"Досвід", exp_na:"Не вказано", exp_junior:"Новачок", exp_mid:"Середній", exp_senior:"Досвідчений",
+        f_port_label:"Портфоліо / приклади (посилання)", f_time_label:"Скільки часу готовий(а) приділяти?", f_about_label:"Про себе (коротко)",
+        f_test_label:"Готовий(а) виконати тестове завдання", f_send:"Надіслати заявку", to_top:"Вгору",
+        faq_title:"FAQ", faq_q1:"Це оплачується?", faq_a1:"На старті — тест і перші задачі. Далі — за результатом: фікс/відсоток/частка.",
+        faq_q2:"Скільки часу потрібно?", faq_a2:"Навіть 1–2 години на день, але регулярно.",
+        faq_q3:"Який формат роботи?", faq_a3:"Задачі, дедлайни, швидкі правки. Управління по темах у Telegram.",
+        footer_note:"Заявки приходять прямо в Telegram",
+        introTitle:"Привіт. Я NeroviX AI Assistant", introSub:"Коротко покажу, що це за сайт і хто ми.",
+        dontShowText:"Більше не показувати це інтро", skipBtn:"Пропустити", joinBtn:"Вступити", okBtn:"Зрозуміло", langLabel:"Мова",
+        applyTitle:"Заявка в NeroviX", sound:"Звук",
+        chat:[
+          { title:"Повідомлення", text:"Ласкаво просимо на сайт NeroviX." },
+          { title:"Хто ми", text:"Ми створюємо цифрові проєкти й доводимо їх до результату." },
+          { title:"Що робимо", text:"• автоматизація та боти\n• контент-системи і воронки\n• сайти та інтеграції" },
+          { title:"Далі", text:"Якщо хочеш у команду — натисни «Вступити». Відкриється заявка в зручному вікні." }
         ],
-
-        msg_fill: "Заповни: ім’я, Telegram і роль.",
-        msg_tg: "Telegram має бути у форматі @username (без пробілів).",
-        msg_sending: "Надсилаю…",
-        msg_ok: "Заявку надіслано ✅",
-        msg_bad: "Помилка надсилання ❌ Спробуй ще раз."
+        msg_fill:"Заповни: ім’я, Telegram і роль.",
+        msg_tg:"Telegram має бути у форматі @username (без пробілів).",
+        msg_sending:"Надсилаю…", msg_ok:"Заявку надіслано ✅", msg_bad:"Помилка надсилання ❌ Спробуй ще раз."
       },
-
       en: {
-        nav_projects: "Projects",
-        nav_roles: "Roles",
-        nav_faq: "FAQ",
-        nav_lang: "Language",
-        nav_join_btn: "Join",
-
-        hero_sub: "A digital projects team. We build bots, systems, sites and content mechanics. We recruit people for tasks and growth — no fluff, results-driven.",
-        hero_join: "Join the team",
-        hero_projects: "View projects",
-
-        work_title: "How we work",
-        work_sub: "We test hypotheses fast, set rules, and repeat what drives growth.",
-        work_speed_t: "Speed",
-        work_speed_d: "Fewer calls — more output.",
-        work_tasks_t: "Clear tasks",
-        work_tasks_d: "Everyone knows what and why.",
-        work_growth_t: "Growth",
-        work_growth_d: "Tests first — scale next.",
-
-        projects_title: "Projects",
-        p1_title: "Project #1",
-        p1_desc: "A tech product focused on automation and growth.",
-        p2_title: "Project #2",
-        p2_desc: "Content + funnel system: fast production and hypothesis testing.",
-        p3_title: "Project #3",
-        p3_desc: "Future directions: products, services, experiments.",
-
-        roles_title: "We’re recruiting",
-        r_editor_t: "Video Editor",
-        r_editor_d: "Short-form edits: pacing, retention, captions, punch.",
-        r_designer_t: "Designer",
-        r_designer_d: "Covers, simple graphics, brand elements.",
-        r_dev_t: "Developer",
-        r_dev_d: "Bots, integrations, automations, mini-sites.",
-
-        join_title: "Join the team",
-        join_rules_t: "How it works",
-        join_rules_1: "We value: responsibility, consistency, and finishing what you start.",
-        join_rules_2: "Flow: test task → first work → growth based on results.",
-        join_badge_1: "Consistency",
-        join_badge_2: "Clear rules",
-        join_badge_3: "Growth",
-
-        f_name_label: "Name / Nick",
-        f_tg_label: "Telegram",
-        f_role_label: "Role",
-        f_role_choose: "Choose a role",
-        role_editor: "Video Editor",
-        role_designer: "Designer",
-        role_dev: "Developer",
-        role_content: "Content manager",
-        role_other: "Other",
-
-        f_exp_label: "Experience",
-        exp_na: "Not specified",
-        exp_junior: "Beginner",
-        exp_mid: "Intermediate",
-        exp_senior: "Advanced",
-
-        f_port_label: "Portfolio / samples (link)",
-        f_time_label: "How much time can you commit?",
-        f_about_label: "About you (short)",
-        f_test_label: "I’m ready for a test task",
-        f_send: "Send application",
-        to_top: "Top",
-
-        faq_title: "FAQ",
-        faq_q1: "Is it paid?",
-        faq_a1: "Start with a test and first tasks. Then — based on results: fixed / revenue share / equity.",
-        faq_q2: "How much time is needed?",
-        faq_a2: "Even 1–2 hours/day, but consistently.",
-        faq_q3: "What’s the format?",
-        faq_a3: "Tasks, deadlines, fast iterations. Managed via Telegram topics.",
-
-        footer_note: "Applications go straight to Telegram",
-
-        introTitle: "Hi. I’m NeroviX AI Assistant",
-        introSub: "Quick intro: what this site is and who we are.",
-        dontShowText: "Don’t show this intro again",
-        skipBtn: "Skip",
-        joinBtn: "Join",
-        okBtn: "Got it",
-        langLabel: "Language",
-
-        applyTitle: "Application to NeroviX",
-        sound: "Sound",
-
-        chat: [
-          { title: "Message", text: "Welcome to NeroviX." },
-          { title: "Who we are", text: "We build digital products and ship results." },
-          { title: "What we do", text: "• automation & bots\n• content systems & funnels\n• websites & integrations" },
-          { title: "Next", text: "If you want to join — click “Join”. The application will open in a clean modal window." }
+        nav_projects:"Projects", nav_roles:"Roles", nav_faq:"FAQ", nav_lang:"Language", nav_join_btn:"Join",
+        hero_sub:"A digital projects team. We build bots, systems, sites and content mechanics. We recruit people for tasks and growth — no fluff, results-driven.",
+        hero_join:"Join the team", hero_projects:"View projects",
+        work_title:"How we work", work_sub:"We test hypotheses fast, set rules, and repeat what drives growth.",
+        projects_title:"Projects", p1_title:"Project #1", p1_desc:"A tech product focused on automation and growth.",
+        p2_title:"Project #2", p2_desc:"Content + funnel system: fast production and hypothesis testing.",
+        p3_title:"Project #3", p3_desc:"Future directions: products, services, experiments.",
+        roles_title:"We’re recruiting",
+        r_editor_t:"Video Editor", r_editor_d:"Short-form edits: pacing, retention, captions, punch.",
+        r_designer_t:"Designer", r_designer_d:"Covers, simple graphics, brand elements.",
+        r_dev_t:"Developer", r_dev_d:"Bots, integrations, automations, mini-sites.",
+        join_title:"Join the team", join_rules_t:"How it works",
+        join_rules_1:"We value: responsibility, consistency, and finishing what you start.",
+        join_rules_2:"Flow: test task → first work → growth based on results.",
+        join_badge_1:"Consistency", join_badge_2:"Clear rules", join_badge_3:"Growth",
+        f_name_label:"Name / Nick", f_tg_label:"Telegram", f_role_label:"Role", f_role_choose:"Choose a role",
+        role_editor:"Video Editor", role_designer:"Designer", role_dev:"Developer", role_content:"Content manager", role_other:"Other",
+        f_exp_label:"Experience", exp_na:"Not specified", exp_junior:"Beginner", exp_mid:"Intermediate", exp_senior:"Advanced",
+        f_port_label:"Portfolio / samples (link)", f_time_label:"How much time can you commit?", f_about_label:"About you (short)",
+        f_test_label:"I’m ready for a test task", f_send:"Send application", to_top:"Top",
+        faq_title:"FAQ", faq_q1:"Is it paid?", faq_a1:"Start with a test and first tasks. Then — based on results: fixed / revenue share / equity.",
+        faq_q2:"How much time is needed?", faq_a2:"Even 1–2 hours/day, but consistently.",
+        faq_q3:"What’s the format?", faq_a3:"Tasks, deadlines, fast iterations. Managed via Telegram topics.",
+        footer_note:"Applications go straight to Telegram",
+        introTitle:"Hi. I’m NeroviX AI Assistant", introSub:"Quick intro: what this site is and who we are.",
+        dontShowText:"Don’t show this intro again", skipBtn:"Skip", joinBtn:"Join", okBtn:"Got it", langLabel:"Language",
+        applyTitle:"Application to NeroviX", sound:"Sound",
+        chat:[
+          { title:"Message", text:"Welcome to NeroviX." },
+          { title:"Who we are", text:"We build digital products and ship results." },
+          { title:"What we do", text:"• automation & bots\n• content systems & funnels\n• websites & integrations" },
+          { title:"Next", text:"If you want to join — click “Join”. The application will open in a clean modal window." }
         ],
-
-        msg_fill: "Fill in: name, Telegram and role.",
-        msg_tg: "Telegram must look like @username (no spaces).",
-        msg_sending: "Sending…",
-        msg_ok: "Application sent ✅",
-        msg_bad: "Sending failed ❌ Try again."
+        msg_fill:"Fill in: name, Telegram and role.",
+        msg_tg:"Telegram must look like @username (no spaces).",
+        msg_sending:"Sending…", msg_ok:"Application sent ✅", msg_bad:"Sending failed ❌ Try again."
       }
     };
 
-    // ======== Language handling ========
-    const langSelect = document.getElementById("langSelect");
-    const langSelectIntro = document.getElementById("langSelectIntro");
-    const langLabel = document.getElementById("langLabel");
+    // ======== Helpers ========
+    const $ = (id)=>document.getElementById(id);
+    const toastsEl = $("toasts");
 
+    function escapeHtml(s){
+      return String(s).replace(/[&<>"']/g, m => ({
+        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+      }[m]));
+    }
+
+    function toast(type, title, desc, ms=2200){
+      if (!toastsEl) return;
+      const el = document.createElement("div");
+      el.className = "toast " + (type || "");
+      el.innerHTML = `
+        <div class="t"><span class="pill"></span><span>${escapeHtml(title || "")}</span></div>
+        ${desc ? `<div class="d">${escapeHtml(desc)}</div>` : ""}
+      `;
+      toastsEl.appendChild(el);
+      setTimeout(()=> {
+        el.classList.add("hide");
+        setTimeout(()=> el.remove(), 220);
+      }, ms);
+    }
+
+    // ======== Language ========
     function getInitialLang(){
       const saved = localStorage.getItem(LANG_KEY);
       if (saved && i18n[saved]) return saved;
@@ -1662,18 +1307,17 @@
       if (nav.startsWith("en")) return "en";
       return "ru";
     }
-
     let currentLang = getInitialLang();
-    langSelect.value = currentLang;
-    langSelectIntro.value = currentLang;
 
     function applyLang(lang){
       if (!i18n[lang]) return;
       currentLang = lang;
       localStorage.setItem(LANG_KEY, lang);
 
-      langSelect.value = lang;
-      langSelectIntro.value = lang;
+      const ls = $("langSelect");
+      const lsi = $("langSelectIntro");
+      if (ls) ls.value = lang;
+      if (lsi) lsi.value = lang;
 
       document.querySelectorAll("[data-i18n]").forEach(el=>{
         const key = el.getAttribute("data-i18n");
@@ -1681,66 +1325,24 @@
         if (typeof v === "string") el.textContent = v;
       });
 
-      document.getElementById("introTitle").textContent = i18n[lang].introTitle;
-      document.getElementById("introSub").textContent = i18n[lang].introSub;
-      document.getElementById("dontShowText").textContent = i18n[lang].dontShowText;
-      document.getElementById("skipBtn").textContent = i18n[lang].skipBtn;
-      document.getElementById("goJoinBtn").textContent = i18n[lang].joinBtn;
-      document.getElementById("closeBtn").textContent = i18n[lang].okBtn;
-      langLabel.textContent = i18n[lang].langLabel;
+      if ($("introTitle")) $("introTitle").textContent = i18n[lang].introTitle;
+      if ($("introSub")) $("introSub").textContent = i18n[lang].introSub;
+      if ($("dontShowText")) $("dontShowText").textContent = i18n[lang].dontShowText;
+      if ($("skipBtn")) $("skipBtn").textContent = i18n[lang].skipBtn;
+      if ($("goJoinBtn")) $("goJoinBtn").textContent = i18n[lang].joinBtn;
+      if ($("closeBtn")) $("closeBtn").textContent = i18n[lang].okBtn;
+      if ($("langLabel")) $("langLabel").textContent = i18n[lang].langLabel;
 
-      document.getElementById("applyTitle").textContent = i18n[lang].applyTitle;
-      document.getElementById("soundText").textContent = i18n[lang].sound;
+      if ($("applyTitle")) $("applyTitle").textContent = i18n[lang].applyTitle;
+      if ($("soundText")) $("soundText").textContent = i18n[lang].sound;
 
-      buildChat();
+      buildChat(); // safe rebuild
     }
 
-    langSelect.addEventListener("change", e => applyLang(e.target.value));
-    langSelectIntro.addEventListener("change", e => applyLang(e.target.value));
-
-    // ======== Toasts ========
-    const toastsEl = document.getElementById("toasts");
-
-    function toast(type, title, desc, ms=2200){
-      const el = document.createElement("div");
-      el.className = "toast " + (type || "");
-      el.innerHTML = `
-        <div class="t"><span class="pill"></span><span>${escapeHtml(title || "")}</span></div>
-        ${desc ? `<div class="d">${escapeHtml(desc)}</div>` : ""}
-      `;
-      toastsEl.appendChild(el);
-
-      setTimeout(()=> {
-        el.classList.add("hide");
-        setTimeout(()=> el.remove(), 220);
-      }, ms);
-    }
-
-    function escapeHtml(s){
-      return String(s).replace(/[&<>"']/g, m => ({
-        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
-      }[m]));
-    }
-
-    // ======== Micro-click sound (WebAudio) ========
-    let soundEnabled = (localStorage.getItem(SOUND_KEY) !== "0"); // default ON
-    const soundToggle = document.getElementById("soundToggle");
-
-    function renderSoundToggle(){
-      soundToggle.classList.toggle("on", soundEnabled);
-    }
-    renderSoundToggle();
-
-    soundToggle.addEventListener("click", () => {
-      soundEnabled = !soundEnabled;
-      localStorage.setItem(SOUND_KEY, soundEnabled ? "1" : "0");
-      renderSoundToggle();
-      toast("", soundEnabled ? "Звук включён" : "Звук выключен", "Можно включать/выключать в окне заявки.", 1500);
-      // small click
-      playClick(520, 0.02, 0.04);
-    });
-
+    // ======== Micro-click sound ========
+    let soundEnabled = (localStorage.getItem(SOUND_KEY) !== "0");
     let audioCtx = null;
+
     function ensureAudio(){
       if (!audioCtx){
         audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -1753,7 +1355,6 @@
       try{
         ensureAudio();
         const t0 = audioCtx.currentTime;
-
         const o = audioCtx.createOscillator();
         const g = audioCtx.createGain();
         const f = audioCtx.createBiquadFilter();
@@ -1768,27 +1369,22 @@
         g.gain.exponentialRampToValueAtTime(vol, t0 + 0.008);
         g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
 
-        o.connect(f);
-        f.connect(g);
-        g.connect(audioCtx.destination);
-
+        o.connect(f); f.connect(g); g.connect(audioCtx.destination);
         o.start(t0);
         o.stop(t0 + dur + 0.01);
       }catch(e){}
     }
 
-    // Attach click sounds to buttons + checkboxes (delegation)
-    document.addEventListener("click", (e) => {
-      const t = e.target;
-      if (t.closest(".btn")) playClick(520, 0.02, 0.04);
-      if (t.closest(".icon-btn")) playClick(620, 0.018, 0.035);
-      if (t.closest(".chk")) playClick(420, 0.018, 0.05);
-    }, { passive:true });
+    function renderSoundToggle(){
+      const st = $("soundToggle");
+      if (!st) return;
+      st.classList.toggle("on", soundEnabled);
+    }
 
-    // ======== Checkbox pop animation helper ========
+    // ======== Checkbox pop ========
     function bindChkPop(wrapperId, inputId){
-      const wrap = document.getElementById(wrapperId);
-      const inp = document.getElementById(inputId);
+      const wrap = $(wrapperId);
+      const inp = $(inputId);
       if (!wrap || !inp) return;
       inp.addEventListener("change", () => {
         wrap.classList.remove("pop");
@@ -1796,40 +1392,36 @@
         wrap.classList.add("pop");
       });
     }
-    bindChkPop("m_testWrap", "m_test");
-    bindChkPop("dontShowWrap", "dontShow");
 
-    // ======== Intro assistant: chat + typing + talking reaction + AI pulse ========
-    const intro = document.getElementById("intro");
-    const dontShow = document.getElementById("dontShow");
-    const closeBtn = document.getElementById("closeBtn");
-    const skipBtn = document.getElementById("skipBtn");
-    const goJoinBtn = document.getElementById("goJoinBtn");
-    const chatEl = document.getElementById("chat");
-    const stage = document.getElementById("stage");
-    const bot = document.getElementById("bot");
+    // ======== Intro chat ========
+    const intro = $("intro");
+    const chatEl = $("chat");
+    const bot = $("bot");
+    const stage = $("stage");
 
     let typingTimer = null;
     let isTyping = false;
     let introDone = false;
 
     function setTalking(on){
+      if (!bot) return;
       if (on){
         bot.classList.add("talking");
-        bot.classList.add("pulse");     // AI pulse ON
+        bot.classList.add("pulse");
       } else {
         bot.classList.remove("talking");
-        bot.classList.remove("pulse");  // AI pulse OFF
+        bot.classList.remove("pulse");
       }
     }
 
     function buildChat(){
+      if (!chatEl) return;
       chatEl.innerHTML = "";
-      const msgs = i18n[currentLang].chat;
+      const msgs = (i18n[currentLang] && i18n[currentLang].chat) ? i18n[currentLang].chat : [];
       msgs.forEach((m, idx)=>{
         const b = document.createElement("div");
         b.className = "bubble ai";
-        b.dataset.idx = idx;
+        b.dataset.idx = String(idx);
 
         const t = document.createElement("strong");
         t.textContent = m.title;
@@ -1847,6 +1439,7 @@
     function sleep(ms){ return new Promise(r => setTimeout(r, ms)); }
 
     async function typeInto(el, fullText, speed=12){
+      if (!el) return;
       clearTimeout(typingTimer);
       isTyping = true;
       setTalking(true);
@@ -1880,18 +1473,26 @@
     }
 
     async function playIntroChat(){
-      introDone = false;
-      const msgs = i18n[currentLang].chat;
-      for (let k=0; k<msgs.length; k++){
-        const bubble = chatEl.querySelector(\`.bubble[data-idx="\${k}"] .text\`);
-        await typeInto(bubble, msgs[k].text, 12);
-        await sleep(160);
+      try{
+        introDone = false;
+        const msgs = i18n[currentLang].chat;
+        for (let k=0; k<msgs.length; k++){
+          const bubble = chatEl ? chatEl.querySelector(`.bubble[data-idx="${k}"] .text`) : null;
+          await typeInto(bubble, msgs[k].text, 12);
+          await sleep(160);
+        }
+        introDone = true;
+        setTalking(false);
+      }catch(e){
+        // если вдруг что-то сломалось — не ломаем сайт
+        console.error("Intro chat error:", e);
+        introDone = true;
+        setTalking(false);
       }
-      introDone = true;
-      setTalking(false);
     }
 
     function showIntro(){
+      if (!intro) return;
       intro.style.display = "flex";
       document.body.style.overflow = "hidden";
       buildChat();
@@ -1899,10 +1500,12 @@
     }
 
     function hideIntro(){
+      if (!intro) return;
       intro.style.display = "none";
       document.body.style.overflow = "";
       stopTyping();
-      if (dontShow.checked) localStorage.setItem(INTRO_KEY, "1");
+      const ds = $("dontShow");
+      if (ds && ds.checked) localStorage.setItem(INTRO_KEY, "1");
     }
 
     function stopTyping(){
@@ -1915,14 +1518,14 @@
       stopTyping();
       const msgs = i18n[currentLang].chat;
       msgs.forEach((m, idx)=>{
-        const bubble = chatEl.querySelector(\`.bubble[data-idx="\${idx}"] .text\`);
+        const bubble = chatEl ? chatEl.querySelector(`.bubble[data-idx="${idx}"] .text`) : null;
         if (bubble) bubble.textContent = m.text;
       });
       introDone = true;
     }
 
-    // parallax
     function bind3D(){
+      if (!stage || !bot) return;
       const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
       stage.addEventListener("mousemove", (e) => {
         const r = stage.getBoundingClientRect();
@@ -1930,7 +1533,7 @@
         const y = (e.clientY - r.top) / r.height;
         const ry = clamp((x - 0.5) * 22, -18, 18);
         const rx = clamp(-(y - 0.5) * 18, -14, 14);
-        bot.style.transform = \`rotateX(\${rx}deg) rotateY(\${ry}deg) translateY(-6px)\`;
+        bot.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg) translateY(-6px)`;
         bot.style.transition = "transform 60ms linear";
       });
       stage.addEventListener("mouseleave", () => {
@@ -1938,213 +1541,212 @@
         bot.style.transform = "";
       });
     }
-    bind3D();
 
-    skipBtn.addEventListener("click", () => {
-      if (!introDone) fillAllChatInstant();
-      else hideIntro();
-    });
-    closeBtn.addEventListener("click", hideIntro);
-
-    // ======== Application modal open/close ========
-    const applyModal = document.getElementById("applyModal");
-    const applyBackdrop = document.getElementById("applyBackdrop");
-    const applyClose = document.getElementById("applyClose");
-    const openApplyHero = document.getElementById("openApplyHero");
-    const openApplyHere = document.getElementById("openApplyHere");
-    const navJoinBtn = document.getElementById("navJoinBtn");
+    // ======== Apply modal ========
+    const applyModal = $("applyModal");
 
     function openApply(){
+      if (!applyModal) return;
       applyModal.classList.add("show");
       applyModal.setAttribute("aria-hidden", "false");
       document.body.style.overflow = "hidden";
-      // ensure audio on first gesture
       ensureAudio();
-      // focus first field
-      setTimeout(() => document.getElementById("m_name")?.focus(), 120);
+      setTimeout(() => { const f = $("m_name"); if (f) f.focus(); }, 120);
     }
+
     function closeApply(){
+      if (!applyModal) return;
       applyModal.classList.remove("show");
       applyModal.setAttribute("aria-hidden", "true");
       document.body.style.overflow = "";
     }
 
-    openApplyHero.addEventListener("click", openApply);
-    openApplyHere.addEventListener("click", openApply);
-
-    // nav join: scroll + open modal
-    navJoinBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      document.getElementById("join")?.scrollIntoView({behavior:"smooth", block:"start"});
-      setTimeout(openApply, 260);
-    });
-
-    applyBackdrop.addEventListener("click", closeApply);
-    applyClose.addEventListener("click", closeApply);
-
-    window.addEventListener("keydown", (e) => {
-      if (e.key === "Escape"){
-        if (intro.style.display === "flex") hideIntro();
-        if (applyModal.classList.contains("show")) closeApply();
-      }
-    });
-
-    // Intro "join" opens modal instead of hash
-    goJoinBtn.addEventListener("click", () => {
-      hideIntro();
-      document.getElementById("join")?.scrollIntoView({behavior:"smooth", block:"start"});
-      setTimeout(openApply, 260);
-    });
-
-    // ======== Telegram auto-check (modal) ========
-    const mTg = document.getElementById("m_tg");
-
+    // ======== Telegram auto check ========
     function normalizeTg(v){
       let s = (v || "").trim();
       if (!s) return s;
-      s = s.replace("https://t.me/", "@").replace("http://t.me/", "@").replace("t.me/", "@");
-      if (!s.startsWith("@")) s = "@" + s;
+      s = s.replace(/^https?:\/\/t\.me\//i, "@").replace(/^t\.me\//i, "@");
       s = s.replace(/\s+/g, "");
+      if (!s.startsWith("@")) s = "@" + s;
       return s;
     }
-    function isValidTg(v){
-      return /^@[A-Za-z0-9_]{3,32}$/.test(v);
-    }
-
-    // auto-fix while typing
-    let tgTypingTimer = null;
-    mTg.addEventListener("input", () => {
-      // soft normalize: only if user typed spaces or t.me/
-      const raw = mTg.value;
-      const fixed = raw.replace(/\s+/g, "").replace(/^https?:\/\/t\.me\//i, "@").replace(/^t\.me\//i, "@");
-      if (fixed !== raw) mTg.value = fixed;
-
-      clearTimeout(tgTypingTimer);
-      tgTypingTimer = setTimeout(() => {
-        let v = normalizeTg(mTg.value);
-        // don't aggressively add @ if empty
-        if (mTg.value.trim() && v !== mTg.value) mTg.value = v;
-
-        mTg.classList.remove("tg-good","tg-bad");
-        if (!mTg.value.trim()) return;
-
-        if (isValidTg(mTg.value)) mTg.classList.add("tg-good");
-        else mTg.classList.add("tg-bad");
-      }, 180);
-    });
-
-    // on blur: always normalize
-    mTg.addEventListener("blur", () => {
-      if (!mTg.value.trim()) return;
-      mTg.value = normalizeTg(mTg.value);
-      mTg.classList.remove("tg-good","tg-bad");
-      if (isValidTg(mTg.value)) mTg.classList.add("tg-good");
-      else mTg.classList.add("tg-bad");
-    });
-
-    // ======== Send (modal) ========
-    const mSendBtn = document.getElementById("m_sendBtn");
-    const mClearBtn = document.getElementById("m_clearBtn");
-
-    function getFormData(){
-      const name = document.getElementById("m_name").value.trim();
-      const tg = normalizeTg(document.getElementById("m_tg").value);
-      const role = document.getElementById("m_role").value;
-
-      const exp = document.getElementById("m_exp").value || "";
-      const portfolio = (document.getElementById("m_portfolio").value || "").trim();
-      const time = (document.getElementById("m_time").value || "").trim();
-      const about = (document.getElementById("m_about").value || "").trim();
-      const test = document.getElementById("m_test").checked;
-
-      return { name, tg, role, exp, portfolio, time, about, test };
-    }
+    function isValidTg(v){ return /^@[A-Za-z0-9_]{3,32}$/.test(v); }
 
     function clearForm(){
-      document.getElementById("m_name").value = "";
-      document.getElementById("m_tg").value = "";
-      document.getElementById("m_role").selectedIndex = 0;
-      document.getElementById("m_exp").selectedIndex = 0;
-      document.getElementById("m_portfolio").value = "";
-      document.getElementById("m_time").value = "";
-      document.getElementById("m_about").value = "";
-      document.getElementById("m_test").checked = false;
-      document.getElementById("m_tg").classList.remove("tg-good","tg-bad");
+      ["m_name","m_tg","m_portfolio","m_time","m_about"].forEach(id=>{ const el=$(id); if(el) el.value=""; });
+      const role = $("m_role"); if (role) role.selectedIndex = 0;
+      const exp = $("m_exp"); if (exp) exp.selectedIndex = 0;
+      const test = $("m_test"); if (test) test.checked = false;
+      const tg = $("m_tg"); if (tg) tg.classList.remove("tg-good","tg-bad");
     }
 
-    mClearBtn.addEventListener("click", () => {
-      clearForm();
-      toast("", "Очищено", "Можно заполнить заново.", 1400);
-    });
-
     async function send(){
-      const data = getFormData();
+      const name = ($("m_name")?.value || "").trim();
+      const tgEl = $("m_tg");
+      const tg = normalizeTg((tgEl?.value || ""));
+      const role = $("m_role")?.value || "";
 
-      if (!data.name || !data.tg || !data.role){
+      const exp = $("m_exp")?.value || "";
+      const portfolio = ($("m_portfolio")?.value || "").trim();
+      const time = ($("m_time")?.value || "").trim();
+      const about = ($("m_about")?.value || "").trim();
+      const test = !!$("m_test")?.checked;
+
+      if (!name || !tg || !role){
         toast("bad", i18n[currentLang].msg_fill, "Имя, Telegram и роль — обязательны.", 2600);
-        // focus missing
-        if (!data.name) document.getElementById("m_name")?.focus();
-        else if (!data.tg) document.getElementById("m_tg")?.focus();
-        else document.getElementById("m_role")?.focus();
+        if (!name) $("m_name")?.focus();
+        else if (!tg) $("m_tg")?.focus();
+        else $("m_role")?.focus();
         return;
       }
-      if (!isValidTg(data.tg)){
+      if (!isValidTg(tg)){
         toast("bad", i18n[currentLang].msg_tg, "Пример: @username", 2600);
-        document.getElementById("m_tg")?.focus();
-        document.getElementById("m_tg").classList.add("tg-bad");
+        if (tgEl){ tgEl.classList.add("tg-bad"); tgEl.focus(); }
         return;
       }
 
-      mSendBtn.disabled = true;
-      mSendBtn.style.opacity = ".7";
+      const btn = $("m_sendBtn");
+      if (btn){ btn.disabled = true; btn.style.opacity = ".7"; }
       toast("", i18n[currentLang].msg_sending, "Не закрывай окно…", 1600);
 
       try{
+        const payload = { name, tg, role, exp, portfolio, time, about, test };
         const res = await fetch(ENDPOINT_URL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data)
+          method:"POST",
+          headers:{ "Content-Type":"application/json" },
+          body: JSON.stringify(payload)
         });
-
-        if (!res.ok){
-          let txt = "";
-          try{ txt = await res.text(); }catch(e){}
-          throw new Error(txt || "bad_response");
-        }
+        if (!res.ok) throw new Error("bad_response");
 
         toast("ok", i18n[currentLang].msg_ok, "Мы свяжемся в Telegram.", 2400);
         clearForm();
-
-        // close after a bit
-        setTimeout(() => closeApply(), 800);
-
+        setTimeout(closeApply, 900);
       }catch(e){
         console.error("Send error:", e);
         toast("bad", i18n[currentLang].msg_bad, "Проверь интернет и попробуй снова.", 3200);
       }finally{
-        mSendBtn.disabled = false;
-        mSendBtn.style.opacity = "1";
+        if (btn){ btn.disabled = false; btn.style.opacity = "1"; }
       }
     }
 
-    mSendBtn.addEventListener("click", send);
+    // ======== Init (safe) ========
+    (function init(){
+      try{
+        // apply language
+        applyLang(currentLang);
 
-    // ======== init ========
-    applyLang(currentLang);
+        // bind language selects
+        const ls = $("langSelect");
+        const lsi = $("langSelectIntro");
+        if (ls) ls.addEventListener("change", e => applyLang(e.target.value));
+        if (lsi) lsi.addEventListener("change", e => applyLang(e.target.value));
 
-    const hidden = localStorage.getItem(INTRO_KEY) === "1";
-    if (!hidden) setTimeout(showIntro, 420);
+        // checkbox pop
+        bindChkPop("m_testWrap","m_test");
+        bindChkPop("dontShowWrap","dontShow");
+
+        // 3d
+        bind3D();
+
+        // intro buttons
+        $("skipBtn")?.addEventListener("click", () => {
+          if (!introDone) fillAllChatInstant();
+          else hideIntro();
+        });
+        $("closeBtn")?.addEventListener("click", hideIntro);
+        $("goJoinBtn")?.addEventListener("click", () => { hideIntro(); document.getElementById("join")?.scrollIntoView({behavior:"smooth"}); setTimeout(openApply, 260); });
+
+        // apply modal open buttons
+        $("openApplyHero")?.addEventListener("click", openApply);
+        $("openApplyHere")?.addEventListener("click", openApply);
+
+        // nav join
+        $("navJoinBtn")?.addEventListener("click", (e) => {
+          e.preventDefault();
+          document.getElementById("join")?.scrollIntoView({behavior:"smooth"});
+          setTimeout(openApply, 260);
+        });
+
+        // modal close
+        $("applyBackdrop")?.addEventListener("click", closeApply);
+        $("applyClose")?.addEventListener("click", closeApply);
+
+        // modal actions
+        $("m_sendBtn")?.addEventListener("click", send);
+        $("m_clearBtn")?.addEventListener("click", () => { clearForm(); toast("", "Очищено", "Можно заполнить заново.", 1400); });
+
+        // telegram live check
+        const tg = $("m_tg");
+        let tgTimer = null;
+        tg?.addEventListener("input", () => {
+          clearTimeout(tgTimer);
+          tgTimer = setTimeout(() => {
+            if (!tg.value.trim()){
+              tg.classList.remove("tg-good","tg-bad");
+              return;
+            }
+            const fixed = normalizeTg(tg.value);
+            tg.value = fixed;
+            tg.classList.remove("tg-good","tg-bad");
+            if (isValidTg(fixed)) tg.classList.add("tg-good");
+            else tg.classList.add("tg-bad");
+          }, 160);
+        });
+
+        // sound toggle
+        $("soundToggle")?.addEventListener("click", () => {
+          soundEnabled = !soundEnabled;
+          localStorage.setItem(SOUND_KEY, soundEnabled ? "1" : "0");
+          renderSoundToggle();
+          playClick(520, 0.02, 0.04);
+          toast("", soundEnabled ? "Звук включён" : "Звук выключен", "Можно включать/выключать в окне заявки.", 1500);
+        });
+        renderSoundToggle();
+
+        // global click sounds
+        document.addEventListener("click", (e) => {
+          const t = e.target;
+          if (t.closest(".btn")) playClick(520, 0.02, 0.04);
+          if (t.closest(".icon-btn")) playClick(620, 0.018, 0.035);
+          if (t.closest(".chk")) playClick(420, 0.018, 0.05);
+        }, { passive:true });
+
+        // ESC
+        window.addEventListener("keydown", (e) => {
+          if (e.key === "Escape"){
+            if (intro && intro.style.display === "flex") hideIntro();
+            if (applyModal && applyModal.classList.contains("show")) closeApply();
+          }
+        });
+
+        // intro show logic + fallback AI button
+        const hidden = localStorage.getItem(INTRO_KEY) === "1";
+        const fab = $("aiFab");
+        const fabBtn = $("aiFabBtn");
+        if (!hidden){
+          setTimeout(showIntro, 420);
+        } else {
+          if (fab) fab.style.display = "block";
+          fabBtn?.addEventListener("click", showIntro);
+        }
+
+      }catch(e){
+        console.error("Init error:", e);
+        toast("bad","JS ошибка","Открой DevTools → Console и покажи ошибку, если повторится.", 5000);
+      }
+    })();
 
     // ======== TECH BACKGROUND CANVAS (dots + links) ========
     (function techFx(){
       const canvas = document.getElementById("fx");
-      const ctx = canvas.getContext("2d", { alpha: true });
-      let w=0, h=0, dpr=1;
+      if (!canvas) return;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return;
 
+      let w=0, h=0, dpr=1;
       const prefersReduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       const POINTS = prefersReduce ? 36 : 70;
       const LINK_DIST = prefersReduce ? 120 : 150;
-
       const pts = [];
 
       function resize(){
@@ -2154,9 +1756,7 @@
         canvas.style.width = window.innerWidth + "px";
         canvas.style.height = window.innerHeight + "px";
       }
-
       function rand(min, max){ return min + Math.random()*(max-min); }
-
       function init(){
         pts.length = 0;
         for(let i=0;i<POINTS;i++){
@@ -2174,15 +1774,8 @@
       function step(){
         ctx.clearRect(0,0,w,h);
 
-        const vg = ctx.createRadialGradient(w*0.5, h*0.2, 0, w*0.5, h*0.5, Math.max(w,h)*0.7);
-        vg.addColorStop(0, "rgba(0,170,255,0.05)");
-        vg.addColorStop(1, "rgba(0,0,0,0)");
-        ctx.fillStyle = vg;
-        ctx.fillRect(0,0,w,h);
-
         for(const p of pts){
-          p.x += p.vx;
-          p.y += p.vy;
+          p.x += p.vx; p.y += p.vy;
           if(p.x < -40*dpr) p.x = w + 40*dpr;
           if(p.x > w + 40*dpr) p.x = -40*dpr;
           if(p.y < -40*dpr) p.y = h + 40*dpr;
@@ -2211,20 +1804,14 @@
           ctx.beginPath();
           ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
           ctx.fill();
-
-          ctx.fillStyle = `rgba(0,170,255,${p.a*0.20})`;
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, p.r*3.2, 0, Math.PI*2);
-          ctx.fill();
         }
 
         if(!prefersReduce) requestAnimationFrame(step);
       }
 
-      resize();
-      init();
-      if(prefersReduce){ step(); }
-      else { requestAnimationFrame(step); }
+      resize(); init();
+      if(prefersReduce) step();
+      else requestAnimationFrame(step);
       window.addEventListener("resize", () => { resize(); init(); });
     })();
   </script>
