@@ -53,7 +53,7 @@
       opacity:.95;
     }
 
-    /* ===================== BACKGROUND (stronger, futuristic) ===================== */
+    /* ===================== BACKGROUND (more cinematic, less "math") ===================== */
     .bg{
       position:fixed; inset:0; z-index:-10;
       background:
@@ -65,48 +65,48 @@
       pointer-events:none;
     }
     .aurora{
-      position:fixed; inset:-140px; z-index:-9; pointer-events:none;
+      position:fixed; inset:-180px; z-index:-9; pointer-events:none;
       background:
-        radial-gradient(900px 520px at 22% 32%, rgba(106,240,255,.20), transparent 70%),
-        radial-gradient(980px 560px at 76% 24%, rgba(0,170,255,.18), transparent 72%),
-        radial-gradient(1100px 700px at 56% 78%, rgba(0,170,255,.14), transparent 74%),
-        radial-gradient(980px 560px at 35% 88%, rgba(255,77,109,.09), transparent 76%);
-      filter: blur(28px) saturate(1.35);
+        radial-gradient(900px 520px at 22% 32%, rgba(106,240,255,.22), transparent 70%),
+        radial-gradient(980px 560px at 76% 24%, rgba(0,170,255,.20), transparent 72%),
+        radial-gradient(1100px 700px at 56% 78%, rgba(0,170,255,.16), transparent 74%),
+        radial-gradient(980px 560px at 35% 88%, rgba(255,77,109,.10), transparent 76%);
+      filter: blur(36px) saturate(1.55);
       opacity:.92;
-      animation: auroraMove 14s ease-in-out infinite;
+      animation: auroraMove 16s ease-in-out infinite;
       transform: translate3d(0,0,0);
       mix-blend-mode: screen;
     }
     @keyframes auroraMove{
       0%,100%{ transform: translate3d(-2%, -1%, 0) scale(1.08); opacity:.78; }
-      50%{ transform: translate3d(2%, 1%, 0) scale(1.14); opacity:1; }
+      50%{ transform: translate3d(2%, 1%, 0) scale(1.16); opacity:1; }
     }
     .fog{
-      position:fixed; inset:-180px; z-index:-8; pointer-events:none;
+      position:fixed; inset:-220px; z-index:-8; pointer-events:none;
       background:
         radial-gradient(760px 580px at 10% 52%, rgba(0,170,255,.12), transparent 70%),
-        radial-gradient(920px 700px at 92% 56%, rgba(106,240,255,.11), transparent 72%),
-        radial-gradient(980px 720px at 52% 12%, rgba(255,255,255,.04), transparent 72%),
+        radial-gradient(920px 700px at 92% 56%, rgba(106,240,255,.12), transparent 72%),
+        radial-gradient(980px 720px at 52% 12%, rgba(255,255,255,.045), transparent 72%),
         radial-gradient(1100px 820px at 50% 96%, rgba(0,0,0,.22), transparent 72%);
-      filter: blur(38px) saturate(1.15);
+      filter: blur(48px) saturate(1.2);
       opacity:.78;
-      animation: fogMove 18s ease-in-out infinite;
+      animation: fogMove 20s ease-in-out infinite;
       transform: translate3d(0,0,0);
     }
     @keyframes fogMove{
-      0%,100%{ transform: translate3d(0%, 0%, 0) scale(1.02); opacity:.68; }
-      50%{ transform: translate3d(1.5%, -1.2%, 0) scale(1.08); opacity:.92; }
+      0%,100%{ transform: translate3d(0%, 0%, 0) scale(1.02); opacity:.66; }
+      50%{ transform: translate3d(1.5%, -1.2%, 0) scale(1.10); opacity:.95; }
     }
     .streams{
       position:fixed; inset:0; z-index:-7; pointer-events:none;
       background:
-        linear-gradient(110deg, transparent 0 42%, rgba(106,240,255,.075) 50%, transparent 58% 100%),
-        linear-gradient(120deg, transparent 0 46%, rgba(0,170,255,.065) 55%, transparent 64% 100%),
-        linear-gradient(100deg, transparent 0 44%, rgba(255,255,255,.03) 52%, transparent 62% 100%);
+        linear-gradient(110deg, transparent 0 42%, rgba(106,240,255,.06) 50%, transparent 58% 100%),
+        linear-gradient(120deg, transparent 0 46%, rgba(0,170,255,.055) 55%, transparent 64% 100%),
+        linear-gradient(100deg, transparent 0 44%, rgba(255,255,255,.025) 52%, transparent 62% 100%);
       background-size: 180% 180%, 220% 220%, 200% 200%;
       mix-blend-mode: screen;
-      opacity:.52;
-      animation: streams 18s linear infinite;
+      opacity:.42;
+      animation: streams 22s linear infinite;
     }
     @keyframes streams{
       0%{ background-position: -30% -20%, -20% 10%, -10% -10%; }
@@ -126,63 +126,79 @@
       .aurora, .fog, .streams{ animation:none !important; }
     }
 
-    /* ===================== ICON BORDER “CLOCKWISE LIGHT” ===================== */
-    .glow-border{ position:relative; isolation:isolate; }
+    /* ===================== NEW: “RUNNING LIGHT ALONG CONTOUR” ===================== */
+    .glow-border{
+      position:relative;
+      isolation:isolate;
+      outline:none;
+    }
+
+    /* Нежная подсветка рамки при ховере */
     .glow-border::before{
       content:"";
       position:absolute; inset:-2px;
       border-radius: inherit;
       padding:2px;
-      background: conic-gradient(
-        from 0deg,
-        rgba(106,240,255,.12),
-        rgba(0,170,255,.10),
-        rgba(106,240,255,.08),
-        rgba(0,170,255,.10),
-        rgba(106,240,255,.12)
-      );
+      background: linear-gradient(180deg, rgba(106,240,255,.18), rgba(0,170,255,.08));
       -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
       -webkit-mask-composite: xor;
       mask-composite: exclude;
       opacity:0;
       z-index:-1;
       transition: opacity .18s ease, filter .18s ease;
-    }
-    .glow-border::after{
-      content:"";
-      position:absolute; inset:-2px;
-      border-radius: inherit;
-      padding:2px;
-      background: conic-gradient(
-        from 0deg,
-        transparent 0 72%,
-        rgba(106,240,255,0) 72%,
-        rgba(106,240,255,.95) 80%,
-        rgba(0,170,255,.85) 84%,
-        rgba(106,240,255,.25) 88%,
-        rgba(106,240,255,0) 94%,
-        transparent 94% 100%
-      );
-      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
-      opacity:0;
-      filter: blur(.35px);
-      transform: rotate(0deg);
-      z-index:-1;
+      filter: drop-shadow(0 0 10px rgba(0,170,255,.0));
     }
     .glow-border:hover::before,
     .glow-border:focus-visible::before{
       opacity:1;
-      filter: drop-shadow(0 0 10px rgba(0,170,255,.12));
+      filter: drop-shadow(0 0 14px rgba(106,240,255,.18));
     }
-    .glow-border:hover::after,
-    .glow-border:focus-visible::after{
+
+    /* SVG-overlay, который мы добавим JS-ом внутрь .glow-border */
+    .glow-border .trace-svg{
+      position:absolute;
+      inset:-3px;
+      width: calc(100% + 6px);
+      height: calc(100% + 6px);
+      pointer-events:none;
+      z-index: 3;
+      opacity:0;
+      transition: opacity .16s ease;
+      filter:
+        drop-shadow(0 0 10px rgba(106,240,255,.28))
+        drop-shadow(0 0 18px rgba(0,170,255,.16));
+    }
+    .glow-border:hover .trace-svg,
+    .glow-border:focus-visible .trace-svg{
       opacity:1;
-      animation: ringSpin .95s linear infinite;
-      filter: drop-shadow(0 0 14px rgba(106,240,255,.28)) drop-shadow(0 0 28px rgba(0,170,255,.14));
     }
-    @keyframes ringSpin{ to { transform: rotate(360deg); } }
+
+    /* Базовая “тихая” линия */
+    .trace-base{
+      stroke: rgba(255,255,255,.10);
+      stroke-width: 2.2;
+      fill: none;
+    }
+
+    /* Бегущий неоновый сегмент */
+    .trace-run{
+      stroke: rgba(106,240,255,.95);
+      stroke-width: 3.2;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      filter: drop-shadow(0 0 6px rgba(106,240,255,.35));
+      opacity: .96;
+    }
+
+    /* Ключ: не вращаем “клин”, а двигаем dashoffset (сегмент бежит по периметру) */
+    @keyframes dashMove{
+      to { stroke-dashoffset: 0; }
+    }
+    .glow-border:hover .trace-run,
+    .glow-border:focus-visible .trace-run{
+      animation: dashMove .95s linear infinite;
+    }
 
     /* ===================== NAV ===================== */
     .nav{
@@ -314,7 +330,7 @@
       transition: filter .18s ease, transform .18s ease;
     }
     .mini-ico span{ font-size:14px; }
-    .mini-ico.glow-border:hover{ filter: saturate(1.25) brightness(1.08); transform: translateY(-1px); }
+    .mini-ico.glow-border:hover{ filter: saturate(1.25) brightness(1.10); transform: translateY(-1px); }
 
     .mini-text b{ display:block; font-size:13px; margin-bottom:2px; }
     .mini-text p{ margin:0; color:var(--muted); font-size:12px; line-height:1.45; }
@@ -347,7 +363,6 @@
     .join-left{ padding:18px; }
     .join-left p{ color:var(--muted); margin:0 0 10px; line-height:1.65; }
     .join-right{ padding:18px; }
-
     .btn-row{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:flex-start; }
 
     /* ===================== FAQ (nice accordion) ===================== */
@@ -837,11 +852,9 @@
     }
     textarea{ resize: vertical; min-height: 92px; }
 
-    /* live validation */
     .field-ok{ border-color: rgba(45,212,191,.50) !important; box-shadow: 0 0 0 3px rgba(45,212,191,.10) !important; }
     .field-bad{ border-color: rgba(255,77,109,.55) !important; box-shadow: 0 0 0 3px rgba(255,77,109,.10) !important; }
 
-    /* checkbox animation */
     .check{
       display:flex; align-items:center; gap:12px;
       border:1px solid rgba(255,255,255,.10);
@@ -926,13 +939,11 @@
 </head>
 
 <body>
-  <!-- JS errors visible -->
   <div class="errbar" id="errbar">
     <b>JS ERROR (скопируй и пришли мне):</b>
     <code id="errtxt"></code>
   </div>
 
-  <!-- Background -->
   <div class="bg"></div>
   <div class="aurora"></div>
   <div class="fog"></div>
@@ -940,7 +951,6 @@
   <canvas id="fx"></canvas>
   <div class="noise"></div>
 
-  <!-- Toasts -->
   <div class="toasts" id="toasts" aria-live="polite" aria-atomic="true"></div>
 
   <!-- INTRO -->
@@ -1017,7 +1027,7 @@
         <div class="modal-title" id="applyTitle">Заявка в NeroviX</div>
 
         <div class="modal-actions">
-          <div class="sound-toggle" id="soundToggle" role="button" tabindex="0" aria-label="Toggle sound">
+          <div class="sound-toggle glow-border" id="soundToggle" role="button" tabindex="0" aria-label="Toggle sound">
             <span class="sound-dot"></span>
             <span id="soundText">Звук</span>
           </div>
@@ -1071,7 +1081,7 @@
             <textarea id="about" placeholder="2-5 предложений"></textarea>
           </label>
 
-          <label class="check" id="checkLabel">
+          <label class="check glow-border" id="checkLabel">
             <input type="checkbox" id="test" />
             <span class="chk" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none">
@@ -1317,7 +1327,6 @@
       }
 
       /* ===================== CONFIG ===================== */
-      // твой воркер (оставляю как был)
       const ENDPOINT_URL = "https://super-voice-25ca.slavatop212.workers.dev/";
       const INTRO_KEY = "nerovix_intro_hidden_v4";
       const LANG_KEY  = "nerovix_lang_v2";
@@ -1573,7 +1582,6 @@
         if(!audioReady) initAudio();
         if(!audioCtx) return;
 
-        // resume on user gesture
         if(audioCtx.state === "suspended"){
           audioCtx.resume().catch(()=>{});
         }
@@ -1587,7 +1595,6 @@
         o.frequency.setValueAtTime(f, t);
         o.frequency.exponentialRampToValueAtTime(f*0.75, t+0.02);
 
-        // super quiet
         g.gain.setValueAtTime(0.00001, t);
         g.gain.exponentialRampToValueAtTime(0.02, t+0.006);
         g.gain.exponentialRampToValueAtTime(0.00001, t+0.035);
@@ -1670,7 +1677,7 @@
               vx: rand(-0.12,0.12)*dpr,
               vy: rand(-0.08,0.08)*dpr,
               r: rand(0.9,2.8)*dpr,
-              a: rand(0.08,0.55),
+              a: rand(0.06,0.46),
               t: rand(0,Math.PI*2)
             });
           }
@@ -1678,7 +1685,6 @@
         function draw(){
           ctx.clearRect(0,0,w,h);
 
-          // soft glow dots + subtle links near
           for(const p of pts){
             p.x += p.vx; p.y += p.vy; p.t += 0.02;
             if(p.x<-80*dpr) p.x=w+80*dpr;
@@ -1687,16 +1693,14 @@
             if(p.y>h+80*dpr) p.y=-80*dpr;
 
             const tw = (Math.sin(p.t)+1)*0.5;
-            const alpha = p.a*(0.75+tw*0.65);
+            const alpha = p.a*(0.72+tw*0.58);
 
-            // dot
             ctx.fillStyle = `rgba(106,240,255,${alpha})`;
             ctx.beginPath();
             ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
             ctx.fill();
           }
 
-          // lines
           for(let i=0;i<pts.length;i++){
             const a = pts[i];
             for(let j=i+1;j<pts.length;j++){
@@ -1705,7 +1709,7 @@
               const dist = Math.sqrt(dx*dx+dy*dy);
               if(dist < 110*dpr){
                 const t = 1 - dist/(110*dpr);
-                ctx.strokeStyle = `rgba(0,170,255,${(t*0.12).toFixed(3)})`;
+                ctx.strokeStyle = `rgba(0,170,255,${(t*0.11).toFixed(3)})`;
                 ctx.lineWidth = 1*dpr;
                 ctx.beginPath();
                 ctx.moveTo(a.x,a.y);
@@ -1721,6 +1725,81 @@
         resize(); init();
         if(prefersReduce) draw(); else requestAnimationFrame(draw);
         window.addEventListener("resize", ()=>{ resize(); init(); });
+      }
+
+      /* ===================== NEW: Running light contour SVG ===================== */
+      function parseRadiusPx(radiusStr){
+        if(!radiusStr) return 0;
+        const first = radiusStr.split(" ")[0];
+        const v = parseFloat(first);
+        return Number.isFinite(v) ? v : 0;
+      }
+
+      function ensureTraceSVG(el){
+        if(!el || el.querySelector(":scope > svg.trace-svg")) return;
+
+        const rect = el.getBoundingClientRect();
+        const w = Math.max(10, rect.width);
+        const h = Math.max(10, rect.height);
+        const minDim = Math.max(10, Math.min(w,h));
+
+        const cs = getComputedStyle(el);
+        const rpx = parseRadiusPx(cs.borderRadius);
+        // Переводим px радиус в условные 0..100 SVG units
+        const rx = Math.max(0, Math.min(48, (rpx / minDim) * 100));
+
+        const svgNS = "http://www.w3.org/2000/svg";
+        const svg = document.createElementNS(svgNS, "svg");
+        svg.setAttribute("class", "trace-svg");
+        svg.setAttribute("viewBox", "0 0 100 100");
+        svg.setAttribute("preserveAspectRatio", "none");
+        svg.setAttribute("aria-hidden", "true");
+
+        const base = document.createElementNS(svgNS, "rect");
+        base.setAttribute("x","3");
+        base.setAttribute("y","3");
+        base.setAttribute("width","94");
+        base.setAttribute("height","94");
+        base.setAttribute("rx", String(rx));
+        base.setAttribute("ry", String(rx));
+        base.setAttribute("pathLength", "100");
+        base.setAttribute("class", "trace-base");
+
+        const run = document.createElementNS(svgNS, "rect");
+        run.setAttribute("x","3");
+        run.setAttribute("y","3");
+        run.setAttribute("width","94");
+        run.setAttribute("height","94");
+        run.setAttribute("rx", String(rx));
+        run.setAttribute("ry", String(rx));
+        run.setAttribute("pathLength", "100");
+        run.setAttribute("class", "trace-run");
+
+        // Длина светящегося сегмента по периметру (в процентах pathLength=100)
+        // 14 — длина сегмента, 86 — “пауза” (остальная часть прозрачная)
+        run.style.strokeDasharray = "14 86";
+        // Стартовая позиция: чтобы сразу было красиво
+        run.style.strokeDashoffset = "100";
+
+        svg.appendChild(base);
+        svg.appendChild(run);
+        el.appendChild(svg);
+      }
+
+      function decorateGlowBorders(){
+        const list = document.querySelectorAll(".glow-border");
+        list.forEach(ensureTraceSVG);
+
+        // Обновляем радиусы на resize (чтобы не “ломалось” на адаптиве)
+        window.addEventListener("resize", ()=>{
+          document.querySelectorAll(".glow-border").forEach(el=>{
+            const svg = el.querySelector(":scope > svg.trace-svg");
+            if(!svg) return;
+            // пересобрать проще и стабильнее
+            svg.remove();
+            ensureTraceSVG(el);
+          });
+        });
       }
 
       /* ===================== INTRO CHAT (typing + AI pulse) ===================== */
@@ -1864,7 +1943,6 @@
         applyModal.style.display = "flex";
         applyModal.setAttribute("aria-hidden","false");
         document.body.style.overflow = "hidden";
-        // focus first input
         setTimeout(()=>{ nameEl?.focus(); }, 50);
       }
       function closeApply(){
@@ -1888,7 +1966,6 @@
         markField(tgEl, null);
       }
 
-      /* Telegram normalize + validation */
       function normalizeTg(v){
         let s = (v || "").trim();
         if(!s) return s;
@@ -1917,27 +1994,19 @@
           const a = item.querySelector(".faq-a");
           if(!q || !a) return;
 
-          const closeItem = ()=>{
-            item.classList.remove("open");
-            a.style.maxHeight = "0px";
-          };
-          const openItem = ()=>{
-            item.classList.add("open");
-            a.style.maxHeight = (a.scrollHeight + 4) + "px";
-          };
-
           on(q, "click", ()=>{
             microClick();
             const isOpen = item.classList.contains("open");
-            // close all
             items.forEach(it=>{
               const aa = it.querySelector(".faq-a");
               if(aa){ it.classList.remove("open"); aa.style.maxHeight="0px"; }
             });
-            if(!isOpen) openItem();
+            if(!isOpen){
+              item.classList.add("open");
+              a.style.maxHeight = (a.scrollHeight + 4) + "px";
+            }
           });
 
-          // recalculation on resize
           window.addEventListener("resize", ()=>{
             if(item.classList.contains("open")){
               a.style.maxHeight = (a.scrollHeight + 4) + "px";
@@ -1963,24 +2032,20 @@
 
         const L = i18n[lang];
 
-        // selects
         const ls = $("langSelect"); const lsi = $("langSelectIntro");
         if(ls) ls.value = lang;
         if(lsi) lsi.value = lang;
 
-        // nav
         $("nav_projects").textContent = L.nav_projects;
         $("nav_roles").textContent = L.nav_roles;
         $("nav_faq").textContent = L.nav_faq;
         $("nav_lang").textContent = L.nav_lang;
         $("openApplyTop").textContent = L.nav_join_btn;
 
-        // hero
         $("hero_sub").textContent = L.hero_sub;
         $("openApplyHero").textContent = L.hero_join;
         $("hero_projects").textContent = L.hero_projects;
 
-        // work card
         $("work_title").textContent = L.work_title;
         $("work_sub").textContent = L.work_sub;
         $("work_speed_t").textContent = L.work_speed_t;
@@ -1990,7 +2055,6 @@
         $("work_growth_t").textContent = L.work_growth_t;
         $("work_growth_d").textContent = L.work_growth_d;
 
-        // sections
         $("projects_title").textContent = L.projects_title;
         $("p1_title").textContent = L.p1_title;
         $("p1_desc").textContent = L.p1_desc;
@@ -2020,7 +2084,6 @@
         $("openApplyJoin").textContent = L.nav_join_btn;
         $("to_top").textContent = L.to_top;
 
-        // FAQ
         $("faq_title").textContent = L.faq_title;
         $("faq_q1").textContent = L.faq_q1;
         $("faq_a1").textContent = L.faq_a1;
@@ -2031,7 +2094,6 @@
 
         $("footer_note").textContent = L.footer_note;
 
-        // Intro
         $("introTitle").textContent = L.introTitle;
         $("introSub").textContent = L.introSub;
         $("dontShowText").textContent = L.dontShowText;
@@ -2040,9 +2102,8 @@
         $("closeBtn").textContent = L.okBtn;
         $("langLabel").textContent = L.langLabel;
 
-        // Modal / form
         $("applyTitle").textContent = L.applyTitle;
-        soundText.textContent = L.soundText;
+        if(soundText) soundText.textContent = L.soundText;
 
         $("f_name_label").childNodes[0].textContent = L.f_name_label + "\n              ";
         $("f_tg_label").childNodes[0].textContent = L.f_tg_label + "\n              ";
@@ -2069,7 +2130,6 @@
         sendBtn.textContent = L.send;
         clearBtn.textContent = L.clear;
 
-        // rebuild chat in current language (if intro open or next open)
         buildChat();
       }
 
@@ -2084,7 +2144,6 @@
 
         const role = (roleEl?.value || "").trim();
 
-        // basic checks
         if(!name || !tg || !role){
           toast("bad", "Ошибка", L.msg_fill, 2600);
           microClick();
@@ -2097,7 +2156,6 @@
           return;
         }
 
-        // Build payload (can extend later)
         const data = {
           name,
           tg,
@@ -2109,7 +2167,6 @@
           test: !!(testEl?.checked)
         };
 
-        // UI state
         sendBtn.disabled = true;
         sendBtn.style.opacity = ".7";
 
@@ -2148,10 +2205,11 @@
         }, {passive:true});
       }
 
-      /* ===================== Stage parallax (safe) ===================== */
+      /* ===================== Stage parallax ===================== */
       function bind3D(){
         const stage = $("stage");
-        if(!stage || !bot) return;
+        const botEl = $("bot");
+        if(!stage || !botEl) return;
         const clamp = (n, min, max) => Math.max(min, Math.min(max, n));
         on(stage, "mousemove", (e)=>{
           const r = stage.getBoundingClientRect();
@@ -2159,12 +2217,12 @@
           const y = (e.clientY - r.top) / r.height;
           const ry = clamp((x - 0.5) * 22, -18, 18);
           const rx = clamp(-(y - 0.5) * 18, -14, 14);
-          bot.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg) translateY(-6px)`;
-          bot.style.transition = "transform 60ms linear";
+          botEl.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg) translateY(-6px)`;
+          botEl.style.transition = "transform 60ms linear";
         });
         on(stage, "mouseleave", ()=>{
-          bot.style.transition = "transform 350ms ease";
-          bot.style.transform = "";
+          botEl.style.transition = "transform 350ms ease";
+          botEl.style.transform = "";
         });
       }
 
@@ -2179,7 +2237,6 @@
 
       /* ===================== GLOBAL CLICK SOUND HOOK ===================== */
       function bindMicroClicks(){
-        // click sound on buttons, links, selects, checkbox labels
         document.addEventListener("pointerdown", (e)=>{
           if(!(e.target instanceof Element)) return;
           const t = e.target;
@@ -2206,23 +2263,21 @@
           setupFaq();
           bindMicroClicks();
 
-          // language init
+          // ВАЖНО: добавляем бегущий контур на все .glow-border
+          decorateGlowBorders();
+
           currentLang = getInitialLang();
           applyLang(currentLang);
 
-          // sound init
           const s = localStorage.getItem(SOUND_KEY);
           setSound(s !== "0");
 
-          // hook lang selects
           on($("langSelect"), "change", (e)=> applyLang(e.target.value));
           on($("langSelectIntro"), "change", (e)=> applyLang(e.target.value));
 
-          // intro show
           const hidden = localStorage.getItem(INTRO_KEY) === "1";
           if(!hidden) setTimeout(showIntro, 420);
 
-          // intro buttons
           on($("skipBtn"), "click", ()=>{
             if(!introDone) fillAllChatInstant();
             else hideIntro();
@@ -2233,14 +2288,13 @@
             openApply();
           });
 
-          // modal open triggers
           on($("openApplyTop"), "click", openApply);
           on($("openApplyHero"), "click", openApply);
           on($("openApplyJoin"), "click", openApply);
 
-          // modal close
           on(applyBackdrop, "click", closeApply);
           on(applyClose, "click", closeApply);
+
           window.addEventListener("keydown", (e)=>{
             if(e.key === "Escape"){
               if(intro && intro.style.display === "flex") hideIntro();
@@ -2248,7 +2302,6 @@
             }
           });
 
-          // sound toggle
           const L = ()=> i18n[currentLang];
           on(soundToggle, "click", ()=>{
             setSound(!soundEnabled);
@@ -2262,7 +2315,6 @@
             }
           });
 
-          // clear / send
           on(clearBtn, "click", ()=>{ clearForm(); toast("info","NeroviX", i18n[currentLang].clear, 1200); });
           on(sendBtn, "click", send);
 
@@ -2272,8 +2324,6 @@
             const before = tgEl.value;
             const norm = normalizeTg(before);
             if(norm !== before && before.trim() !== ""){
-              // avoid cursor jump too much: only auto-fix on blur OR when missing @ at start
-              // but user asked "если ввёл без @ — автоматически поправляет"
               tgEl.value = norm;
             }
             if(norm.trim()===""){ markField(tgEl, null); return; }
